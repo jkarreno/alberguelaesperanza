@@ -469,6 +469,22 @@ if(isset($_POST["hacer"]))
                                         AND a.Estado LIKE '".$_POST["estados"]."' AND a.FechaNacimiento < '".($Yi-$edadi)."-".$Mi."-".$Di."' AND a.FechaNacimiento >= '".($Yi-12)."-".$Mi."-".$Di."' 
                                         GROUP BY r.IdPA) AS s");
         $RResDoceA=mysqli_fetch_array($ResDoceA);
+        $ResDoceA_m=mysqli_query($conn, "SELECT COUNT(s.Id) AS Numero 
+                                        FROM (SELECT r.IdPA AS Id, a.FechaNacimiento FROM `reservaciones` AS r 
+                                        INNER JOIN acompannantes AS a ON a.Id=r.IdPA 
+                                        INNER JOIN reservacion as re ON re.Id=r.IdReservacion
+                                        WHERE re.Instituto LIKE '".$_POST["hospitales"]."' AND re.Diagnostico LIKE '".$_POST["enfermedades"]."' AND r.Fecha >= '".$_POST["periodode"]."' AND r.Fecha <= '".$_POST["periodohasta"]."' AND r.Cama > 0 AND r.Tipo = 'A' AND r.Estatus=1 
+                                        AND a.Sexo='M' AND a.Estado LIKE '".$_POST["estados"]."' AND a.FechaNacimiento < '".($Yi-$edadi)."-".$Mi."-".$Di."' AND a.FechaNacimiento >= '".($Yi-12)."-".$Mi."-".$Di."' 
+                                        GROUP BY r.IdPA) AS s");
+        $RResDoceA_m=mysqli_fetch_array($ResDoceA_m);
+        $ResDoceA_f=mysqli_query($conn, "SELECT COUNT(s.Id) AS Numero 
+                                        FROM (SELECT r.IdPA AS Id, a.FechaNacimiento FROM `reservaciones` AS r 
+                                        INNER JOIN acompannantes AS a ON a.Id=r.IdPA 
+                                        INNER JOIN reservacion as re ON re.Id=r.IdReservacion
+                                        WHERE re.Instituto LIKE '".$_POST["hospitales"]."' AND re.Diagnostico LIKE '".$_POST["enfermedades"]."' AND r.Fecha >= '".$_POST["periodode"]."' AND r.Fecha <= '".$_POST["periodohasta"]."' AND r.Cama > 0 AND r.Tipo = 'A' AND r.Estatus=1 
+                                        AND a.Sexo='F' AND a.Estado LIKE '".$_POST["estados"]."' AND a.FechaNacimiento < '".($Yi-$edadi)."-".$Mi."-".$Di."' AND a.FechaNacimiento >= '".($Yi-12)."-".$Mi."-".$Di."' 
+                                        GROUP BY r.IdPA) AS s");
+        $RResDoceA_f=mysqli_fetch_array($ResDoceA_f);
         //13 a 20 años
         $ResVeinteA=mysqli_query($conn, "SELECT COUNT(s.Id) AS Numero 
                                         FROM (SELECT r.IdPA AS Id, a.FechaNacimiento FROM `reservaciones` AS r 
@@ -478,6 +494,22 @@ if(isset($_POST["hacer"]))
                                         AND a.Estado LIKE '".$_POST["estados"]."' AND a.FechaNacimiento < '".($Yi-12)."-".$Mi."-".$Di."' AND a.FechaNacimiento >= '".($Yi-20)."-".$Mi."-".$Di."' 
                                         GROUP BY r.IdPA) AS s");
         $RResVeinteA=mysqli_fetch_array($ResVeinteA);
+        $ResVeinteA_m=mysqli_query($conn, "SELECT COUNT(s.Id) AS Numero 
+                                        FROM (SELECT r.IdPA AS Id, a.FechaNacimiento FROM `reservaciones` AS r 
+                                        INNER JOIN acompannantes AS a ON a.Id=r.IdPA 
+                                        INNER JOIN reservacion as re ON re.Id=r.IdReservacion
+                                        WHERE re.Instituto LIKE '".$_POST["hospitales"]."' AND re.Diagnostico LIKE '".$_POST["enfermedades"]."' AND r.Fecha >= '".$_POST["periodode"]."' AND r.Fecha <= '".$_POST["periodohasta"]."' AND r.Cama > 0 AND r.Tipo = 'A' AND r.Estatus=1 
+                                        AND a.Sexo='M' AND a.Estado LIKE '".$_POST["estados"]."' AND a.FechaNacimiento < '".($Yi-12)."-".$Mi."-".$Di."' AND a.FechaNacimiento >= '".($Yi-20)."-".$Mi."-".$Di."' 
+                                        GROUP BY r.IdPA) AS s");
+        $RResVeinteA_m=mysqli_fetch_array($ResVeinteA_m);
+        $ResVeinteA_f=mysqli_query($conn, "SELECT COUNT(s.Id) AS Numero 
+                                        FROM (SELECT r.IdPA AS Id, a.FechaNacimiento FROM `reservaciones` AS r 
+                                        INNER JOIN acompannantes AS a ON a.Id=r.IdPA 
+                                        INNER JOIN reservacion as re ON re.Id=r.IdReservacion
+                                        WHERE re.Instituto LIKE '".$_POST["hospitales"]."' AND re.Diagnostico LIKE '".$_POST["enfermedades"]."' AND r.Fecha >= '".$_POST["periodode"]."' AND r.Fecha <= '".$_POST["periodohasta"]."' AND r.Cama > 0 AND r.Tipo = 'A' AND r.Estatus=1 
+                                        AND a.Sexo='F' AND a.Estado LIKE '".$_POST["estados"]."' AND a.FechaNacimiento < '".($Yi-12)."-".$Mi."-".$Di."' AND a.FechaNacimiento >= '".($Yi-20)."-".$Mi."-".$Di."' 
+                                        GROUP BY r.IdPA) AS s");
+        $RResVeinteA_f=mysqli_fetch_array($ResVeinteA_f);
         //21 a 64 años
         $ResSesentaycuatroA=mysqli_query($conn, "SELECT COUNT(s.Id) AS Numero 
                                         FROM (SELECT r.IdPA AS Id, a.FechaNacimiento FROM `reservaciones` AS r 
@@ -487,6 +519,22 @@ if(isset($_POST["hacer"]))
                                         AND a.Estado LIKE '".$_POST["estados"]."' AND a.FechaNacimiento < '".($Yi-20)."-".$Mi."-".$Di."' AND a.FechaNacimiento >= '".($Yi-64)."-".$Mi."-".$Di."' 
                                         GROUP BY r.IdPA) AS s");
         $RResSesentaycuatroA=mysqli_fetch_array($ResSesentaycuatroA);
+        $ResSesentaycuatroA_m=mysqli_query($conn, "SELECT COUNT(s.Id) AS Numero 
+                                        FROM (SELECT r.IdPA AS Id, a.FechaNacimiento FROM `reservaciones` AS r 
+                                        INNER JOIN acompannantes AS a ON a.Id=r.IdPA 
+                                        INNER JOIN reservacion as re ON re.Id=r.IdReservacion
+                                        WHERE re.Instituto LIKE '".$_POST["hospitales"]."' AND re.Diagnostico LIKE '".$_POST["enfermedades"]."' AND r.Fecha >= '".$_POST["periodode"]."' AND r.Fecha <= '".$_POST["periodohasta"]."' AND r.Cama > 0 AND r.Tipo = 'A' AND r.Estatus=1 
+                                        AND a.Sexo='M' AND a.Estado LIKE '".$_POST["estados"]."' AND a.FechaNacimiento < '".($Yi-20)."-".$Mi."-".$Di."' AND a.FechaNacimiento >= '".($Yi-64)."-".$Mi."-".$Di."' 
+                                        GROUP BY r.IdPA) AS s");
+        $RResSesentaycuatroA_m=mysqli_fetch_array($ResSesentaycuatroA_m);
+        $ResSesentaycuatroA_f=mysqli_query($conn, "SELECT COUNT(s.Id) AS Numero 
+                                        FROM (SELECT r.IdPA AS Id, a.FechaNacimiento FROM `reservaciones` AS r 
+                                        INNER JOIN acompannantes AS a ON a.Id=r.IdPA 
+                                        INNER JOIN reservacion as re ON re.Id=r.IdReservacion
+                                        WHERE re.Instituto LIKE '".$_POST["hospitales"]."' AND re.Diagnostico LIKE '".$_POST["enfermedades"]."' AND r.Fecha >= '".$_POST["periodode"]."' AND r.Fecha <= '".$_POST["periodohasta"]."' AND r.Cama > 0 AND r.Tipo = 'A' AND r.Estatus=1 
+                                        AND a.Sexo='F' AND a.Estado LIKE '".$_POST["estados"]."' AND a.FechaNacimiento < '".($Yi-20)."-".$Mi."-".$Di."' AND a.FechaNacimiento >= '".($Yi-64)."-".$Mi."-".$Di."' 
+                                        GROUP BY r.IdPA) AS s");
+        $RResSesentaycuatroA_f=mysqli_fetch_array($ResSesentaycuatroA_f);
         //65 y mas años
         $ResMasA=mysqli_query($conn, "SELECT COUNT(s.Id) AS Numero 
                                         FROM (SELECT r.IdPA AS Id, a.FechaNacimiento FROM `reservaciones` AS r 
@@ -496,6 +544,22 @@ if(isset($_POST["hacer"]))
                                         AND a.Estado LIKE '".$_POST["estados"]."' AND a.FechaNacimiento < '".($Yi-64)."-".$Mi."-".$Di."' 
                                         GROUP BY r.IdPA) AS s");
         $RResMasA=mysqli_fetch_array($ResMasA);
+        $ResMasA_m=mysqli_query($conn, "SELECT COUNT(s.Id) AS Numero 
+                                        FROM (SELECT r.IdPA AS Id, a.FechaNacimiento FROM `reservaciones` AS r 
+                                        INNER JOIN acompannantes AS a ON a.Id=r.IdPA 
+                                        INNER JOIN reservacion as re ON re.Id=r.IdReservacion
+                                        WHERE re.Instituto LIKE '".$_POST["hospitales"]."' AND re.Diagnostico LIKE '".$_POST["enfermedades"]."' AND r.Fecha >= '".$_POST["periodode"]."' AND r.Fecha <= '".$_POST["periodohasta"]."' AND r.Cama > 0 AND r.Tipo = 'A' AND r.Estatus=1 
+                                        AND a.Sexo='M' AND a.Estado LIKE '".$_POST["estados"]."' AND a.FechaNacimiento < '".($Yi-64)."-".$Mi."-".$Di."' 
+                                        GROUP BY r.IdPA) AS s");
+        $RResMasA_m=mysqli_fetch_array($ResMasA_m);
+        $ResMasA_f=mysqli_query($conn, "SELECT COUNT(s.Id) AS Numero 
+                                        FROM (SELECT r.IdPA AS Id, a.FechaNacimiento FROM `reservaciones` AS r 
+                                        INNER JOIN acompannantes AS a ON a.Id=r.IdPA 
+                                        INNER JOIN reservacion as re ON re.Id=r.IdReservacion
+                                        WHERE re.Instituto LIKE '".$_POST["hospitales"]."' AND re.Diagnostico LIKE '".$_POST["enfermedades"]."' AND r.Fecha >= '".$_POST["periodode"]."' AND r.Fecha <= '".$_POST["periodohasta"]."' AND r.Cama > 0 AND r.Tipo = 'A' AND r.Estatus=1 
+                                        AND a.Sexo='F' AND a.Estado LIKE '".$_POST["estados"]."' AND a.FechaNacimiento < '".($Yi-64)."-".$Mi."-".$Di."' 
+                                        GROUP BY r.IdPA) AS s");
+        $RResMasA_f=mysqli_fetch_array($ResMasA_f);
     }
     else
     {
@@ -1053,10 +1117,57 @@ if(isset($_POST["hacer"]))
             $cadena.='<div class="c100 card">
                     <div class="c45">
                     <label class="l_form">Edades Acompañantes</label>
-                    <label class="l_form">0 a 12 años: '.$RResDoceA["Numero"].'</label>
-                    <label class="l_form">13 a 20 años: '.$RResVeinteA["Numero"].'</label>
-                    <label class="l_form">21 a 64 años: '.$RResSesentaycuatroA["Numero"].'</label>
-                    <label class="l_form">65 y mas años: '.$RResMasA["Numero"].'</label>
+                    <table border="0">
+                        <tr>
+                            <td></td>
+                            <td><i class="fas fa-mars"></i></td>
+                            <td><i class="fas fa-venus"></i></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <label class="l_form">0 a 12 años: '.$RResDoceA["Numero"].'</label>
+                            </td>
+                            <td>
+                                <label class="l_form">'.$RReaDoceA_m["Numero"].'</label>
+                            </td>
+                            <td>
+                                <label class="l_form">'.$RResDoceA_f["Numero"].'</label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <label class="l_form">13 a 20 años: '.$RResVeinteA["Numero"].'</label>
+                            </td>
+                            <td>
+                                <label class="l_form">'.$RResVeinteA_m["Numero"].'</label>
+                            </td>
+                            <td>
+                                <label class="l_form">'.$RResVeinteA_f["Numero"].'</label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <label class="l_form">21 a 64 años: '.$RResSesentaycuatroA["Numero"].'</label>
+                            </td>
+                            <td>
+                                <label class="l_form">'.$RResSesentaycuatroA_m["Numero"].'</label>
+                            </td>
+                            <td>
+                                <label class="l_form">'.$RResSesentaycuatroA_f["Numero"].'</label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <label class="l_form">65 y mas años: '.$RResMasA["Numero"].'</label>
+                            </td>
+                            <td>
+                                <label class="l_form">'.$RResMasA_m["Numero"].'</label>
+                            </td>
+                            <td>
+                                <label class="l_form">'.$RResMasA_f["Numero"].'</label>
+                            </td>
+                        </tr>
+                    </table> 
                     </div>
                     <div class="c45">
                         <canvas id="myChart_edad_acompannantes"></canvas>
