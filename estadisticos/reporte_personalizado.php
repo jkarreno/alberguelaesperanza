@@ -1074,6 +1074,8 @@ if(isset($_POST["hacer"]))
         {
             $_SESSION["rep_per"][5][0]=$edadi.' a '.$edadf.' años';
             $_SESSION["rep_per"][5][1]=$RResEdad["Numero"];
+            $_SESSION["rep_per"][5][2]=$RResEdad_m["Numero"];
+            $_SESSION["rep_per"][5][3]=$RResEdad_f["Numero"];
 
             $cadena.='<div class="c100 card">
                     <div class="c45">

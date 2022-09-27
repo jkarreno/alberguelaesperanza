@@ -445,16 +445,17 @@ $pdf->SetY(26);
 $pdf->SetX(4);
 $pdf->Cell(208,6,utf8_decode('Edades Pacientes'),1,0,'L',0);
 //
+$pdf->SetFont('Arial','B',10);
+$pdf->SetY(32);
+$pdf->SetX(4);
+$pdf->Cell(25,6,utf8_decode(''),1,0,'L',0);
+$pdf->Cell(10,6,utf8_decode(''),1,0,'C',0);
+$pdf->Cell(10,6,utf8_decode('H'),1,0,'C',0);
+$pdf->Cell(10,6,utf8_decode('M'),1,0,'C',0);
+
 if($_SESSION["rep_per"][5][0]=='0 a 100')
 {
-    $pdf->SetFont('Arial','B',10);
-    $pdf->SetY(32);
-    $pdf->SetX(4);
-    $pdf->Cell(25,6,utf8_decode(''),1,0,'L',0);
-    $pdf->Cell(10,6,utf8_decode(''),1,0,'C',0);
-    $pdf->Cell(10,6,utf8_decode('H'),1,0,'C',0);
-    $pdf->Cell(10,6,utf8_decode('M'),1,0,'C',0);
-    //
+    
     $pdf->SetY(38);
     $pdf->SetX(4);
     $pdf->Cell(25,6,utf8_decode('0 a 12 años'),1,0,'L',0);
@@ -492,16 +493,13 @@ if($_SESSION["rep_per"][5][0]=='0 a 100')
 }
 else
 {
-    $pdf->SetFont('Arial','B',10);
-    $pdf->SetY(32);
+    $pdf->SetY(38);
     $pdf->SetX(4);
-    $pdf->Cell(45,6,utf8_decode($_SESSION["rep_per"][5][0].': '),1,0,'L',0);
-    //$a=$_SESSION["rep_per"][5][0];
-    //
+    $pdf->Cell(25,6,utf8_decode($_SESSION["rep_per"][5][0].': '),1,0,'L',0);
     $pdf->SetFont('Arial','',10);
-    $pdf->SetY(32);
-    $pdf->SetX(4);
-    $pdf->Cell(40,6,number_format($_SESSION["rep_per"][5][1]),0,0,'R',0);
+    $pdf->Cell(10,6,utf8_decode($_SESSION["rep_per"][5][1]),1,0,'C',0);
+    $pdf->Cell(10,6,utf8_decode($_SESSION["rep_per"][5][2]),1,0,'C',0);
+    $pdf->Cell(10,6,utf8_decode($_SESSION["rep_per"][5][3]),1,0,'C',0);
 }
 //grafico
     //creamos el grafico
