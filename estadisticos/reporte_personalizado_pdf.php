@@ -261,7 +261,6 @@ $pdf->Cell(40,6,number_format($_SESSION["rep_per"][3][4]),0,0,'R',0);
     $b8plot = new BarPlot($datos8);
     $b9plot = new BarPlot($datos9);
     $b10plot = new BarPlot($datos10);
-    // 
     $grafico3->Add(array($b7plot, $b8plot, $b9plot, $b10plot));    
 
     $b7plot->SetColor("white");
@@ -366,7 +365,7 @@ $pdf->Cell(40,6,number_format($_SESSION["rep_per"][4][6]),0,0,'R',0);
     $datos15=array(0, 0, 0, 0, $_SESSION["rep_per"][4][5], 0);
     $datos16=array(0, 0, 0, 0, 0, $_SESSION["rep_per"][4][6]);
     $labels4=array("Hombres","Niños","Adultos", "Mujeres", "Niñas", "Adultas");  
-
+    
     $grafico4 = new Graph(800, 600, 'auto');
     $grafico4->SetScale("textlin");
     $grafico4->title->Set("Pacientes");
@@ -446,41 +445,129 @@ $pdf->SetY(26);
 $pdf->SetX(4);
 $pdf->Cell(208,6,utf8_decode('Edades Pacientes'),1,0,'L',0);
 //
-$pdf->SetFont('Arial','B',10);
-$pdf->SetY(32);
-$pdf->SetX(4);
-$pdf->Cell(45,6,utf8_decode($_SESSION["rep_per"][5][0].': '),1,0,'L',0);
-$a=$_SESSION["rep_per"][5][0];
-//
-$pdf->SetFont('Arial','',10);
-$pdf->SetY(32);
-$pdf->SetX(4);
-$pdf->Cell(40,6,number_format($_SESSION["rep_per"][5][1]),0,0,'R',0);
+if($_SESSION["rep_per"][5][0]=='0 a 100')
+{
+    $pdf->SetFont('Arial','B',10);
+    $pdf->SetY(32);
+    $pdf->SetX(4);
+    $pdf->Cell(25,6,utf8_decode(''),1,0,'L',0);
+    $pdf->Cell(10,6,utf8_decode(''),1,0,'C',0);
+    $pdf->Cell(10,6,utf8_decode('H'),1,0,'C',0);
+    $pdf->Cell(10,6,utf8_decode('M'),1,0,'C',0);
+    //
+    $pdf->SetY(38);
+    $pdf->SetX(4);
+    $pdf->Cell(25,6,utf8_decode('0 a 12 años'),1,0,'L',0);
+    $pdf->SetFont('Arial','',10);
+    $pdf->Cell(10,6,utf8_decode($_SESSION["rep_per"][5][1]),1,0,'C',0);
+    $pdf->Cell(10,6,utf8_decode($_SESSION["rep_per"][5][2]),1,0,'C',0);
+    $pdf->Cell(10,6,utf8_decode($_SESSION["rep_per"][5][3]),1,0,'C',0);
+    //
+    $pdf->SetFont('Arial','B',10);
+    $pdf->SetY(44);
+    $pdf->SetX(4);
+    $pdf->Cell(25,6,utf8_decode('13 a 20 años'),1,0,'L',0);
+    $pdf->SetFont('Arial','',10);
+    $pdf->Cell(10,6,utf8_decode($_SESSION["rep_per"][5][4]),1,0,'C',0);
+    $pdf->Cell(10,6,utf8_decode($_SESSION["rep_per"][5][5]),1,0,'C',0);
+    $pdf->Cell(10,6,utf8_decode($_SESSION["rep_per"][5][6]),1,0,'C',0);
+    //
+    $pdf->SetFont('Arial','B',10);
+    $pdf->SetY(50);
+    $pdf->SetX(4);
+    $pdf->Cell(25,6,utf8_decode('21 a 64 años'),1,0,'L',0);
+    $pdf->SetFont('Arial','',10);
+    $pdf->Cell(10,6,utf8_decode($_SESSION["rep_per"][5][7]),1,0,'C',0);
+    $pdf->Cell(10,6,utf8_decode($_SESSION["rep_per"][5][8]),1,0,'C',0);
+    $pdf->Cell(10,6,utf8_decode($_SESSION["rep_per"][5][9]),1,0,'C',0);
+    //
+    $pdf->SetFont('Arial','B',10);
+    $pdf->SetY(56);
+    $pdf->SetX(4);
+    $pdf->Cell(25,6,utf8_decode('21 a 64 años'),1,0,'L',0);
+    $pdf->SetFont('Arial','',10);
+    $pdf->Cell(10,6,utf8_decode($_SESSION["rep_per"][5][10]),1,0,'C',0);
+    $pdf->Cell(10,6,utf8_decode($_SESSION["rep_per"][5][11]),1,0,'C',0);
+    $pdf->Cell(10,6,utf8_decode($_SESSION["rep_per"][5][12]),1,0,'C',0);
+}
+else
+{
+    $pdf->SetFont('Arial','B',10);
+    $pdf->SetY(32);
+    $pdf->SetX(4);
+    $pdf->Cell(45,6,utf8_decode($_SESSION["rep_per"][5][0].': '),1,0,'L',0);
+    //$a=$_SESSION["rep_per"][5][0];
+    //
+    $pdf->SetFont('Arial','',10);
+    $pdf->SetY(32);
+    $pdf->SetX(4);
+    $pdf->Cell(40,6,number_format($_SESSION["rep_per"][5][1]),0,0,'R',0);
+}
 //grafico
     //creamos el grafico
-    $datosep1=$_SESSION["rep_per"][5][1];
-    
-    $labels9=$_SESSION["rep_per"][5][0]; 
+    if($_SESSION["rep_per"][5][0]=='0 a 100')
+    {
+        $datosep1=array($_SESSION["rep_per"][5][1], 0, 0, 0);
+        $datosep2=array(0, $_SESSION["rep_per"][5][5], 0, 0);
+        $datosep3=array(0, 0, $_SESSION["rep_per"][5][7], 0);
+        $datosep4=array(0, 0, 0, $_SESSION["rep_per"][5][10]);
 
-    $grafico9 = new Graph(800, 600, 'auto');
-    $grafico9->SetScale("textlin");
-    $grafico9->title->Set("Edades Pacientes");
-    $grafico9->xaxis->SetTickLabels($_SESSION["rep_per"][5][0]); 
+        $labels9=array("0 a 12 años","13 a 20 años","21 a 64 años", "65 y más años"); 
 
-    // Create the bar plots
-    $bep1plot = new BarPlot($datosep1);
-    // 
-    $grafico9->Add($bep1plot);
+        $grafico9 = new Graph(800, 600, 'auto');
+        $grafico9->SetScale("textlin");
+        $grafico9->title->Set("Edades Pacientes");
+        $grafico9->xaxis->SetTickLabels($labels9);    
 
-    $bep1plot->SetColor("white");
-    $bep1plot->SetFillColor("#685de8");
-    $bep1plot->SetWidth(100);     
+        // Create the bar plots
+        $bep1plot = new BarPlot($datosep1);
+        $bep2plot = new BarPlot($datosep2);
+        $bep3plot = new BarPlot($datosep3);
+        $bep4plot = new BarPlot($datosep4);
+        // 
+        $grafico9->Add(array($bep1plot, $bep2plot, $bep3plot, $bep4plot)); 
+
+        $bep1plot->SetColor("white");
+        $bep1plot->SetFillColor("#0000c2");
+        $bep1plot->SetWidth(100);     
+
+        $bep2plot->SetColor("white");
+        $bep2plot->SetFillColor("#5cb5e7");
+        $bep2plot->SetWidth(100);     
+
+        $bep3plot->SetColor("white");
+        $bep3plot->SetFillColor("#2e7ada");
+        $bep3plot->SetWidth(100);     
+
+        $bep4plot->SetColor("white");
+        $bep4plot->SetFillColor("#e01690");
+        $bep4plot->SetWidth(100);     
+    }
+    else
+    {
+        $datosep1=$_SESSION["rep_per"][5][1];
+        $labels9=$_SESSION["rep_per"][5][0]; 
+
+        $grafico9 = new Graph(800, 600, 'auto');
+        $grafico9->SetScale("textlin");
+        $grafico9->title->Set("Edades Pacientes");
+        $grafico9->xaxis->SetTickLabels($_SESSION["rep_per"][5][0]); 
+
+        // Create the bar plots
+        $bep1plot = new BarPlot($datosep1);
+        // 
+        $grafico9->Add($bep1plot);
+
+        $bep1plot->SetColor("white");
+        $bep1plot->SetFillColor("#685de8");
+        $bep1plot->SetWidth(100); 
+    }
 
     $nombreImagen9 = 'graficas/img/imagen9.png'; 
 
     //guardamos la grafica
     $grafico9->Stroke($nombreImagen9);
-$pdf->Image($nombreImagen9,50,34,160);
+$pdf->Image($nombreImagen9,60,34,150);
 //acompañantes
 $pdf->SetFillColor(255,255,255);
 $pdf->SetFont('Arial','B',10);
@@ -554,59 +641,67 @@ $pdf->SetY(178);
 $pdf->SetX(4);
 $pdf->Cell(40,6,number_format($_SESSION["rep_per"][6][6]),0,0,'R',0);
 //grafica
-    // Creamos el grafico
-    $datos17=array($_SESSION["rep_per"][6][1], 0, 0, 0, 0, 0);
-    $datos18=array(0, $_SESSION["rep_per"][6][2], 0, 0, 0, 0);
-    $datos19=array(0, 0, $_SESSION["rep_per"][6][3], 0, 0, 0);
-    $datos20=array(0, 0, 0, $_SESSION["rep_per"][6][4], 0, 0);
-    $datos21=array(0, 0, 0, 0, $_SESSION["rep_per"][6][5], 0);
-    $datos22=array(0, 0, 0, 0, 0, $_SESSION["rep_per"][6][6]);
-    $labels5=array("Hombres","Niños","Adultos", "Mujeres", "Niñas", "Adultas");  
-
-    $grafico5 = new Graph(800, 600, 'auto');
-    $grafico5->SetScale("textlin");
-    $grafico5->title->Set("Acompañantes");
-    $grafico5->xaxis->SetTickLabels($labels5);    
-
-    // Create the bar plots
-    $b17plot = new BarPlot($datos17);
-    $b18plot = new BarPlot($datos18);
-    $b19plot = new BarPlot($datos19);
-    $b20plot = new BarPlot($datos20);
-    $b21plot = new BarPlot($datos21);
-    $b22plot = new BarPlot($datos22);
+//    // Creamos el grafico
+//    $datos17=array($_SESSION["rep_per"][6][1], 0, 0, 0, 0, 0);
+//    $datos18=array(0, $_SESSION["rep_per"][6][2], 0, 0, 0, 0);
+//    $datos19=array(0, 0, $_SESSION["rep_per"][6][3], 0, 0, 0);
+//    $datos20=array(0, 0, 0, $_SESSION["rep_per"][6][4], 0, 0);
+//    $datos21=array(0, 0, 0, 0, $_SESSION["rep_per"][6][5], 0);
+//    $datos22=array(0, 0, 0, 0, 0, $_SESSION["rep_per"][6][6]);
+//    $labels5=array("Hombres","Niños","Adultos", "Mujeres", "Niñas", "Adultas");  
+//
+//    $grafico5 = new Graph(800, 600, 'auto');
+//    $grafico5->SetScale("textlin");
+//    $grafico5->title->Set("Acompañantes");
+//    $grafico5->xaxis->SetTickLabels($labels5);    
+//
+//    // Create the bar plots
+//    $b17plot = new BarPlot($datos17);
+//    $b18plot = new BarPlot($datos18);
+//    $b19plot = new BarPlot($datos19);
+//    $b20plot = new BarPlot($datos20);
+//    $b21plot = new BarPlot($datos21);
+//    $b22plot = new BarPlot($datos22);
+//    // 
+//    $grafico5->Add(array($b17plot, $b18plot, $b19plot, $b20plot, $b21plot, $b22plot));    
+//
+//    $b17plot->SetColor("white");
+//    $b17plot->SetFillColor("#0000c2");
+//    $b17plot->SetWidth(100);     
+//
+//    $b18plot->SetColor("white");
+//    $b18plot->SetFillColor("#5cb5e7");
+//    $b18plot->SetWidth(100);     
+//
+//    $b19plot->SetColor("white");
+//    $b19plot->SetFillColor("#2e7ada");
+//    $b19plot->SetWidth(100);     
+//
+//    $b20plot->SetColor("white");
+//    $b20plot->SetFillColor("#e01690");
+//    $b20plot->SetWidth(100);     
+//
+//    $b21plot->SetColor("white");
+//    $b21plot->SetFillColor("#e081ba");
+//    $b21plot->SetWidth(100);     
+//
+//    $b22plot->SetColor("white");
+//    $b22plot->SetFillColor("#df46a2");
+//    $b22plot->SetWidth(100);     
+//
+//    $nombreImagen5 = 'graficas/img/imagen5.png';    
+//
     // 
-    $grafico5->Add(array($b17plot, $b18plot, $b19plot, $b20plot, $b21plot, $b22plot));    
-
-    $b17plot->SetColor("white");
-    $b17plot->SetFillColor("#0000c2");
-    $b17plot->SetWidth(100);     
-
-    $b18plot->SetColor("white");
-    $b18plot->SetFillColor("#5cb5e7");
-    $b18plot->SetWidth(100);     
-
-    $b19plot->SetColor("white");
-    $b19plot->SetFillColor("#2e7ada");
-    $b19plot->SetWidth(100);     
-
-    $b20plot->SetColor("white");
-    $b20plot->SetFillColor("#e01690");
-    $b20plot->SetWidth(100);     
-
-    $b21plot->SetColor("white");
-    $b21plot->SetFillColor("#e081ba");
-    $b21plot->SetWidth(100);     
-
-    $b22plot->SetColor("white");
-    $b22plot->SetFillColor("#df46a2");
-    $b22plot->SetWidth(100);     
-
-    $nombreImagen5 = 'graficas/img/imagen5.png';    
-
-    //guardamos la grafica
-    $grafico5->Stroke($nombreImagen5);
-$pdf->Image($nombreImagen5,50,150,160);
+//
+    // 
+//
+    // 
+//
+    // 
+//
+//    //guardamos la grafica
+//    $grafico5->Stroke($nombreImagen5);
+//$pdf->Image($nombreImagen5,50,150,160);
 
 //
 $pdf->AddPage('P', 'Letter');
@@ -653,30 +748,38 @@ $pdf->SetY(32);
 $pdf->SetX(4);
 $pdf->Cell(40,6,number_format($_SESSION["rep_per"][7][1]),0,0,'R',0);
 //grafico
-    //creamos el grafico
-    $datosea1=$_SESSION["rep_per"][7][1];
-
-    $labels10=$_SESSION["rep_per"][7][0]; 
-
-    $grafico10 = new Graph(800, 600, 'auto');
-    $grafico10->SetScale("textlin");
-    $grafico10->title->Set("Edades Acompañantes");
-    $grafico10->xaxis->SetTickLabels($_SESSION["rep_per"][7][0]); 
-
-    // Create the bar plots
-    $bea1plot = new BarPlot($datosea1);
+//    //creamos el grafico
+//    $datosea1=$_SESSION["rep_per"][7][1];
+//
+//    $labels10=$_SESSION["rep_per"][7][0]; 
+//
+//    $grafico10 = new Graph(800, 600, 'auto');
+//    $grafico10->SetScale("textlin");
+//    $grafico10->title->Set("Edades Acompañantes");
+//    $grafico10->xaxis->SetTickLabels($_SESSION["rep_per"][7][0]); 
+//
+//    // Create the bar plots
+//    $bea1plot = new BarPlot($datosea1);
+//    // 
+//    $grafico10->Add($bea1plot);
+//
+//    $bea1plot->SetColor("white");
+//    $bea1plot->SetFillColor("#685de8");
+//    $bea1plot->SetWidth(100);     
+//
+//    $nombreImagen10 = 'graficas/img/imagen10.png'; 
+//
     // 
-    $grafico10->Add($bea1plot);
-
-    $bea1plot->SetColor("white");
-    $bea1plot->SetFillColor("#685de8");
-    $bea1plot->SetWidth(100);     
-
-    $nombreImagen10 = 'graficas/img/imagen10.png'; 
-
-    //guardamos la grafica
-    $grafico10->Stroke($nombreImagen10);
-$pdf->Image($nombreImagen10,50,34,160);
+//
+    // 
+//
+    // 
+//
+    // 
+//
+//    //guardamos la grafica
+//    $grafico10->Stroke($nombreImagen10);
+//$pdf->Image($nombreImagen10,50,34,160);
 
 //Enfermedades
 $pdf->SetFillColor(255,255,255);
@@ -755,25 +858,25 @@ for($i=1; $i<=$_SESSION["rep_per"][8][0][0];$i++)
     }
 }
 //grafica
-    // Creamos el grafico
-    $grafico6 = new Graph(800, 950, 'auto');
-    $grafico6->SetScale("textlin");
-    $grafico6->title->Set("Enfermedades");
-    $grafico6->xaxis->SetTickLabels($labels6);   
-    $grafico6->Set90AndMargin(250,40,40,40);
-    $grafico6->img->SetAngle(90);
-    // Create the bar plots
-    $b23plot = new BarPlot($datos_e);
-    //
-    $grafico6->Add(array($b23plot));
-
-    $b23plot->SetColor("white");
-    $b23plot->SetFillColor($color_e);
-
-    $nombreImagen6 = 'graficas/img/imagen6.png'; 
-
-    //guardamos la grafica
-    $grafico6->Stroke($nombreImagen6);
+//    // Creamos el grafico
+//    $grafico6 = new Graph(800, 950, 'auto');
+//    $grafico6->SetScale("textlin");
+//    $grafico6->title->Set("Enfermedades");
+//    $grafico6->xaxis->SetTickLabels($labels6);   
+//    $grafico6->Set90AndMargin(250,40,40,40);
+//    $grafico6->img->SetAngle(90);
+//    // Create the bar plots
+//    $b23plot = new BarPlot($datos_e);
+//    //
+//    $grafico6->Add(array($b23plot));
+//
+//    $b23plot->SetColor("white");
+//    $b23plot->SetFillColor($color_e);
+//
+//    $nombreImagen6 = 'graficas/img/imagen6.png'; 
+//
+//    //guardamos la grafica
+//    $grafico6->Stroke($nombreImagen6);
 
 if($Y>=150)
 {
@@ -947,27 +1050,27 @@ $pdf->Cell(178,4,mes($_GET["mes"]).' - '.$_GET["anno"],0,0,'C',0);
 $Y=34;
 
 //grafica
-    // Creamos el grafico
-    $grafico7 = new Graph(800, 600, 'auto');
-    $grafico7->SetScale("textlin");
-    $grafico7->title->Set("Hospitales");
-    $grafico7->xaxis->SetTickLabels($labels7);   
-    $grafico7->Set90AndMargin(250,40,40,40);
-    $grafico7->img->SetAngle(90);
-    // Create the bar plots
-    $b24plot = new BarPlot($datos_h);
-    //
-    $grafico7->Add(array($b24plot));
-
-    $b24plot->SetColor("white");
-    $b24plot->SetFillColor($color_h);
-
-    $nombreImagen7 = 'graficas/img/imagen7.png'; 
-
-    //guardamos la grafica
-    $grafico7->Stroke($nombreImagen7);
-
-$pdf->Image($nombreImagen7,4,($Y+2),208);
+//    // Creamos el grafico
+//    $grafico7 = new Graph(800, 600, 'auto');
+//    $grafico7->SetScale("textlin");
+//    $grafico7->title->Set("Hospitales");
+//    $grafico7->xaxis->SetTickLabels($labels7);   
+//    $grafico7->Set90AndMargin(250,40,40,40);
+//    $grafico7->img->SetAngle(90);
+//    // Create the bar plots
+//    $b24plot = new BarPlot($datos_h);
+//    //
+//    $grafico7->Add(array($b24plot));
+//
+//    $b24plot->SetColor("white");
+//    $b24plot->SetFillColor($color_h);
+//
+//    $nombreImagen7 = 'graficas/img/imagen7.png'; 
+//
+//    //guardamos la grafica
+//    $grafico7->Stroke($nombreImagen7);
+//
+//$pdf->Image($nombreImagen7,4,($Y+2),208);
 //Agregamos otra pagina
 $pdf->AddPage('P', 'Letter');
 //marco del titulo
