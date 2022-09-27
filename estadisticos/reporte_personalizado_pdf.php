@@ -543,13 +543,13 @@ else
     }
     else
     {
-        $datosep1=$_SESSION["rep_per"][5][1];
+        $datosep1=array($_SESSION["rep_per"][5][1]);
         $labels9=$_SESSION["rep_per"][5][0]; 
 
         $grafico9 = new Graph(800, 600, 'auto');
         $grafico9->SetScale("textlin");
         $grafico9->title->Set("Edades Pacientes");
-        $grafico9->xaxis->SetTickLabels($_SESSION["rep_per"][5][0]); 
+        $grafico9->xaxis->SetTickLabels(array($_SESSION["rep_per"][5][0])); 
 
         // Create the bar plots
         $bep1plot = new BarPlot($datosep1);
