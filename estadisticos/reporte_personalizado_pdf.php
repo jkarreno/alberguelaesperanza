@@ -64,8 +64,8 @@ $pdf->SetX(4);
 $pdf->Cell(40,6,$_SESSION["rep_per"][1][1],0,0,'R',0);
 //grafica
     // Creamos el grafico
-    $datos1=$_SESSION["rep_per"][1][1];
-    $labels=$_SESSION["rep_per"][1][0];  
+    $datos1=array($_SESSION["rep_per"][1][1]);
+    $labels=array($_SESSION["rep_per"][1][0]);  
 
     $grafico = new Graph(800, 600, 'auto');
     $grafico->SetScale("textlin");
@@ -75,7 +75,7 @@ $pdf->Cell(40,6,$_SESSION["rep_per"][1][1],0,0,'R',0);
     // Create the bar plots
     $b1plot = new BarPlot($datos1);
     // 
-    $grafico->Add($b1plot);    
+    $grafico->Add(array($b1plot));    
 
     $b1plot->SetColor("white");
     $b1plot->SetFillColor("#26b719");
@@ -928,25 +928,25 @@ for($i=1; $i<=$_SESSION["rep_per"][8][0][0];$i++)
     }
 }
 //grafica
-//    // Creamos el grafico
-//    $grafico6 = new Graph(800, 950, 'auto');
-//    $grafico6->SetScale("textlin");
-//    $grafico6->title->Set("Enfermedades");
-//    $grafico6->xaxis->SetTickLabels($labels6);   
-//    $grafico6->Set90AndMargin(250,40,40,40);
-//    $grafico6->img->SetAngle(90);
-//    // Create the bar plots
-//    $b23plot = new BarPlot($datos_e);
-//    //
-//    $grafico6->Add(array($b23plot));
-//
-//    $b23plot->SetColor("white");
-//    $b23plot->SetFillColor($color_e);
-//
-//    $nombreImagen6 = 'graficas/img/imagen6.png'; 
-//
-//    //guardamos la grafica
-//    $grafico6->Stroke($nombreImagen6);
+    // Creamos el grafico
+    $grafico6 = new Graph(800, 950, 'auto');
+    $grafico6->SetScale("textlin");
+    $grafico6->title->Set("Enfermedades");
+    $grafico6->xaxis->SetTickLabels($labels6);   
+    $grafico6->Set90AndMargin(250,40,40,40);
+    $grafico6->img->SetAngle(90);
+    // Create the bar plots
+    $b23plot = new BarPlot($datos_e);
+    //
+    $grafico6->Add($b23plot);
+
+    $b23plot->SetColor("white");
+    $b23plot->SetFillColor($color_e);
+
+    $nombreImagen6 = 'graficas/img/imagen6.png'; 
+
+    //guardamos la grafica
+    $grafico6->Stroke($nombreImagen6);
 
 if($Y>=150)
 {
@@ -981,7 +981,7 @@ if($Y>=150)
     $Y=34;
 
 }
-//$pdf->Image($nombreImagen6,4,($Y+2),208);
+$pdf->Image($nombreImagen6,4,($Y+2),208);
 
 //Agregamos otra pagina
 $pdf->AddPage('P', 'Letter');
@@ -1120,27 +1120,27 @@ $pdf->Cell(178,4,mes($_GET["mes"]).' - '.$_GET["anno"],0,0,'C',0);
 $Y=34;
 
 //grafica
-//    // Creamos el grafico
-//    $grafico7 = new Graph(800, 600, 'auto');
-//    $grafico7->SetScale("textlin");
-//    $grafico7->title->Set("Hospitales");
-//    $grafico7->xaxis->SetTickLabels($labels7);   
-//    $grafico7->Set90AndMargin(250,40,40,40);
-//    $grafico7->img->SetAngle(90);
-//    // Create the bar plots
-//    $b24plot = new BarPlot($datos_h);
-//    //
-//    $grafico7->Add(array($b24plot));
-//
-//    $b24plot->SetColor("white");
-//    $b24plot->SetFillColor($color_h);
-//
-//    $nombreImagen7 = 'graficas/img/imagen7.png'; 
-//
-//    //guardamos la grafica
-//    $grafico7->Stroke($nombreImagen7);
-//
-//$pdf->Image($nombreImagen7,4,($Y+2),208);
+    // Creamos el grafico
+    $grafico7 = new Graph(800, 600, 'auto');
+    $grafico7->SetScale("textlin");
+    $grafico7->title->Set("Hospitales");
+    $grafico7->xaxis->SetTickLabels($labels7);   
+    $grafico7->Set90AndMargin(250,40,40,40);
+    $grafico7->img->SetAngle(90);
+    // Create the bar plots
+    $b24plot = new BarPlot($datos_h);
+    //
+    $grafico7->Add($b24plot);
+
+    $b24plot->SetColor("white");
+    $b24plot->SetFillColor($color_h);
+
+    $nombreImagen7 = 'graficas/img/imagen7.png'; 
+
+    //guardamos la grafica
+    $grafico7->Stroke($nombreImagen7);
+
+$pdf->Image($nombreImagen7,4,($Y+2),208);
 //Agregamos otra pagina
 $pdf->AddPage('P', 'Letter');
 //marco del titulo
@@ -1195,7 +1195,7 @@ for($i=1; $i<=$_SESSION["rep_per"][10][0][0]; $i++)
     $pdf->SetY($Y);
     $pdf->SetX(16);
     $pdf->Cell(184,6,$_SESSION["rep_per"][10][$i][$a],1,0,'L',0);
-    array_push($labels8, $_SESSION["rep_per"][10][$i][$a]);
+    array_push($labels8, utf8_encode($_SESSION["rep_per"][10][$i][$a]));
     $a++;
     //
     $pdf->SetFont('Arial','',10);
@@ -1275,31 +1275,27 @@ for($i=1; $i<=$_SESSION["rep_per"][10][0][0]; $i++)
  $Y=34;
 
 //grafica
-// Creamos el grafico
-//$grafico8 = new Graph(800, 600, 'auto');
-//$grafico8->SetScale("textlin");
-//$grafico8->title->Set("Estados");
-//$grafico8->xaxis->SetTickLabels($labels8);   
-//$grafico8->Set90AndMargin(250,40,40,40);
-//$grafico8->img->SetAngle(90);
-//// Create the bar plots
-//$b25plot = new BarPlot($datos_es);
-////
-//$grafico8->Add(array($b25plot));
+    // Creamos el grafico
+//    $grafico8 = new Graph(800, 600, 'auto');
+//    $grafico8->SetScale("textlin");
+//    $grafico8->title->Set("Estados");
+//    $grafico8->xaxis->SetTickLabels($labels8);   
+//    $grafico8->Set90AndMargin(250,40,40,40);
+//    $grafico8->img->SetAngle(90);
+//    // Create the bar plots
+//    $b25plot = new BarPlot($datos_es);
+//    //
+//    $grafico8->Add(array($b25plot));
 //
-//$b25plot->SetColor("white");
-//$b25plot->SetFillColor($color_es);
-////
-//$nombreImagen8 = 'graficas/img/imagen8.png'; 
-////
-//////guardamos la grafica
-//$grafico8->Stroke($nombreImagen8);
+//    $b25plot->SetColor("white");
+//    $b25plot->SetFillColor($color_es);
+//    //
+//    $nombreImagen8 = 'graficas/img/imagen8.png'; 
+//    //
+//    //guardamos la grafica
+//    $grafico8->Stroke($nombreImagen8);
 //
 //$pdf->Image($nombreImagen8,4,($Y+2),208);
-
-//$pdf->SetY(8);
-//$pdf->SetX(38);
-//$pdf->Multicell(200,4,print_r($b25plot),0,'J',0);
 
 //Envio Archivo
 $pdf->Output();
