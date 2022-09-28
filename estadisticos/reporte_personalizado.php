@@ -1130,6 +1130,20 @@ if(isset($_POST["hacer"]))
     {
         if($edadi==0 AND $edadf==100)
         {
+            $_SESSION["rep_per"][7][0]='0 a 100';
+            $_SESSION["rep_per"][7][1]=$RResDoceA["Numero"];
+            $_SESSION["rep_per"][7][2]=$RReaDoceA_m["Numero"];
+            $_SESSION["rep_per"][7][3]=$RResDoceA_f["Numero"];
+            $_SESSION["rep_per"][7][4]=$RResVeinteA["Numero"];
+            $_SESSION["rep_per"][7][5]=$RResVeinteA_m["Numero"];
+            $_SESSION["rep_per"][7][6]=$RResVeinteA_f["Numero"];
+            $_SESSION["rep_per"][7][7]=$RResSesentaycuatroA["Numero"];
+            $_SESSION["rep_per"][7][8]=$RResSesentaycuatroA_m["Numero"];
+            $_SESSION["rep_per"][7][9]=$RResSesentaycuatroA_f["Numero"];
+            $_SESSION["rep_per"][7][10]=$RResMasA["Numero"];
+            $_SESSION["rep_per"][7][11]=$RResMasA_m["Numero"];
+            $_SESSION["rep_per"][7][12]=$RResMasA_f["Numero"];
+
             $cadena.='<div class="c100 card">
                     <div class="c45">
                     <label class="l_form">Edades Acompañantes</label>
