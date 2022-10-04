@@ -364,8 +364,8 @@ if($ResPac["Id"]!=NULL)
             $cadena.='<tr style="background: '.$bgcolor.'" id="row_'.$J.'">
                         <td onmouseover="row_'.$J.'.style.background=\'#badad8\'" onmouseout="row_'.$J.'.style.background=\''.$bgcolor.'\'" align="center" class="texto" valign="middle">'.$J.'</td>
                         <td onmouseover="row_'.$J.'.style.background=\'#badad8\'" onmouseout="row_'.$J.'.style.background=\''.$bgcolor.'\'" align="center" class="texto" valign="middle">'.$RResR["Id"].'</td>
-                        <td onmouseover="row_'.$J.'.style.background=\'#badad8\'" onmouseout="row_'.$J.'.style.background=\''.$bgcolor.'\'" align="center" class="left" valign="middle">'.$RResObs["PA"].$RResObs["IdPA"].' '.$Nombre.'</td>
-                        <td onmouseover="row_'.$J.'.style.background=\'#badad8\'" onmouseout="row_'.$J.'.style.background=\''.$bgcolor.'\'" align="center" class="left" valign="middle">'.$RResObs["Observaciones"].'</td>
+                        <td onmouseover="row_'.$J.'.style.background=\'#badad8\'" onmouseout="row_'.$J.'.style.background=\''.$bgcolor.'\'" align="left" class="texto" valign="middle">'.$RResObs["PA"].$RResObs["IdPA"].' '.$Nombre.'</td>
+                        <td onmouseover="row_'.$J.'.style.background=\'#badad8\'" onmouseout="row_'.$J.'.style.background=\''.$bgcolor.'\'" align="left" class="texto" valign="middle">'.$RResObs["Observaciones"].'</td>
                     </tr>';
 
             if($bgcolor=='#ffffff'){$bgcolor='#cccccc';}
