@@ -211,6 +211,27 @@ if(isset($_POST["hacer"]))
         //bitacora
         mysqli_query($conn, "INSERT INTO bitacora (FechaHora, IdUser, Hizo, Datos) VALUES ('".time()."', '".$_SESSION["Id"]."', '8', '".json_encode($_POST)."')");
     }
+    elseif($_POST["hacer"]=='cambiar_cama')//cmabio de cama
+    {
+        $fechares = $_POST["fechares"];
+        //paciente
+        $ResP=mysqli_fetch_array(mysqli_query($conn, "SELECT IdPA FROM reservaciones WHERE IdReservacion='".$_POST["idreservacion"]."' AND Tipo='P' GROUP BY IdPA"));
+
+        mysqli_query($conn, "UPDATE reservaciones SET Cama='".$_POST["cama_p_".$ResP["IdPA"]]."'
+                                                WHERE IdReservacion='".$_POST["idreservacion"]."' AND IdPA='".$ResP["IdPA"]."' AND Tipo='P' AND Fecha>='".$fechares."'");
+
+        //acompanantes
+        $ResA=mysqli_query($conn, "SELECT IdPA FROM reservaciones WHERE IdReservacion='".$_POST["idreservacion"]."' AND Tipo='A' GROUP BY IdPA");
+
+        while($RResA=mysqli_fetch_array($ResA))
+        {
+            mysqli_query($conn, "UPDATE reservaciones SET Cama='".$_POST["cama_a_".$RResA["IdPA"]]."'
+                                                WHERE IdReservacion='".$_POST["idreservacion"]."' AND IdPA='".$RResA["IdPA"]."' AND Tipo='A' AND Fecha>='".$fechares."'");
+        }
+
+        //bitacora
+        mysqli_query($conn, "INSERT INTO bitacora (FechaHora, IdUser, Hizo, Datos) VALUES ('".time()."', '".$_SESSION["Id"]."', '135', '".json_encode($_POST)."')");
+    }
 }
 
 if($_POST["habitacion"]==0 OR !isset($_POST["habitacion"]) OR $_POST["habitacion"]==NULL){$ResHab=mysqli_query($conn, "SELECT * FROM habitaciones ORDER BY Habitacion ASC");}
@@ -377,6 +398,7 @@ while($RResHab=mysqli_fetch_array($ResHab))
                                         '.permisos(4, '<li><a href="#" onclick="limpiar(); abrirmodal(); edit_reservacion(\''.$RResRes["IdReservacion"].'\')"><i class="fas fa-edit" style="color: #a91b7d"></i> Editar</a></li>').'
                                         '.permisos(7, '<li><a href="#" onclick="ext_reservacion(\''.$RResRes["IdReservacion"].'\', document.getElementById(\'fecha_reservacion\').value)"><i class="fas fa-calendar-plus" style="color: #29abe2"></i> 1 día</a></li>').'
                                         '.permisos(8, '<li><a href="#" onclick="liberar_reservacion(\''.$RResRes["IdReservacion"].'\', document.getElementById(\'fecha_reservacion\').value)"><i class="fas fa-sign-out-alt" style="color: #fd7e14"></i> Liberar</a></li>').'
+                                        '.permisos(135, '<li><a href="#" onclick="limpiar(); abrirmodal(); cambio_cama(\''.$RResRes["IdReservacion"].'\', document.getElementById(\'fecha_reservacion\').value)"><i class="fas fa-exchange-alt" style="color: #f4df15"></i> Cambio cama</a></li>').'
                                     </ul>
                                 </div>';
                             }
@@ -488,6 +510,17 @@ mysqli_query($conn, "INSERT INTO bitacora (FechaHora, IdUser, Hizo, Datos) VALUE
 
 ?>
 <script>
+function cambio_cama(idreservacion, fecha)
+{
+    $.ajax({
+				type: 'POST',
+				url : 'reservaciones/cambio_cama.php',
+                data: 'idreservacion=' + idreservacion + '&fechares=' + fecha
+	}).done (function ( info ){
+		$('#modal-body').html(info);
+	});
+}
+
 function ad_reservacion(id, nombre, fechares, diasres, habitacion)
 {
 	$.ajax({
