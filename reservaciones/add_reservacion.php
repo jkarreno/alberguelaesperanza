@@ -324,6 +324,59 @@ if($ResPac["Id"]!=NULL)
         }
     }
     $cadena.='</div>';
+
+    //muestra observaciones de lavandería
+    $cadena.='<div class="c100" style="margin-top: 20px">
+                <table style="width:80%">
+                <thead>
+                    <tr>
+                        <td colspan="3" style="text-align: left"></td>
+                    </tr>
+                    <tr>
+                        <th colspan="4" align="center" class="textotitable">Observaciones Lavandería</td>
+                    </tr>
+                    <tr>
+                        <th align="center" class="textotitable">&nbsp;</th>
+                        <th align="center" class="textotitable">Reservación</th>
+                        <th align="center" class="textotitable">Recibio/Entrego</th>
+                        <th align="center" class="textotitable">Observaciones</th>
+                    </tr>
+                </thead>
+                <tbody>';
+    $ResReservaciones=mysqli_query($conn, "SELECT Id FROM reservacion WHERE IdPaciente='".$ResPac["Id"]."' ORDER BY Id ASC");
+    $bgcolor='#ffffff'; $J=1;
+    while($RResR=mysqli_fetch_array($ResReservaciones))
+    {
+        $ResObservaciones=mysqli_query($conn, "SELECT *  FROM lavanderia_observaciones WHERE IdReservacion='".$RResR["Id"]."' AND Observaciones!=''");
+        while($RResObs=mysqli_fetch_array($ResObservaciones))
+        {
+            if($RResObs["PA"]=='P')
+            {
+                $ResP=mysqli_fetch_array(mysqli_query($conn, "SELECT Nombre, Apellidos, Apellidos2 FROM pacientes WHERE Id='".$RResObs["IdPA"]."' LIMIT 1"));
+                $Nombre=$ResP["Nombre"].' '.$ResP["Apellidos"].' '.$ResP{"Apellidos2"};
+            }
+            elseif($RResObs["PA"]=='A')
+            {
+                $ResA=mysqli_fetch_array(mysqli_query($conn, "SELECT Nombre, Apellidos, Apellidos2 FROM pacientes WHERE Id='".$RResObs["IdPA"]."' LIMIT 1"));
+                $Nombre=$ResA["Nombre"].' '.$ResA["Apellidos"].' '.$ResA["Apellidos2"];
+            }
+
+            $cadena.='<tr style="background: '.$bgcolor.'" id="row_'.$J.'">
+                        <td onmouseover="row_'.$J.'.style.background=\'#badad8\'" onmouseout="row_'.$J.'.style.background=\''.$bgcolor.'\'" align="center" class="texto" valign="middle">'.$J.'</td>
+                        <td onmouseover="row_'.$J.'.style.background=\'#badad8\'" onmouseout="row_'.$J.'.style.background=\''.$bgcolor.'\'" align="center" class="texto" valign="middle">'.$RResR["Id"].'</td>
+                        <td onmouseover="row_'.$J.'.style.background=\'#badad8\'" onmouseout="row_'.$J.'.style.background=\''.$bgcolor.'\'" align="center" class="left" valign="middle">'.$RResObs["PA"].$RResObs["IdPA"].' '.$Nombre.'</td>
+                        <td onmouseover="row_'.$J.'.style.background=\'#badad8\'" onmouseout="row_'.$J.'.style.background=\''.$bgcolor.'\'" align="center" class="left" valign="middle">'.$RResObs["Observaciones"].'</td>
+                    </tr>';
+
+            if($bgcolor=='#ffffff'){$bgcolor='#cccccc';}
+            elseif($bgcolor=='#cccccc'){$bgcolor='#ffffff';}
+            $J++;
+        } 
+    }
+
+    $cadena.='  </tbody>
+                </table>
+            </di>';
 }
 
 echo $cadena;
