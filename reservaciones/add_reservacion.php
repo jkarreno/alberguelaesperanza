@@ -185,15 +185,18 @@ if($ResPac["Id"]!=NULL)
                 <table style="width:80%">
                 <thead>
                     <tr>
-                        <td colspan="3" style="text-align: left">Total Reservaciones: '.$TotResPac.' | Confirmadas: '.$TotResPacCon.' | Canceladas: '.$TotResPacCan.'</td>
+                        <td colspan="6" style="text-align: left">Total Reservaciones: '.$TotResPac.' | Confirmadas: '.$TotResPacCon.' | Canceladas: '.$TotResPacCan.'</td>
                     </tr>
                     <tr>
-                        <th colspan="3" align="center" class="textotitable">Reservaciones</td>
+                        <th colspan="6" align="center" class="textotitable">Reservaciones</td>
                     </tr>
                     <tr>
                         <th align="center" class="textotitable">&nbsp;</th>
+                        <th align="center" class="textotitable">Reservación</th>
                         <th align="center" class="textotitable">Fecha</th>
                         <th align="center" class="textotitable">Estatus</th>
+                        <th align="center" class="textotitable">Monto</th>
+                        <th align="center" class="textotitable">Adeudo</th>
                     </tr>
                 </thead>
                 <tbody>';
@@ -203,10 +206,62 @@ if($ResPac["Id"]!=NULL)
     {
         $cadena.='	<tr style="background: '.$bgcolor.'" id="row_'.$J.'">
                         <td onmouseover="row_'.$J.'.style.background=\'#badad8\'" onmouseout="row_'.$J.'.style.background=\''.$bgcolor.'\'" align="center" class="texto" valign="middle">'.$J.'</td>
+                        <td onmouseover="row_'.$J.'.style.background=\'#badad8\'" onmouseout="row_'.$J.'.style.background=\''.$bgcolor.'\'" align="center" class="texto" valign="middle">'.$ResRP["Id"].'</td>
                         <td onmouseover="row_'.$J.'.style.background=\'#badad8\'" onmouseout="row_'.$J.'.style.background=\''.$bgcolor.'\'" align="left" class="texto" valign="middle">'.fecha($ResRP["Fecha"]).'</td>
                         <td onmouseover="row_'.$J.'.style.background=\'#badad8\'" onmouseout="row_'.$J.'.style.background=\''.$bgcolor.'\'" align="center" class="texto" valign="middle">';
         if($ResRP["Estatus"]==1){$cadena.=' Confirmada';}
         if($ResRP["Estatus"]==2){$cadena.=' Cancelada';}
+        $cadena.='      </td>
+                        <td onmouseover="row_'.$J.'.style.background=\'#badad8\'" onmouseout="row_'.$J.'.style.background=\''.$bgcolor.'\'" align="right" class="texto" valign="middle">';
+                        
+        $dpaci=mysqli_num_rows(mysqli_query($conn, "SELECT IdPA FROM reservaciones WHERE IdReservacion='".$ResRP["Id"]."' AND Tipo='P' AND Cama>='0' GROUP BY IdPA")); //cuantos dias esta en el albergue
+
+        $ResPac=mysqli_fetch_array(mysqli_query($conn, "SELECT FechaNacimiento WHERE Id='".$dpaci["IdPA"]."'"));
+
+        if($dpaci>0)
+        {
+            if($ResPac["FechaNacimiento"]==NULL OR $ResPac["FechaNacimiento"]=='')
+            {
+                $cp=25;
+            }
+            else
+            {
+                $edadp=obtener_edad_segun_fecha($ResPac["FechaNacimiento"]);
+                if($edadp<=12){$cp=15;}else{$cp=25;}
+            }
+        }
+        else
+        {
+            $cp=0;
+        }
+        
+        //calculamos acompañantes
+        $acomp=mysqli_num_rows(mysqli_query($conn, "SELECT COUNT(Id) AS acompanantes FROM reservaciones WHERE IdReservacion='".$ResRP["Id"]."' AND Tipo='A' AND Cama>'0' GROUP BY IdPA"));
+        if($acomp==0 OR $acomp==NULL){if($edadp<=12){$cp=15;}else{$cp=35;} $ca=0;}elseif($acomp>0){$ca=25*$acomp;}
+        if($dpaci==0 AND $acomp==1){$ca=25*$acomp;} //solo se hospeda acompañante
+        
+        //calcula total paciente
+        $ctp=$cp*$ResRP["Dias"];
+        //calcula total acompañante
+        $cta=$ca*$ResRP["Dias"];
+        //calcula total a pagar
+        $CT=$ctp+$cta;
+        
+        $cadena.='          $ '.number_format($CT,2).'
+                        </td>
+                        <td onmouseover="row_'.$J.'.style.background=\'#badad8\'" onmouseout="row_'.$J.'.style.background=\''.$bgcolor.'\'" align="right" class="texto" valign="middle">';
+
+        $ResAdeudo=mysqli_fetch_array(mysqli_query($conn, "SELECT SUM(Monto) AS MTotal FROM pagoreservacion WHERE IdReservacion='".$ResRP["Id"]."' AND Estatus=1"));
+
+        if($ResAdeudo["MTotal"]==$CT)
+        {
+            $cadena.='$ 0.00';
+        }
+        else
+        {
+            $cadena.='$ '.number_format(($CT-$ResAdeudo["MTotal"]), 2);
+        }
+
         $cadena.='      </td>
                     </tr>';
 
