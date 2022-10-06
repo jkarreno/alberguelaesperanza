@@ -276,7 +276,7 @@ $cadena.='         </select>
                     </select>
                 </td>
                 <td colspan="2" style="text-align: right"><input type="date" name="fecha_reservacion" id="fecha_reservacion" value="'.$_POST["fecha_reservacion"].'" onchange="reservaciones(this.value)"></td>
-                <td colspan="6" style="text-align: right">'.permisos(20, '<a href="#" onclick="lista_reservaciones(\''.$_POST["fecha_reservacion"].'\')"><i class="fas fa-list-ul"></i></a>').' | '.permisos(21, '<a href="reservaciones/lista_pdf.php?fecha='.$_POST["fecha_reservacion"].'" target="_blank"><i class="fas fa-clipboard-list"></i></a>').'</td>
+                <td colspan="6" style="text-align: right"><a href="javascritpt:void(0);" onclick="adeudos_reservaciones()"><i class="fas fa-cash-register"></i></a> | '.permisos(20, '<a href="#" onclick="lista_reservaciones(\''.$_POST["fecha_reservacion"].'\')"><i class="fas fa-list-ul"></i></a>').' | '.permisos(21, '<a href="reservaciones/lista_pdf.php?fecha='.$_POST["fecha_reservacion"].'" target="_blank"><i class="fas fa-clipboard-list"></i></a>').'</td>
             </tr>
             <tr>
                 <td colspan="11" style="text-align: left">Camas Reservadas: '.$RC.' | Camas ocupadas: '.$RCC.' | Pacientes: '.$RCP.' | Pacientes Hospitalizados: '.$RCPH.' | Acompañantes: '.$RCA.'</td>
@@ -667,6 +667,15 @@ function prestamomaterial(reservacion){
                 data: 'reservacion=' + reservacion 
 	}).done (function ( info ){
 		$('#modal-body').html(info);
+	});
+}
+
+function adeudos_reservaciones(){
+    $.ajax({
+				type: 'POST',
+				url : 'caja/adeudos_reservaciones.php'
+	}).done (function ( info ){
+		$('#contenido').html(info);
 	});
 }
 

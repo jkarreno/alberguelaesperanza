@@ -453,4 +453,46 @@ function permisos($accion, $cadena)
 
    return $regresa;
 }
+
+function monto_reservacion($reservacion)
+{
+   include ("conexion.php");
+
+   $ResRP=mysqli_fetch_array(mysqli_query($conn, "SELECT Dias FROM reservacion WHERE Id='".$reservacion."' LIMIT 1"));
+
+   $dpaci=mysqli_num_rows(mysqli_query($conn, "SELECT IdPA FROM reservaciones WHERE IdReservacion='".$reservacion."' AND Tipo='P' AND Cama>='0' GROUP BY IdPA")); //cuantos dias esta en el albergue
+
+   $ResPac=mysqli_fetch_array(mysqli_query($conn, "SELECT FechaNacimiento WHERE Id='".$dpaci["IdPA"]."'"));
+
+   if($dpaci>0)
+   {
+      if($ResPac["FechaNacimiento"]==NULL OR $ResPac["FechaNacimiento"]=='')
+      {
+         $cp=25;
+      }
+      else
+      {
+         $edadp=obtener_edad_segun_fecha($ResPac["FechaNacimiento"]);
+         if($edadp<=12){$cp=15;}else{$cp=25;}
+      }
+   }
+   else
+   {
+      $cp=0;
+   }
+   
+   //calculamos acompañantes
+   $acomp=mysqli_num_rows(mysqli_query($conn, "SELECT COUNT(Id) AS acompanantes FROM reservaciones WHERE IdReservacion='".$reservacion."' AND Tipo='A' AND Cama>'0' GROUP BY IdPA"));
+   if($acomp==0 OR $acomp==NULL){if($edadp<=12){$cp=15;}else{$cp=35;} $ca=0;}elseif($acomp>0){$ca=25*$acomp;}
+   if($dpaci==0 AND $acomp==1){$ca=25*$acomp;} //solo se hospeda acompañante
+   
+   //calcula total paciente
+   $ctp=$cp*$ResRP["Dias"];
+   //calcula total acompañante
+   $cta=$ca*$ResRP["Dias"];
+   //calcula total a pagar
+   $CT=$ctp+$cta;
+
+   return $CT;
+}
 ?>
