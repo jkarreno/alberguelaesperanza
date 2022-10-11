@@ -9,7 +9,7 @@ include('../funciones.php');
 //buscar paciente de reservación
 $ResPaciente=mysqli_fetch_array(mysqli_query($conn, "SELECT Id, Nombre, Apellidos, Apellidos2 FROM pacientes WHERE Id=(SELECT IdPA FROM reservaciones WHERE IdReservacion='".$_POST["idreservacion"]."' AND Tipo='P' GROUP BY IdPA)"));
 //buscar acompañantes de reservación
-$ResAcompannantes=mysqli_query($conn, "SELECT Id, Nombre, Apellidos, Apellidos2 FROM acompannantes WHERE Id=(SELECT IdPA FROM reservaciones WHERE IdReservacion='".$_POST["idreservacion"]."' AND Tipo='A' GROUP BY IdPA)");
+//$ResAcompannantes=mysqli_query($conn, "SELECT Id, Nombre, Apellidos, Apellidos2 FROM acompannantes WHERE Id=(SELECT IdPA FROM reservaciones WHERE IdReservacion='".$_POST["idreservacion"]."' AND Tipo='A' GROUP BY IdPA)");
 //ultima fecha de reservacion
 $ResFechaF=mysqli_fetch_array(mysqli_query($conn, "SELECT Fecha FROM reservaciones WHERE IdReservacion='".$_POST["idreservacion"]."' ORDER BY Fecha DESC LIMIT 1"));
 
@@ -55,14 +55,17 @@ $cadena.='      </select>
             <div class="c100">
                 <label class="l_form">Acompañantes: </label>
             </div>';
-while($RResAcom=mysqli_fetch_array($ResAcompannantes))
+$ResAcompanantes=mysqli_query($conn, "SELECT IdPA FROM reservaciones WHERE IdReservacion='".$_POST["idreservacion"]."' AND Tipo='A' GROUP BY IdPA");
+while($RResAcom=mysqli_fetch_array($ResAcompanantes))
 {
+    $ResA=mysqli_fetch_array(mysqli_query($conn, "SELECT Id, Nombre, Apellidos, Apellidos2 FROM acompannantes WHERE Id='".$RResAcom["IdPA"]."'"));
+
     $cadena.='<div class="c45">
-                <label class="l_form">'.$RResAcom["Nombre"].' '.$RResAcom["Apellidos"].' '.$RResAcom["Apellidos2"].'</label>
+                <label class="l_form">'.$ResA["Nombre"].' '.$ResA["Apellidos"].' '.$ResA["Apellidos2"].'</label>
                 <input type="hidden" name="paciente" id="paciente" value="'.$ResPaciente["Id"].'">
             </div>
             <div class="c45">
-                <select name="cama_a_'.$RResAcom["Id"].'" id="cama_a_'.$RResAcom["Id"].'" onmousedown="if(this.options.length>5){this.size=5; this.style.height=105;}" onchange="this.size=0; this.style.height=35;" onblur="this.size=0; this.style.height=35;" required>
+                <select name="cama_a_'.$RResAcom["IdPA"].'" id="cama_a_'.$RResAcom["IdPA"].'" onmousedown="if(this.options.length>5){this.size=5; this.style.height=105;}" onchange="this.size=0; this.style.height=35;" onblur="this.size=0; this.style.height=35;" required>
                     <option>Seleccione</option>
                     <option value="0">No requiere cama</option>';
     $ResCamasA=mysqli_query($conn, "SELECT c.Id, h.Habitacion, c.Cama, h.Id AS hid FROM camas AS c 
@@ -72,20 +75,19 @@ while($RResAcom=mysqli_fetch_array($ResAcompannantes))
     {
         $ResCamaA=mysqli_query($conn, "SELECT Id FROM reservaciones 
         WHERE IdReservacion='".$_POST["idreservacion"]."' AND Cama='".$RResCamasA["Id"]."' AND Tipo='A' 
-                AND IdPA='".$RResAcom["Id"]."' AND Fecha>='".$_POST["fechares"]."'");
+                AND IdPA='".$RResAcom["IdPA"]."' AND Fecha>='".$_POST["fechares"]."'");
         $cadena.='  <option value="'.$RResCamasA["Id"].'"';if(mysqli_num_rows($ResCamaA)>0){$cadena.=' selected';}$cadena.='>'.$RResCamasA["Habitacion"].' - '.$RResCamasA["Cama"].'</option>';
     }
     $cadena.='  </select>
-            </div>
-            
-            <div class="c100">
-                <input type="hidden" name="idreservacion" id="idreservacion" value="'.$_POST["idreservacion"].'">
-                <input type="hidden" name="hacer" id="hacer" value="cambiar_cama">
-                <input type="hidden" name="fechares" id="fechares" value="'.$_POST["fechares"].'">
-                <input type="submit" name="botadreserv" id="botadreserv" value="Reservar>>" onclick="cerrarmodal()">
             </div>';
 }
-$cadena.='</div>';
+$cadena.='<div class="c100">
+            <input type="hidden" name="idreservacion" id="idreservacion" value="'.$_POST["idreservacion"].'">
+            <input type="hidden" name="hacer" id="hacer" value="cambiar_cama">
+            <input type="hidden" name="fechares" id="fechares" value="'.$_POST["fechares"].'">
+            <input type="submit" name="botadreserv" id="botadreserv" value="Reservar>>" onclick="cerrarmodal()">
+        </div>
+        </div>';
 
 echo $cadena;
 
