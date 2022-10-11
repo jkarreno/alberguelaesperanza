@@ -200,11 +200,11 @@ if(isset($_POST["hacer"]))
         //bitacora
         mysqli_query($conn, "INSERT INTO bitacora (FechaHora, IdUser, Hizo, Datos) VALUES ('".time()."', '".$_SESSION["Id"]."', '7', '".json_encode($_POST)."')");
     }
-    elseif($_POST["hacer"]=='liberar')
+    elseif($_POST["hacer"]=='liberar') //liberar resrvación
     {
         mysqli_query($conn, "UPDATE reservacion SET Liberada='1' WHERE Id='".$_POST["idres"]."'");
 
-        mysqli_query($conn, "UPDATE reservaciones SET Liberada='1' WHERE IdReservacion='".$_POST["idres"]."'") or die(mysqli_error($conn));
+        mysqli_query($conn, "UPDATE reservaciones SET Liberada='1' WHERE IdReservacion='".$_POST["idres"]."' AND Fecha>='".$_POST["fechares"]."'") or die(mysqli_error($conn));
 
         $mensaje='<div class="mesaje" id="mesaje"><i class="fas fa-thumbs-up"></i> Se libero la reservación '.$_POST["idres"].'</div>';
 
