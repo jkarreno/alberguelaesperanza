@@ -293,7 +293,7 @@ while($RResHab=mysqli_fetch_array($ResHab))
     while($RResCam=mysqli_fetch_array($ResCam))
     {
         
-        if(date("H")<=16)
+        if(date("H")<=15)
         {
             if($_POST["fecha_reservacion"]==date("Y-m-d"))
             {
@@ -301,10 +301,10 @@ while($RResHab=mysqli_fetch_array($ResHab))
             }
             elseif($_POST["fecha_reservacion"]!=date("Y-m-d"))
             {
-                $ResRes=mysqli_query($conn, "SELECT * FROM reservaciones WHERE (Fecha='".$_POST["fecha_reservacion"]."' OR Fecha='".$_POST["fecha_reservacion"]."') AND Cama='".$RResCam["Id"]."' AND Estatus<2");
+                $ResRes=mysqli_query($conn, "SELECT * FROM reservaciones WHERE Fecha='".$_POST["fecha_reservacion"]."' AND Cama='".$RResCam["Id"]."' AND Estatus<2");
             }
         }
-        elseif(date("H")>16)
+        elseif(date("H")>15)
         {
             $ResRes=mysqli_query($conn, "SELECT * FROM reservaciones WHERE Fecha='".$_POST["fecha_reservacion"]."' AND Cama='".$RResCam["Id"]."' AND Estatus<2 AND Liberada='0'");
         } 

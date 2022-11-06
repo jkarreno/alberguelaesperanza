@@ -485,7 +485,7 @@ if($_SESSION["rep_per"][5][0]=='0 a 100')
     $pdf->SetFont('Arial','B',10);
     $pdf->SetY(56);
     $pdf->SetX(4);
-    $pdf->Cell(25,6,utf8_decode('21 a 64 años'),1,0,'L',0);
+    $pdf->Cell(25,6,utf8_decode('65 y más años'),1,0,'L',0);
     $pdf->SetFont('Arial','',10);
     $pdf->Cell(10,6,utf8_decode($_SESSION["rep_per"][5][10]),1,0,'C',0);
     $pdf->Cell(10,6,utf8_decode($_SESSION["rep_per"][5][11]),1,0,'C',0);
@@ -767,7 +767,7 @@ if($_SESSION["rep_per"][7][0]=='0 a 100')
     $pdf->SetFont('Arial','B',10);
     $pdf->SetY(56);
     $pdf->SetX(4);
-    $pdf->Cell(25,6,utf8_decode('21 a 64 años'),1,0,'L',0);
+    $pdf->Cell(25,6,utf8_decode('65 y más años'),1,0,'L',0);
     $pdf->SetFont('Arial','',10);
     $pdf->Cell(10,6,utf8_decode($_SESSION["rep_per"][7][10]),1,0,'C',0);
     $pdf->Cell(10,6,utf8_decode($_SESSION["rep_per"][7][11]),1,0,'C',0);
