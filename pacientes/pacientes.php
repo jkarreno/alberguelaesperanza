@@ -24,10 +24,10 @@ if(isset($_POST["hacer"]))
 									        VALUES ('".$_POST["n_socio"]."', '".strtoupper($_POST["nombre"])."', '".strtoupper($_POST["apellidos"])."', '".strtoupper($_POST["apellidos2"])."', '".strtoupper($_POST["curp"])."', '".$_POST["sexo"]."', '".$_POST["fnacimiento"]."', 
                                                     '".$_POST["l_nacimiento"]."', '".$_POST["talla"]."', '".$_POST["peso"]."', '".strtoupper($_POST["domicilio"])."', '".$_POST["cp"]."', '".strtoupper($_POST["colonia"])."', '".$_POST["estado"]."', '".$_POST["municipio"]."',
                                                     '".$_POST["telefono_fijo"]."', '".$_POST["telefono_celular"]."', '".$_POST["telefono_contacto"]."', '".$_POST["religion"]."', '".$_POST["edocivil"]."', '".$_POST["ocupacion"]."', 
-                                                    '".$_POST["escolaridad"]."', '".$_POST["nivel_escolaridad"]."', '".$_POST["lengua"]."', '".$_POST["habla_espanol"]."', '".$_POST["correoe"]."', '".$_POST["claveine"]."', 
-                                                    '".$_POST["indigena"]."', '".$_POST["discapacitado"]."', '".$_POST["instituto1"]."', '".$_POST["carnet1"]."', '".$_POST["diagnostico1"]."', '".$_POST["instituto2"]."', 
-                                                    '".$_POST["carnet2"]."', '".$_POST["diagnostico2"]."', '".$_POST["instituto3"]."', '".$_POST["carnet3"]."', '".$_POST["diagnostico3"]."','".$_POST["vivecon"]."', '".$_POST["recibe_ayuda"]."', 
-                                                    '".$_POST["recibio"]."', '".$_POST["observaciones"]."', '".date("Y-m-d")."')") or die(mysqli_error($conn));
+                                                    '".$_POST["escolaridad"]."', '".$_POST["nivel_escolaridad"]."', '".$_POST["lengua"]."', '".$_POST["habla_espanol"]."', '".$_POST["correoe"]."', '".strtoupper($_POST["claveine"])."', 
+                                                    '".$_POST["indigena"]."', '".$_POST["discapacitado"]."', '".$_POST["instituto1"]."', '".$_POST["carnet1"]."', '".strtoupper($_POST["diagnostico1"])."', '".$_POST["instituto2"]."', 
+                                                    '".$_POST["carnet2"]."', '".strtoupper($_POST["diagnostico2"])."', '".$_POST["instituto3"]."', '".$_POST["carnet3"]."', '".strtoupper($_POST["diagnostico3"])."','".$_POST["vivecon"]."', '".$_POST["recibe_ayuda"]."', 
+                                                    '".$_POST["recibio"]."', '".strtoupper($_POST["observaciones"])."', '".date("Y-m-d")."')") or die(mysqli_error($conn));
 
             $ResNumPac=mysqli_fetch_array(mysqli_query($conn, "SELECT Id FROM pacientes WHERE Curp='".$_POST["curp"]."' ORDER BY Id DESC LIMIT 1"));
             $idp=$ResNumPac["Id"];
@@ -42,9 +42,9 @@ if(isset($_POST["hacer"]))
                                                     '".$_POST["peso"]."', '".strtoupper($_POST["domicilio"])."', '".$_POST["cp"]."', '".strtoupper($_POST["colonia"])."', '".$_POST["estado"]."', '".$_POST["municipio"]."',
                                                     '".$_POST["telefono_fijo"]."', '".$_POST["telefono_celular"]."', '".$_POST["telefono_contacto"]."', '".$_POST["religion"]."', 
                                                     '".$_POST["edocivil"]."', '".$_POST["ocupacion"]."', '".$_POST["escolaridad"]."', '".$_POST["nivel_escolaridad"]."', '".$_POST["lengua"]."', 
-                                                    '".$_POST["habla_espanol"]."', '".$_POST["instituto1"]."', '".$_POST["carnet1"]."', '".$_POST["diagnostico1"]."', '".$_POST["instituto2"]."', '".$_POST["carnet2"]."', '".$_POST["diagnostico2"]."', 
-                                                    '".$_POST["instituto3"]."', '".$_POST["carnet3"]."', '".$_POST["diagnostico3"]."','".$_POST["vivecon"]."', '".$_POST["recibe_ayuda"]."', '".$_POST["recibio"]."', 
-                                                    '".$_POST["observaciones"]."', '".date("Y-m-d")."')") or die(mysqli_error($conn));
+                                                    '".$_POST["habla_espanol"]."', '".$_POST["instituto1"]."', '".$_POST["carnet1"]."', '".strtoupper($_POST["diagnostico1"])."', '".$_POST["instituto2"]."', '".$_POST["carnet2"]."', '".strtoupper($_POST["diagnostico2"])."', 
+                                                    '".$_POST["instituto3"]."', '".$_POST["carnet3"]."', '".strtoupper($_POST["diagnostico3"])."','".$_POST["vivecon"]."', '".$_POST["recibe_ayuda"]."', '".$_POST["recibio"]."', 
+                                                    '".strtoupper($_POST["observaciones"])."', '".date("Y-m-d")."')") or die(mysqli_error($conn));
                                                 
             $idp=$_POST["numpaciente"];
         }
@@ -103,22 +103,22 @@ if(isset($_POST["hacer"]))
                                                     Lengua='".$_POST["lengua"]."', 
                                                     HablaEspanol='".$he."', 
                                                     CorreoE='".$_POST["correoe"]."',
-                                                    ClaveINE='".$_POST["claveine"]."', 
+                                                    ClaveINE='".strtoupper($_POST["claveine"])."', 
                                                     Indigena='".$_POST["indigena"]."', 
                                                     Discapacitado='".$_POST["discapacitado"]."',
                                                     Instituto1='".$_POST["instituto1"]."', 
                                                     Carnet1='".$_POST["carnet1"]."',
-                                                    Diagnostico1='".$_POST["diagnostico1"]."', 
+                                                    Diagnostico1='".strtoupper($_POST["diagnostico1"])."', 
                                                     Instituto2='".$_POST["instituto2"]."', 
                                                     Carnet2='".$_POST["carnet2"]."', 
-                                                    Diagnostico2='".$_POST["diagnostico2"]."', 
+                                                    Diagnostico2='".strtoupper($_POST["diagnostico2"])."', 
                                                     Instituto3='".$_POST["instituto3"]."', 
                                                     Carnet3='".$_POST["carnet3"]."',
-                                                    Diagnostico3='".$_POST["diagnostico3"]."', 
+                                                    Diagnostico3='".strtoupper($_POST["diagnostico3"])."', 
                                                     ViveCon='".$_POST["vivecon"]."', 
                                                     RecibeAyuda='".$_POST["recibe_ayuda"]."', 
                                                     Recibio='".$_POST["recibio"]."', 
-                                                    Observaciones='".$_POST["observaciones"]."',
+                                                    Observaciones='".strtoupper($_POST["observaciones"])."',
                                                     Fallecido='".$f."',
                                                     FechaMuerte='".$fm."'
                                                 WHERE Id='".$_POST["idpaciente"]."'") or die(mysqli_error($conn));
@@ -211,7 +211,7 @@ if(isset($_POST["hacer"]))
             mysqli_query($conn, "UPDATE pacientes SET facturara='1' WHERE Id='".$_POST["idpaciente"]."'");
 
             mysqli_query($conn, "INSERT INTO facturaraper (Nombre, Rfc, Direccion, Colonia, Municipio, CP, Estado, Telefono, CorreoE, IdPaciente)
-                                                    VALUES ('".$_POST["nombre"]."', '".$_POST["rfc"]."', '".$_POST["direccion"]."', '".$_POST["colonia"]."',
+                                                    VALUES ('".strtoupper($_POST["nombre"])."', '".strtoupper($_POST["rfc"])."', '".strtoupper($_POST["direccion"])."', '".strtoupper($_POST["colonia"])."',
                                                             '".$_POST["municipio"]."', '".$_POST["cp"]."', '".$_POST["Estado"]."', '".$_POST["Telefono"]."',
                                                             '".$_POST["email"]."', '".$_POST["idpaciente"]."')");
         }
@@ -236,8 +236,8 @@ if(isset($_POST["hacer"]))
         //datos paciente
         mysqli_query($conn, "UPDATE pacientes SET NivelSocioeconomico='".$_POST["n_socio"]."',
                                                 Carnet1='".$_POST["carnet1"]."', 
-                                                Nombre='".$_POST["nombre"]."', 
-                                                Apellidos='".$_POST["apellidos"]."', 
+                                                Nombre='".strtoupper($_POST["nombre"])."', 
+                                                Apellidos='".strtoupper($_POST["apellidos"])."', 
                                                 FechaNacimiento='".$_POST["fnacimiento"]."', 
                                                 EdoCivil='".$_POST["edocivil"]."', 
                                                 Escolaridad='".$_POST["escolaridad"]."', 
@@ -251,7 +251,7 @@ if(isset($_POST["hacer"]))
                                                 TelefonoCelular='".$_POST["telefono_celular"]."', 
                                                 TelefonoContacto='".$_POST["telefono_contacto"]."',
                                                 Instituto1='".$_POST["instituto1"]."', 
-                                                Diagnostico1='".$_POST["diagnostico1"]."'
+                                                Diagnostico1='".strtoupper($_POST["diagnostico1"])."'
                                         WHERE Id='".$_POST["paciente"]."'") or die(mysqli_error($conn));
 
         //bitacora
@@ -269,7 +269,7 @@ if(isset($_POST["hacer"]))
         {
             
             mysqli_query($conn, "INSERT INTO es_salud (IdPaciente, AntecedentesEnfermedad, Tratamiento, FrecuenciaHospital, ServicioMedico, IneP, CarnetHospital, ResumenMedico, IneA, Fecha, Usuario)
-                                                VALUES ('".$_POST["paciente"]."', '".$_POST["antecedentes_enfermedad"]."', '".$_POST["tratamiento_enfermedad"]."', '".$_POST["frecuencia_hospital"]."', 
+                                                VALUES ('".$_POST["paciente"]."', '".strtoupper($_POST["antecedentes_enfermedad"])."', '".strtoupper($_POST["tratamiento_enfermedad"])."', '".strtoupper($_POST["frecuencia_hospital"])."', 
                                                         '".$_POST["sm_cuenta"]."', '".$_POST["doc_ine"]."', '".$_POST["doc_carnet"]."', '".$_POST["doc_resumen"]."', '".$_POST["doc_ine_aco"]."', 
                                                         '".date("Y-m-d")."', '".$_SESSION["Id"]."')") or die(mysqli_error($conn));
 
@@ -277,9 +277,9 @@ if(isset($_POST["hacer"]))
         }
         else
         {
-            mysqli_query($conn, "UPDATE es_salud SET AntecedentesEnfermedad='".$_POST["antecedentes_enfermedad"]."',
-                                                    Tratamiento='".$_POST["tratamiento_enfermedad"]."',
-                                                    FrecuenciaHospital='".$_POST["frecuencia_hospital"]."',
+            mysqli_query($conn, "UPDATE es_salud SET AntecedentesEnfermedad='".strtoupper($_POST["antecedentes_enfermedad"])."',
+                                                    Tratamiento='".strtoupper($_POST["tratamiento_enfermedad"])."',
+                                                    FrecuenciaHospital='".strtoupper($_POST["frecuencia_hospital"])."',
                                                     ServicioMedico='".$_POST["sm_cuenta"]."',
                                                     IneP='".$_POST["doc_ine"]."',
                                                     CarnetHospital='".$_POST["doc_carnet"]."',
@@ -299,21 +299,21 @@ if(isset($_POST["hacer"]))
         {
             mysqli_query($conn, "INSERT INTO es_situacioneconomica_ingreso (IdPaciente, Esposo, OcupacionE, PadreMadre, OcupacionPM, Hijos, OcupacionH, Otros, OcupacionO, 
                                                                             Usuario, Fecha)
-                                                                    VALUES ('".$_POST["paciente"]."', '".$_POST["ingreso_esposo"]."', '".$_POST["ocupacion_esposo"]."', '".$_POST["ingreso_padremadre"]."', 
-                                                                            '".$_POST["ocupacion_padremadre"]."', '".$_POST["ingreso_hijos"]."', '".$_POST["ocupacion_hijos"]."', '".$_POST["ingreso_otros"]."', 
-                                                                            '".$_POST["ocupacion_otros"]."', '".$_SESSION["Id"]."', '".date("Y-m-d")."')") or die(mysqli_error($conn));
+                                                                    VALUES ('".$_POST["paciente"]."', '".$_POST["ingreso_esposo"]."', '".strtoupper($_POST["ocupacion_esposo"])."', '".$_POST["ingreso_padremadre"]."', 
+                                                                            '".strtoupper($_POST["ocupacion_padremadre"])."', '".$_POST["ingreso_hijos"]."', '".strtoupper($_POST["ocupacion_hijos"])."', '".$_POST["ingreso_otros"]."', 
+                                                                            '".strtoupper($_POST["ocupacion_otros"])."', '".$_SESSION["Id"]."', '".date("Y-m-d")."')") or die(mysqli_error($conn));
         
         }
         else
         {
             mysqli_query($conn, "UPDATE es_situacioneconomica_ingreso SET Esposo='".$_POST["ingreso_esposo"]."',
-                                                                            OcupacionE='".$_POST["ocupacion_esposo"]."',
+                                                                            OcupacionE='".strtoupper($_POST["ocupacion_esposo"])."',
                                                                             PadreMadre='".$_POST["ingreso_padremadre"]."', 
-                                                                            OcupacionPM='".$_POST["ocupacion_padremadre"]."',
+                                                                            OcupacionPM='".strtoupper($_POST["ocupacion_padremadre"])."',
                                                                             Hijos='".$_POST["ingreso_hijos"]."',
-                                                                            OcupacionH='".$_POST["ocupacion_hijos"]."', 
+                                                                            OcupacionH='".strtoupper($_POST["ocupacion_hijos"])."', 
                                                                             Otros='".$_POST["ingreso_otros"]."',
-                                                                            OcupacionO='".$_POST["ocupacion_otros"]."', 
+                                                                            OcupacionO='".strtoupper($_POST["ocupacion_otros"])."', 
                                                                             Usuario='".$_SESSION["Id"]."', 
                                                                             Fecha='".date("Y-m-d")."' 
                                                                     WHERE IdPaciente='".$_POST["paciente"]."'") or die(mysqli_error($conn));
@@ -354,24 +354,24 @@ if(isset($_POST["hacer"]))
         {
             mysqli_query($conn, "INSERT INTO es_vivienda (IdPaciente, TipoVivienda, OtroTV, Vivienda, OtroV, Material, OtroM, Paredes, OtroP, Techo, OtroT, 
                                                             Comedor, Cocina, Bannos, Recamaras, Usuario, Fecha)
-                                                    VALUES ('".$_POST["paciente"]."', '".$_POST["tipo_vivienda"]."', '".$_POST["tipo_vivienda_otro"]."', 
-                                                            '".$_POST["vivienda"]."', '".$_POST["vivienda_otro"]."', '".$_POST["material"]."', '".$_POST["material_otro"]."', 
-                                                            '".$_POST["paredes"]."', '".$_POST["paredes_otro"]."', '".$_POST["techo"]."', '".$_POST["techo_otro"]."', 
+                                                    VALUES ('".$_POST["paciente"]."', '".$_POST["tipo_vivienda"]."', '".strtoupper($_POST["tipo_vivienda_otro"])."', 
+                                                            '".$_POST["vivienda"]."', '".strtoupper($_POST["vivienda_otro"])."', '".$_POST["material"]."', '".strtoupper($_POST["material_otro"])."', 
+                                                            '".$_POST["paredes"]."', '".strtoupper($_POST["paredes_otro"])."', '".$_POST["techo"]."', '".strtoupper($_POST["techo_otro"])."', 
                                                             '".$_POST["comedor"]."', '".$_POST["cocina"]."', '".$_POST["bano"]."', '".$_POST["recamaras"]."', 
                                                             '".$_SESSION["Id"]."', '".date("Y-m-d")."')") or die(mysqli_error($conn));
         }
         else
         {
             mysqli_query($conn, "UPDATE es_vivienda SET TipoVivienda='".$_POST["tipo_vivienda"]."',
-                                                        OtroTV='".$_POST["tipo_vivienda_otro"]."', 
+                                                        OtroTV='".strtoupper($_POST["tipo_vivienda_otro"])."', 
                                                         Vivienda='".$_POST["vivienda"]."', 
-                                                        OtroV='".$_POST["vivienda_otro"]."', 
+                                                        OtroV='".strtoupper($_POST["vivienda_otro"])."', 
                                                         Material='".$_POST["material"]."', 
-                                                        OtroM='".$_POST["material_otro"]."', 
+                                                        OtroM='".strtoupper($_POST["material_otro"])."', 
                                                         Paredes='".$_POST["paredes"]."', 
-                                                        OtroP='".$_POST["paredes_otro"]."', 
+                                                        OtroP='".strtoupper($_POST["paredes_otro"])."', 
                                                         Techo='".$_POST["techo"]."', 
-                                                        OtroT='".$_POST["techo_otro"]."', 
+                                                        OtroT='".strtoupper($_POST["techo_otro"])."', 
                                                         Comedor='".$_POST["comedor"]."', 
                                                         Cocina='".$_POST["cocina"]."', 
                                                         Bannos='".$_POST["bano"]."', 

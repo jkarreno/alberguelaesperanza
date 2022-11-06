@@ -14,7 +14,7 @@ if(isset($_POST["hacer"]))
 	if($_POST["hacer"]=='addinstituto')
 	{
 		mysqli_query($conn, "INSERT INTO institutos (Instituto)
-									VALUES ('".$_POST["instituto"]."')") or die(mysqli_error($conn));
+									VALUES ('".strtoupper($_POST["instituto"])."')") or die(mysqli_error($conn));
 
 		$mensaje='<div class="mesaje" id="mesaje"><i class="fas fa-thumbs-up"></i> Se agrego el instituto '.$_POST["instituto"].'</div>';
 
@@ -24,7 +24,7 @@ if(isset($_POST["hacer"]))
     //editar instituto
     if($_POST["hacer"]=='editinstituto')
     {
-        mysqli_query($conn, "UPDATE institutos SET Instituto='".$_POST["instituto"]."'
+        mysqli_query($conn, "UPDATE institutos SET Instituto='".strtoupper($_POST["instituto"])."'
                                             WHERE Id='".$_POST["idinstituto"]."'");
 
         $mensaje='<div class="mesaje" id="mesaje"><i class="fas fa-thumbs-up"></i> Se actualizo el instituto '.$_POST["instituto"].'</div>';

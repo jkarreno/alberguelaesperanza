@@ -14,7 +14,7 @@ if(isset($_POST["hacer"]))
 	if($_POST["hacer"]=='addvivecon')
 	{
 		mysqli_query($conn, "INSERT INTO vivecon (ViveCon)
-									VALUES ('".$_POST["vivecon"]."')") or die(mysqli_error($conn));
+									VALUES ('".strtoupper($_POST["vivecon"])."')") or die(mysqli_error($conn));
 
 		$mensaje='<div class="mesaje" id="mesaje"><i class="fas fa-thumbs-up"></i> Se agrego el parametro '.$_POST["vivecon"].'</div>';
 
@@ -24,7 +24,7 @@ if(isset($_POST["hacer"]))
     //editar vivecon
     if($_POST["hacer"]=='editvivecon')
     {
-        mysqli_query($conn, "UPDATE vivecon SET ViveCon='".$_POST["vivecon"]."'
+        mysqli_query($conn, "UPDATE vivecon SET ViveCon='".strtoupper($_POST["vivecon"])."'
                                             WHERE Id='".$_POST["idvivecon"]."'");
 
         $mensaje='<div class="mesaje" id="mesaje"><i class="fas fa-thumbs-up"></i> Se actualizo el parametro '.$_POST["vivecon"].'</div>';

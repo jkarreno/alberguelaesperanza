@@ -15,7 +15,7 @@ if(isset($_POST["hacer"]))
         if($_POST["numrecibo"]=='')
         {
             mysqli_query($conn, "INSERT INTO pagoreservacion (IdReservacion, Fecha, Pago, DetDescuento, Descuento, DetExtra, Extra, Monto, Estatus, Usuario) 
-                                                        VALUES ('".$_POST["idreservacion"]."', '".date("Y-m-d")."', '".$_POST["pago"]."', '".$_POST["det_descuento"]."',
+                                                        VALUES ('".$_POST["idreservacion"]."', '".date("Y-m-d")."', '".$_POST["pago"]."', '".strtoupper($_POST["det_descuento"])."',
                                                                 '".$_POST["descuento"]."', '".$_POST["det_extra"]."', '".$_POST["extra"]."', '".$_POST["tpago"]."', '1', '".$_SESSION["Id"]."')") or die(mysqli_error($conn));
             
         }
@@ -23,7 +23,7 @@ if(isset($_POST["hacer"]))
         {
             mysqli_query($conn, "INSERT INTO pagoreservacion (Id, IdReservacion, Fecha, Pago, DetDescuento, Descuento, DetExtra, Extra, Monto, Estatus, Usuario) 
                                                         VALUES ('".$_POST["numrecibo"]."', '".$_POST["idreservacion"]."', '".date("Y-m-d")."', '".$_POST["pago"]."', 
-                                                                '".$_POST["det_descuento"]."', '".$_POST["descuento"]."', '".$_POST["det_extra"]."', '".$_POST["extra"]."', 
+                                                                '".strtoupper($_POST["det_descuento"])."', '".$_POST["descuento"]."', '".$_POST["det_extra"]."', '".$_POST["extra"]."', 
                                                                 '".$_POST["tpago"]."', '1', '".$_SESSION["Id"]."')") or die(mysqli_error($conn));
         }
 

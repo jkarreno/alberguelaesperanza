@@ -15,7 +15,7 @@ if(isset($_POST["hacer"]))
     if($_POST["hacer"]=='addrecopac')
     {
         mysqli_query($conn, "INSERT INTO reconocimientos (Tipo, IdPA, Reconocimiento, Fecha)
-                                                VALUES ('P', '".$_POST["id"]."', '".$_POST["reconocimiento"]."', '".date("Y-m-d")."')") or die(mysqli_error($conn));
+                                                VALUES ('P', '".$_POST["id"]."', '".strtoupper($_POST["reconocimiento"])."', '".date("Y-m-d")."')") or die(mysqli_error($conn));
 
         $mensaje='<div class="mesaje" id="mesaje"><i class="fas fa-thumbs-up"></i> Se agrego reconocimiento para el paciente '.$ResPac["Nombre"].' '.$ResPac["Apellidos"].'</div>';
 

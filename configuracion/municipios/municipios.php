@@ -14,7 +14,7 @@ if(isset($_POST["hacer"]))
 	if($_POST["hacer"]=='addmunicipio')
 	{
 		mysqli_query($conn, "INSERT INTO municipios (Estado, municipio)
-									VALUES ('".$_POST["estado"]."', '".$_POST["municipio"]."')") or die(mysqli_error($conn));
+									VALUES ('".$_POST["estado"]."', '".strtoupper($_POST["municipio"])."')") or die(mysqli_error($conn));
 
 		$mensaje='<div class="mesaje" id="mesaje"><i class="fas fa-thumbs-up"></i> Se agrego el municipio '.$_POST["municipio"].'</div>';
 
@@ -25,7 +25,7 @@ if(isset($_POST["hacer"]))
     if($_POST["hacer"]=='editmunicipio')
     {
         mysqli_query($conn, "UPDATE municipios SET Estado='".$_POST["estado"]."',
-                                                    municipio='".$_POST["municipio"]."'
+                                                    municipio='".strtoupper($_POST["municipio"])."'
                                             WHERE Id='".$_POST["idmunicipio"]."'");
 
         $mensaje='<div class="mesaje" id="mesaje"><i class="fas fa-thumbs-up"></i> Se actualizo el municipio '.$_POST["municipio"].'</div>';

@@ -18,12 +18,12 @@ if(isset($_POST["hacer"]))
 	if($_POST["hacer"]=='addproducto')
 	{
         mysqli_query($conn, "INSERT INTO productos (Nombre, Categoria, Presentacion, Volumen, Marca, Observaciones)
-                                            VALUES ('".$_POST["nombre"]."', '".$_POST["categoria"]."', '".$_POST["presentacion"]."', 
+                                            VALUES ('".strtoupper($_POST["nombre"])."', '".$_POST["categoria"]."', '".$_POST["presentacion"]."', 
                                                     '".$_POST["volumen"]."', '".$_POST["marca"]."', 
                                                     '".$_POST["observaciones"]."')");
 
         //bitacora
-        $arr = array('nombre' => $_POST["nombre"], 'presentacion' => $_POST["presentacion"], 'volumen' => $_POST["volumen"], 'marca' => $_POST["marca"], 'observaciones' => $_POST["observaciones"], 'hacer' => $_POST["hacer"]);
+        $arr = array('nombre' => strtoupper($_POST["nombre"]), 'presentacion' => $_POST["presentacion"], 'volumen' => $_POST["volumen"], 'marca' => $_POST["marca"], 'observaciones' => $_POST["observaciones"], 'hacer' => $_POST["hacer"]);
         mysqli_query($conn, "INSERT INTO bitacora (FechaHora, IdUser, Hizo, Datos) VALUES ('".time()."', '".$_SESSION["Id"]."', '120', '".json_encode($arr)."')");
 
         if($_POST["inventarioi"]>0)
@@ -35,10 +35,10 @@ if(isset($_POST["hacer"]))
 
             mysqli_query($conn, "INSERT INTO productos_inventario (IdProducto, IdAlmacen, Movimiento, Cantidad, Stock, Fecha, Caducidad, Origen)
                                                             VALUES ('".$IdProducto["Id"]."', '".$_POST["almacen"]."', 'I', '".$_POST["inventarioi"]."',
-                                                                    '".$_POST["inventarioi"]."', '".date("Y-m-d")."', '".$caducidad."', '".$_POST["origen"]."')") or die(mysqli_error($conn));
+                                                                    '".$_POST["inventarioi"]."', '".date("Y-m-d")."', '".$caducidad."', '".strtoupper($_POST["origen"])."')") or die(mysqli_error($conn));
 
              //bitacora
-            $arr2 = array('idproducto' => $IdProducto["Id"], 'cantidad' => $_POST["inventarioi"], 'almacen' => $_POST["almacen"], 'movimiento' => 'I', 'caducidad' => $_POST["caducidad"], 'origen'=>$_POST["origen"], 'hacer' => $_POST["hacer"]);
+            $arr2 = array('idproducto' => $IdProducto["Id"], 'cantidad' => $_POST["inventarioi"], 'almacen' => $_POST["almacen"], 'movimiento' => 'I', 'caducidad' => $_POST["caducidad"], 'origen'=>strtoupper($_POST["origen"]), 'hacer' => $_POST["hacer"]);
             mysqli_query($conn, "INSERT INTO bitacora (FechaHora, IdUser, Hizo, Datos) VALUES ('".time()."', '".$_SESSION["Id"]."', '121', '".json_encode($arr2)."')");
         }
         
@@ -64,12 +64,12 @@ if(isset($_POST["hacer"]))
 
             mysqli_query($conn, "INSERT INTO productos_inventario (IdProducto, IdAlmacen, Movimiento, Cantidad, Stock, Fecha, Caducidad, Origen, Destino, Observaciones)
                                                             VALUES ('".$RResM["Producto"]."', '".$RResM["Almacen"]."', '".$RResM["Movimiento"]."', '".$RResM["Cantidad"]."', 
-                                                                    '".$stock."', '".$RResM["Fecha"]."', '".$RResM["Caducidad"]."', '".$RResM["Origen"]."', '".$RResM["Destino"]."', 
-                                                                    '".$RResM["Observaciones"]."')") or die(mysqli_error($conn));
+                                                                    '".$stock."', '".$RResM["Fecha"]."', '".$RResM["Caducidad"]."', '".strtoupper($RResM["Origen"])."', '".strtoupper($RResM["Destino"])."', 
+                                                                    '".strtoupper($RResM["Observaciones"])."')") or die(mysqli_error($conn));
 
             $arreglo=array($A, 'IdProducto' => $RResM["Producto"], 'IdAlmacen' => $RResM["Almacen"], 'Movimiento' => $RResM["Movimiento"], 'Cantidad' => $RResM["Cantidad"],
-                            'Stock' => $stock, 'Fecha' => $RResM["Fecha"], 'Caducidad' => $RResM["Caducidad"], 'Origen' => $RResM["Origen"], 'Destino' => $RResM["Destino"],
-                            'Observaciones' => $RResM["Observaciones"]);
+                            'Stock' => $stock, 'Fecha' => $RResM["Fecha"], 'Caducidad' => $RResM["Caducidad"], 'Origen' => strtoupper($RResM["Origen"]), 'Destino' => strtoupper($RResM["Destino"]),
+                            'Observaciones' => strtoupper($RResM["Observaciones"]));
             array_push($arraym, $arreglo);
 
             //borra de temporales

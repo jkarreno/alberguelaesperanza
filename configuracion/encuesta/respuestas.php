@@ -18,7 +18,7 @@ if(isset($_POST["hacer"]))
 	if($_POST["hacer"]=='addrespuesta')
 	{
 		mysqli_query($conn, "INSERT INTO preguntas_encuesta_respuestas (IdPregunta, Respuesta)
-									VALUES ('".$_POST["pregunta"]."', '".$_POST["respuesta"]."')") or die(mysqli_error($conn));
+									VALUES ('".$_POST["pregunta"]."', '".strtoupper($_POST["respuesta"])."')") or die(mysqli_error($conn));
 
 		$mensaje='<div class="mesaje" id="mesaje"><i class="fas fa-thumbs-up"></i> Se agrego la respuesta "'.$_POST["respuesta"].'" a la pregunta "'.$ResP["Pregunta"].'"</div>';
 
@@ -28,7 +28,7 @@ if(isset($_POST["hacer"]))
     //editar respuesta
     if($_POST["hacer"]=='editrespuesta')
     {
-        mysqli_query($conn, "UPDATE preguntas_encuesta_respuestas SET Respuesta'".$_POST["respuesta"]."'
+        mysqli_query($conn, "UPDATE preguntas_encuesta_respuestas SET Respuesta'".strtoupper($_POST["respuesta"])."'
                                             WHERE Id='".$_POST["idrespuesta"]."'");
 
         $mensaje='<div class="mesaje" id="mesaje"><i class="fas fa-thumbs-up"></i> Se actualizo la respuesta '.$_POST["respuesta"].'</div>';

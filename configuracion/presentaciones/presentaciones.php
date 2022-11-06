@@ -14,7 +14,7 @@ if(isset($_POST["hacer"]))
 	if($_POST["hacer"]=='addpresentacion')
 	{
 		mysqli_query($conn, "INSERT INTO presentaciones (Nombre)
-									VALUES ('".$_POST["presentacion"]."')") or die(mysqli_error($conn));
+									VALUES ('".strtoupper($_POST["presentacion"])."')") or die(mysqli_error($conn));
 
 		$mensaje='<div class="mesaje" id="mesaje"><i class="fas fa-thumbs-up"></i> Se agrego la presentacion '.$_POST["presentacion"].'</div>';
 
@@ -24,7 +24,7 @@ if(isset($_POST["hacer"]))
     //editar presentacion
     if($_POST["hacer"]=='editpresentacion')
     {
-        mysqli_query($conn, "UPDATE presentaciones SET Nombre='".$_POST["presentacion"]."'
+        mysqli_query($conn, "UPDATE presentaciones SET Nombre='".strtoupper($_POST["presentacion"])."'
                                             WHERE Id='".$_POST["idpresentacion"]."'");
 
         $mensaje='<div class="mesaje" id="mesaje"><i class="fas fa-thumbs-up"></i> Se actualizo la presentacion '.$_POST["presentacion"].'</div>';

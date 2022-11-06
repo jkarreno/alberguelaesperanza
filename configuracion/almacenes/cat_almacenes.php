@@ -13,7 +13,7 @@ if(isset($_POST["hacer"]))
 	if($_POST["hacer"]=='addcatalmacen')
 	{
 		mysqli_query($conn, "INSERT INTO cat_almacenes (Nombre)
-									VALUES ('".$_POST["catalmacen"]."')") or die(mysqli_error($conn));
+									VALUES ('".strtoupper($_POST["catalmacen"])."')") or die(mysqli_error($conn));
 
 		$mensaje='<div class="mesaje" id="mesaje"><i class="fas fa-thumbs-up"></i> Se agrego la categoría '.$_POST["catalmacen"].' de almacenes </div>';
 
@@ -23,7 +23,7 @@ if(isset($_POST["hacer"]))
     //editar categoria almacen
     if($_POST["hacer"]=='editcatalmacen')
     {
-        mysqli_query($conn, "UPDATE cat_almacenes SET Nombre='".$_POST["catalmacen"]."'
+        mysqli_query($conn, "UPDATE cat_almacenes SET Nombre='".strtoupper($_POST["catalmacen"])."'
                                             WHERE Id='".$_POST["idcatalmacen"]."'");
 
         $mensaje='<div class="mesaje" id="mesaje"><i class="fas fa-thumbs-up"></i> Se actualizo la categoría '.$_POST["catalmacen"].' de almacenes</div>';

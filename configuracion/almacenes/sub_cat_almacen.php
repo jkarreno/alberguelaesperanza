@@ -15,7 +15,7 @@ if(isset($_POST["hacer"]))
 	if($_POST["hacer"]=='addsubcatalmacen')
 	{
 		mysqli_query($conn, "INSERT INTO cat_almacenes (Categoria, Nombre)
-									VALUES ('".$_POST["cat"]."', '".$_POST["subcatalmacen"]."')") or die(mysqli_error($conn));
+									VALUES ('".$_POST["cat"]."', '".strtoupper($_POST["subcatalmacen"])."')") or die(mysqli_error($conn));
 
 		$mensaje='<div class="mesaje" id="mesaje"><i class="fas fa-thumbs-up"></i> Se agrego la subcategoría '.$_POST["subcatalmacen"].' </div>';
 

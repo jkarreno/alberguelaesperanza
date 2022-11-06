@@ -14,7 +14,7 @@ if(isset($_POST["hacer"]))
 	if($_POST["hacer"]=='addescolaridad')
 	{
 		mysqli_query($conn, "INSERT INTO escolaridad (Escolaridad)
-									VALUES ('".$_POST["escolaridad"]."')") or die(mysqli_error($conn));
+									VALUES ('".strtoupper($_POST["escolaridad"])."')") or die(mysqli_error($conn));
 
 		$mensaje='<div class="mesaje" id="mesaje"><i class="fas fa-thumbs-up"></i> Se agrego la escolaridad '.$_POST["escolaridad"].'</div>';
 
@@ -24,7 +24,7 @@ if(isset($_POST["hacer"]))
     //editar escolaridad
     if($_POST["hacer"]=='editescolaridad')
     {
-        mysqli_query($conn, "UPDATE escolaridad SET Escolaridad='".$_POST["escolaridad"]."'
+        mysqli_query($conn, "UPDATE escolaridad SET Escolaridad='".strtoupper($_POST["escolaridad"])."'
                                             WHERE Id='".$_POST["idescolaridad"]."'");
 
         $mensaje='<div class="mesaje" id="mesaje"><i class="fas fa-thumbs-up"></i> Se actualizo la escolaridad '.$_POST["escolaridad"].'</div>';

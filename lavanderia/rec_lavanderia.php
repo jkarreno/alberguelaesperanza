@@ -30,7 +30,7 @@ if(isset($_POST["hacer"]))
         }
 
         mysqli_query($conn, "INSERT INTO lavanderia_observaciones (IdReservacion, IdPa, PA, Observaciones, ES, Usuario)
-                                                            Values ('".$_POST["idreservacion"]."', '".$r[1]."', '".$r[0]."', '".$_POST["observaciones"]."', 'S', '".$_SESSION["Id"]."')");
+                                                            Values ('".$_POST["idreservacion"]."', '".$r[1]."', '".$r[0]."', '".strtoupper($_POST["observaciones"])."', 'S', '".$_SESSION["Id"]."')");
 
         $cadena='<div class="mesaje" id="mesaje"><i class="fas fa-thumbs-up"></i> Registro Exitoso</div>';
 
@@ -54,7 +54,7 @@ if(isset($_POST["hacer"]))
                                                                     '".$Balance."', '".$_SESSION["Id"]."')") or die(mysqli_error($conn));
         }
         mysqli_query($conn, "INSERT INTO lavanderia_observaciones (IdReservacion, IdPa, PA, Observaciones, ES, Usuario)
-                                                            Values ('".$_POST["idreservacion"]."', '".$e[1]."', '".$e[0]."', '".$_POST["observaciones"]."', '".$_POST["tipo"]."', '".$_SESSION["Id"]."')") or die (mysqli_error($conn));
+                                                            Values ('".$_POST["idreservacion"]."', '".$e[1]."', '".$e[0]."', '".strtoupper($_POST["observaciones"])."', '".$_POST["tipo"]."', '".$_SESSION["Id"]."')") or die (mysqli_error($conn));
 
         $cadena='<div class="mesaje" id="mesaje"><i class="fas fa-thumbs-up"></i> Registro Exitoso</div>';
 
@@ -88,7 +88,7 @@ if(isset($_POST["hacer"]))
         mysqli_query($conn, "UPDATE lavanderia_observaciones SET IdPa='".$r[1]."',
                                                                 PA='".$r[0]."',
                                                                 Usuario='".$_SESSION["Id"]."', 
-                                                                Observaciones='".$_POST["observaciones"]."'
+                                                                Observaciones='".strtoupper($_POST["observaciones"])."'
                                                             WHERE IdReservacion='".$_POST["idreservacion"]."'
                                                             AND ES='S'");
 
@@ -115,7 +115,7 @@ if(isset($_POST["hacer"]))
         }
         mysqli_query($conn, "UPDATE lavanderia_observaciones SET IdPa='".$e[1]."', 
                                                                 PA='".$e[0]."',
-                                                                Observaciones='".$_POST["observaciones"]."',
+                                                                Observaciones='".strtoupper($_POST["observaciones"])."',
                                                                 Usuario='".$_SESSION["Id"]."' 
                                                             WHERE IdReservacion='".$_POST["idreservacion"]."' 
                                                             AND ES='".$_POST["tipo"]."'") or die (mysqli_error($conn));

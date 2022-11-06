@@ -16,7 +16,7 @@ if(isset($_POST["hacer"]))
     {
         mysqli_query($conn, "INSERT INTO material_apoyo_inventario (Fecha, IdReservacion, IdPA, PA, ES, IdMaterial, Cantidad, Observaciones, Usuario)
                                                         VALUES ('".$_POST["fecha"]."', '".$_POST["reservacion"]."', '".$r[1]."', '".$r[0]."', 'S', '".$_POST["material"]."', 
-                                                                '1', '".$_POST["observaciones"]."',  '".$_SESSION["Id"]."')");
+                                                                '1', '".strtoupper($_POST["observaciones"])."',  '".$_SESSION["Id"]."')");
 
         //creamos el recibo
         mysqli_query($conn, "INSERT INTO material_apoyo_recibo (IdReservacion, Fecha, Usuario) VALUES ('".$_POST["reservacion"]."', '".date("Y-m-d")."', '".$_SESSION["Id"]."')");
@@ -30,7 +30,7 @@ if(isset($_POST["hacer"]))
                                                                     IdPA='".$r[1]."',
                                                                     PA='".$r[0]."',
                                                                     IdMaterial='".$_POST["material"]."',
-                                                                    Observaciones='".$_POST["observaciones"]."', 
+                                                                    Observaciones='".strtoupper($_POST["observaciones"])."', 
                                                                     Usuario='".$_SESSION["Id"]."'
                                                             WHERE IdReservacion='".$_POST["reservacion"]."' AND ES='S'");
 
@@ -47,7 +47,7 @@ if(isset($_POST["hacer"]))
         {
             mysqli_query($conn, "INSERT INTO material_apoyo_inventario (Fecha, IdReservacion, IdPA, PA, ES, IdMaterial, Cantidad, Observaciones, Usuario)
                                                                 VALUES ('".$_POST["fechadev"]."', '".$_POST["reservacion"]."', '".$d[1]."', '".$d[0]."', 'E', '".$_POST["material"]."', 
-                                                                        '1', '".$_POST["observaciones"]."', '".$_SESSION["Id"]."')");
+                                                                        '1', '".strtoupper($_POST["observaciones"])."', '".$_SESSION["Id"]."')");
 
             //bitacora
             mysqli_query($conn, "INSERT INTO bitacora (FechaHora, IdUser, Hizo, Datos) VALUES ('".time()."', '".$_SESSION["Id"]."', '17', '".json_encode($_POST)."')");
@@ -58,7 +58,7 @@ if(isset($_POST["hacer"]))
                                                                         IdPA='".$d[1]."', 
                                                                         PA='".$d[0]."',
                                                                         IdMaterial='".$_POST["material"]."', 
-                                                                        Observaciones='".$_POST["observaciones"]."',
+                                                                        Observaciones='".strtoupper($_POST["observaciones"])."',
                                                                         Usuario='".$_SESSION["Id"]."'
                                                                 WHERE IdReservacion='".$_POST["reservacion"]."' AND ES='E'");
 

@@ -14,7 +14,7 @@ if(isset($_POST["hacer"]))
 	if($_POST["hacer"]=='addreligion')
 	{
 		mysqli_query($conn, "INSERT INTO religion (Religion)
-									VALUES ('".$_POST["religion"]."')") or die(mysqli_error($conn));
+									VALUES ('".strtoupper($_POST["religion"])."')") or die(mysqli_error($conn));
 
 		$mensaje='<div class="mesaje" id="mesaje"><i class="fas fa-thumbs-up"></i> Se agrego la religion '.$_POST["religion"].'</div>';
 
@@ -24,7 +24,7 @@ if(isset($_POST["hacer"]))
     //editar religion
     if($_POST["hacer"]=='editreligion')
     {
-        mysqli_query($conn, "UPDATE religion SET Religion='".$_POST["religion"]."'
+        mysqli_query($conn, "UPDATE religion SET Religion='".strtoupper($_POST["religion"])."'
                                             WHERE Id='".$_POST["idreligion"]."'");
 
         $mensaje='<div class="mesaje" id="mesaje"><i class="fas fa-thumbs-up"></i> Se actualizo la religion '.$_POST["religion"].'</div>';

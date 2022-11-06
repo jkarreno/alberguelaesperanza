@@ -14,7 +14,7 @@ if(isset($_POST["hacer"]))
 	if($_POST["hacer"]=='addpregunta')
 	{
 		mysqli_query($conn, "INSERT INTO preguntas_encuesta (Pregunta, Tipo)
-									VALUES ('".$_POST["pregunta"]."', '".$_POST["tipo"]."')") or die(mysqli_error($conn));
+									VALUES ('".strtoupper($_POST["pregunta"])."', '".$_POST["tipo"]."')") or die(mysqli_error($conn));
 
 		$mensaje='<div class="mesaje" id="mesaje"><i class="fas fa-thumbs-up"></i> Se agrego la pregunta '.$_POST["pregunta"].'</div>';
 
@@ -24,7 +24,7 @@ if(isset($_POST["hacer"]))
     //editar edocivil
     if($_POST["hacer"]=='editpregunta')
     {
-        mysqli_query($conn, "UPDATE preguntas_encuesta SET Pregunta='".$_POST["pregunta"]."',
+        mysqli_query($conn, "UPDATE preguntas_encuesta SET Pregunta='".strtoupper($_POST["pregunta"])."',
                                                             Tipo='".$_POST["tipo"]."' 
                                             WHERE Id='".$_POST["idpregunta"]."'");
 

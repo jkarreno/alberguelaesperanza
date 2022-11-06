@@ -14,7 +14,7 @@ if(isset($_POST["hacer"]))
 	if($_POST["hacer"]=='addhabitacion')
 	{
 		mysqli_query($conn, "INSERT INTO habitaciones (Habitacion, Tipo)
-									VALUES ('".$_POST["habitacion"]."', '".$_POST["tipo"]."')") or die(mysqli_error($conn));
+									VALUES ('".strtoupper($_POST["habitacion"])."', '".$_POST["tipo"]."')") or die(mysqli_error($conn));
 
 		$mensaje='<div class="mesaje" id="mesaje"><i class="fas fa-thumbs-up"></i> Se agrego la habitación '.$_POST["habitacion"].'</div>';
 
@@ -24,7 +24,7 @@ if(isset($_POST["hacer"]))
     //editar habitacion
     if($_POST["hacer"]=='edithabitacion')
     {
-        mysqli_query($conn, "UPDATE habitaciones SET Habitacion='".$_POST["habitacion"]."',
+        mysqli_query($conn, "UPDATE habitaciones SET Habitacion='".strtoupper($_POST["habitacion"])."',
                                                         Tipo='".$_POST["tipo"]."'
                                             WHERE Id='".$_POST["idhabitacion"]."'");
 

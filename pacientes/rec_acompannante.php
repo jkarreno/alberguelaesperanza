@@ -15,7 +15,7 @@ if(isset($_POST["hacer"]))
     if($_POST["hacer"]=='addrecaco')
     {
         mysqli_query($conn, "INSERT INTO reconocimientos (Tipo, IdPA, Reconocimiento, Fecha)
-                                                VALUES ('A', '".$_POST["id"]."', '".$_POST["reconocimiento"]."', '".date("Y-m-d")."')") or die(mysqli_error($conn));
+                                                VALUES ('A', '".$_POST["id"]."', '".strtoupper($_POST["reconocimiento"])."', '".date("Y-m-d")."')") or die(mysqli_error($conn));
 
         $mensaje='<div class="mesaje" id="mesaje"><i class="fas fa-thumbs-up"></i> Se agrego reconocimiento para el acompannante '.$ResAcom["Nombre"].'</div>';
 

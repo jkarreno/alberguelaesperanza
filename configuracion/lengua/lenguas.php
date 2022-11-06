@@ -14,7 +14,7 @@ if(isset($_POST["hacer"]))
 	if($_POST["hacer"]=='addlengua')
 	{
 		mysqli_query($conn, "INSERT INTO lenguas (Lengua)
-									VALUES ('".$_POST["lengua"]."')") or die(mysqli_error($conn));
+									VALUES ('".strtoupper($_POST["lengua"])."')") or die(mysqli_error($conn));
 
 		$mensaje='<div class="mesaje" id="mesaje"><i class="fas fa-thumbs-up"></i> Se agrego la lengua '.$_POST["lengua"].'</div>';
 
@@ -24,7 +24,7 @@ if(isset($_POST["hacer"]))
     //editar lengua
     if($_POST["hacer"]=='editlengua')
     {
-        mysqli_query($conn, "UPDATE lenguas SET Lengua='".$_POST["lengua"]."'
+        mysqli_query($conn, "UPDATE lenguas SET Lengua='".strtoupper($_POST["lengua"])."'
                                             WHERE Id='".$_POST["idlengua"]."'");
 
         $mensaje='<div class="mesaje" id="mesaje"><i class="fas fa-thumbs-up"></i> Se actualizo la lengua '.$_POST["lengua"].'</div>';

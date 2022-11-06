@@ -15,7 +15,7 @@ if(isset($_POST["hacer"]))
 	if($_POST["hacer"]=='addmaterial')
 	{
 		mysqli_query($conn, "INSERT INTO material_apoyo (Nombre)
-									VALUES ('".$_POST["material"]."')") or die(mysqli_error($conn));
+									VALUES ('".strtoupper($_POST["material"])."')") or die(mysqli_error($conn));
 
 		$mensaje='<div class="mesaje" id="mesaje"><i class="fas fa-thumbs-up"></i> Se agrego el material '.$_POST["material"].'</div>';
 
@@ -25,7 +25,7 @@ if(isset($_POST["hacer"]))
     //editar material de apoyo
     if($_POST["hacer"]=='editmaterial')
     {
-        mysqli_query($conn, "UPDATE material_apoyo SET Nombre='".$_POST["material"]."'
+        mysqli_query($conn, "UPDATE material_apoyo SET Nombre='".strtoupper($_POST["material"])."'
                                             WHERE Id='".$_POST["idmaterial"]."'");
 
         $mensaje='<div class="mesaje" id="mesaje"><i class="fas fa-thumbs-up"></i> Se actualizo el material '.$_POST["material"].'</div>';

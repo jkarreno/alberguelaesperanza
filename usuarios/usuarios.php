@@ -14,7 +14,7 @@ if(isset($_POST["hacer"]))
 	if($_POST["hacer"]=='addusuario')
 	{
 		mysqli_query($conn, "INSERT INTO usuarios (Usuario, Contrasenna, Nombre, Perfil)
-											VALUES ('".$_POST["nusuario"]."', '".md5($_POST["contrasena"])."', '".$_POST["nombre"]."', '".$_POST["perfil"]."')");
+											VALUES ('".$_POST["nusuario"]."', '".md5($_POST["contrasena"])."', '".strtoupper($_POST["nombre"])."', '".$_POST["perfil"]."')");
 
 		$mensaje='<div class="mesaje" id="mesaje"><i class="fas fa-thumbs-up"></i> Se agrego el usuario '.$_POST["nusuario"].'</div>';
 
@@ -27,7 +27,7 @@ if(isset($_POST["hacer"]))
 	{
 		$sql="UPDATE usuarios SET Usuario='".$_POST["nusuario"]."', ";
 		if($_POST["contrasena"]!=''){$sql.="Contrasenna='".md5($_POST["contrasena"])."', ";}
-		$sql.="						Nombre='".$_POST["nombre"]."', 
+		$sql.="						Nombre='".strtoupper($_POST["nombre"])."', 
 									Perfil='".$_POST["perfil"]."'
 							WHERE Id='".$_POST["idusuario"]."'";
 

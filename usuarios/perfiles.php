@@ -20,13 +20,13 @@ if(isset($_POST["hacer"]))
     if($_POST["hacer"]=='addperfil')
     {
         mysqli_query($conn, "INSERT INTO usuarios_perfiles (Nombre, Permisos)
-                                                VALUES ('".$_POST["nombre"]."', '".$acciones."')");
+                                                VALUES ('".strtoupper($_POST["nombre"])."', '".$acciones."')");
 
         $mensaje='<div class="mesaje" id="mesaje"><i class="fas fa-thumbs-up"></i> Se agrego el perfil '.$_POST["nombre"].'</div>';
     }
     if($_POST["hacer"]=='editperfil')
     {
-        mysqli_query($conn, "UPDATE usuarios_perfiles SET Nombre='".$_POST["nombre"]."',
+        mysqli_query($conn, "UPDATE usuarios_perfiles SET Nombre='".strtoupper($_POST["nombre"])."',
                                                             Permisos='".$acciones."'
                                                     WHERE Id='".$_POST["idperfil"]."'");
 

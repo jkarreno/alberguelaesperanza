@@ -14,7 +14,7 @@ if(isset($_POST["hacer"]))
 	if($_POST["hacer"]=='addedocivil')
 	{
 		mysqli_query($conn, "INSERT INTO edocivil (EdoCivil)
-									VALUES ('".$_POST["edocivil"]."')") or die(mysqli_error($conn));
+									VALUES ('".strtoupper($_POST["edocivil"])."')") or die(mysqli_error($conn));
 
 		$mensaje='<div class="mesaje" id="mesaje"><i class="fas fa-thumbs-up"></i> Se agrego el estado civil '.$_POST["edocivil"].'</div>';
 
@@ -24,7 +24,7 @@ if(isset($_POST["hacer"]))
     //editar edocivil
     if($_POST["hacer"]=='editedocivil')
     {
-        mysqli_query($conn, "UPDATE edocivil SET EdoCivil='".$_POST["edocivil"]."'
+        mysqli_query($conn, "UPDATE edocivil SET EdoCivil='".strtoupper($_POST["edocivil"])."'
                                             WHERE Id='".$_POST["idedocivil"]."'");
 
         $mensaje='<div class="mesaje" id="mesaje"><i class="fas fa-thumbs-up"></i> Se actualizo el estado civil '.$_POST["edocivil"].'</div>';

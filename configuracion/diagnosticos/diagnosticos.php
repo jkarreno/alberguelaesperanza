@@ -14,7 +14,7 @@ if(isset($_POST["hacer"]))
 	if($_POST["hacer"]=='adddiagnostico')
 	{
 		mysqli_query($conn, "INSERT INTO diagnosticos (Diagnostico)
-									VALUES ('".$_POST["diagnostico"]."')") or die(mysqli_error($conn));
+									VALUES ('".strtoupper($_POST["diagnostico"])."')") or die(mysqli_error($conn));
 
 		$mensaje='<div class="mesaje" id="mesaje"><i class="fas fa-thumbs-up"></i> Se agrego el diagnostico '.$_POST["diagnostico"].'</div>';
 
@@ -24,7 +24,7 @@ if(isset($_POST["hacer"]))
     //editar diagnostico
     if($_POST["hacer"]=='editdiagnostico')
     {
-        mysqli_query($conn, "UPDATE diagnosticos SET Diagnostico='".$_POST["diagnostico"]."'
+        mysqli_query($conn, "UPDATE diagnosticos SET Diagnostico='".strtoupper($_POST["diagnostico"])."'
                                             WHERE Id='".$_POST["iddiagnostico"]."'");
 
         $mensaje='<div class="mesaje" id="mesaje"><i class="fas fa-thumbs-up"></i> Se actualizo el diagnostico '.$_POST["diagnostico"].'</div>';

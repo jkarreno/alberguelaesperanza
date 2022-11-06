@@ -15,7 +15,7 @@ if(isset($_POST["hacer"]))
             if($RResP["Tipo"]==0 OR $RResP["Tipo"]==1)
             {
                 mysqli_query($conn, "INSERT INTO respuestas_encuesta (IdReservacion, IdPregunta, Respuesta)
-                                                            VALUES ('".$_POST["reservacion"]."', '".$RResP["Id"]."', '".$_POST["preg_".$RResP["Id"]]."')");
+                                                            VALUES ('".$_POST["reservacion"]."', '".$RResP["Id"]."', '".strtoupper($_POST["preg_".$RResP["Id"]])."')");
             }
             elseif($RResP["Tipo"]==2)
             {
@@ -30,7 +30,7 @@ if(isset($_POST["hacer"]))
                 }
 
                 mysqli_query($conn, "INSERT INTO respuestas_encuesta (IdReservacion, IdPregunta, Respuesta)
-                                                            VALUES ('".$_POST["reservacion"]."', '".$RResP["Id"]."', '".$resp."')");
+                                                            VALUES ('".$_POST["reservacion"]."', '".$RResP["Id"]."', '".strtoupper($resp)."')");
                 
                 $resp='';
             }

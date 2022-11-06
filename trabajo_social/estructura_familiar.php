@@ -14,8 +14,8 @@ else
 {
     //insertar datos
     mysqli_query($conn, "INSERT INTO es_estructurafamiliar (IdPaciente, Nombre, Parentesco, Edad, Ocupacion, Usuario, Fecha)
-                                                    VALUES ('".$_POST["idpaciente"]."', '".$_POST["nombre"]."', '".$_POST["parentesco"]."', 
-                                                            '".$_POST["edad"]."', '".$_POST["ocupacion"]."', '".$_SESSION["Id"]."', 
+                                                    VALUES ('".$_POST["idpaciente"]."', '".strtoupper($_POST["nombre"])."', '".strtoupper($_POST["parentesco"])."', 
+                                                            '".$_POST["edad"]."', '".strtoupper($_POST["ocupacion"])."', '".$_SESSION["Id"]."', 
                                                             '".date("Y-m-d")."')") or die(mysqli_error($conn));
 }
 

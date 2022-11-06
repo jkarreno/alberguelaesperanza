@@ -26,19 +26,19 @@ if(isset($_POST["hacer"]))
 
         mysqli_query($conn, "INSERT INTO productos_inventario (IdProducto, IdAlmacen, Movimiento, Cantidad, Stock, Fecha, Caducidad, Origen, Destino, Observaciones)
                                                     VALUES ('".$_POST["producto"]."', '".$_POST["almacen"]."', '".$_POST["movimiento"]."', '".$_POST["cantidad"]."', 
-                                                            '".$stock."', '".$_POST["fecha"]."', '".$caducidad."', '".$_POST["origen"]."', '".$_POST["destino"]."', '".$_POST["observaciones"]."')") or die(mysqli_error($conn));
+                                                            '".$stock."', '".$_POST["fecha"]."', '".$caducidad."', '".strtoupper($_POST["origen"])."', '".strtoupper($_POST["destino"])."', '".strtoupper($_POST["observaciones"])."')") or die(mysqli_error($conn));
 
         //bitacora
         mysqli_query($conn, "INSERT INTO bitacora (FechaHora, IdUser, Hizo, Datos) VALUES ('".time()."', '".$_SESSION["Id"]."', '123', '".json_encode($_POST)."')");
     }
     if($_POST["hacer"]=='editproducto')
     {
-        mysqli_query($conn, "UPDATE productos SET Nombre='".$_POST["nombre"]."',
+        mysqli_query($conn, "UPDATE productos SET Nombre='".strtoupper($_POST["nombre"])."',
                                                     Categoria='".$_POST["categoria"]."',
                                                     Presentacion='".$_POST["presentacion"]."', 
                                                     Volumen='".$_POST["volumen"]."', 
                                                     Marca='".$_POST["marca"]."', 
-                                                    Observaciones='".$_POST["observaciones"]."' 
+                                                    Observaciones='".strtoupper($_POST["observaciones"])."' 
                                             WHERE Id='".$_POST["producto"]."'") or die(mysqli_error($conn));
 
         $mensaje='<div class="mesaje" id="mesaje"><i class="fas fa-thumbs-up"></i> Se modificaron los datos del producto</div>';

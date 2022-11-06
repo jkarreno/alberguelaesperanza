@@ -16,7 +16,7 @@ if(isset($_POST["hacer"]))
 	if($_POST["hacer"]=='addcama')
 	{
 		mysqli_query($conn, "INSERT INTO camas (Habitacion, Cama)
-									VALUES ('".$_POST["habitacion"]."', '".$_POST["cama"]."')") or die(mysqli_error($conn));
+									VALUES ('".$_POST["habitacion"]."', '".strtoupper($_POST["cama"])."')") or die(mysqli_error($conn));
 
 		$mensaje='<div class="mesaje" id="mesaje"><i class="fas fa-thumbs-up"></i> Se agrego la cama '.$_POST["cama"].'</div>';
 
@@ -26,7 +26,7 @@ if(isset($_POST["hacer"]))
     //editar cama
     if($_POST["hacer"]=='editcama')
     {
-        mysqli_query($conn, "UPDATE camas SET Cama='".$_POST["cama"]."'
+        mysqli_query($conn, "UPDATE camas SET Cama='".strtoupper($_POST["cama"])."'
                                             WHERE Id='".$_POST["idcama"]."'");
 
         $mensaje='<div class="mesaje" id="mesaje"><i class="fas fa-thumbs-up"></i> Se actualizo la cama '.$_POST["cama"].'</div>';

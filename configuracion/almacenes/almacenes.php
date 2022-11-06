@@ -14,7 +14,7 @@ if(isset($_POST["hacer"]))
 	if($_POST["hacer"]=='addalmacen')
 	{
 		mysqli_query($conn, "INSERT INTO almacenes (Nombre)
-									VALUES ('".$_POST["almacen"]."')") or die(mysqli_error($conn));
+									VALUES ('".strtoupper($_POST["almacen"])."')") or die(mysqli_error($conn));
 
 		$mensaje='<div class="mesaje" id="mesaje"><i class="fas fa-thumbs-up"></i> Se agrego el almacen '.$_POST["almacen"].'</div>';
 
@@ -24,7 +24,7 @@ if(isset($_POST["hacer"]))
     //editar almacen
     if($_POST["hacer"]=='editalmacen')
     {
-        mysqli_query($conn, "UPDATE almacenes SET Nombre='".$_POST["almacen"]."'
+        mysqli_query($conn, "UPDATE almacenes SET Nombre='".strtoupper($_POST["almacen"])."'
                                             WHERE Id='".$_POST["idalmacen"]."'");
 
         $mensaje='<div class="mesaje" id="mesaje"><i class="fas fa-thumbs-up"></i> Se actualizo el almacen '.$_POST["almacen"].'</div>';

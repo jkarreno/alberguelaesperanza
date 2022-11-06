@@ -14,7 +14,7 @@ if(isset($_POST["hacer"]))
 	if($_POST["hacer"]=='addocupacion')
 	{
 		mysqli_query($conn, "INSERT INTO ocupaciones (ocupacion)
-									VALUES ('".$_POST["ocupacion"]."')") or die(mysqli_error($conn));
+									VALUES ('".strtoupper($_POST["ocupacion"])."')") or die(mysqli_error($conn));
 
 		$mensaje='<div class="mesaje" id="mesaje"><i class="fas fa-thumbs-up"></i> Se agrego la ocupacion '.$_POST["ocupacion"].'</div>';
 
@@ -24,7 +24,7 @@ if(isset($_POST["hacer"]))
     //editar ocupacion
     if($_POST["hacer"]=='editocupacion')
     {
-        mysqli_query($conn, "UPDATE ocupaciones SET ocupacion='".$_POST["ocupacion"]."'
+        mysqli_query($conn, "UPDATE ocupaciones SET ocupacion='".strtoupper($_POST["ocupacion"])."'
                                             WHERE Id='".$_POST["idocupacion"]."'");
 
         $mensaje='<div class="mesaje" id="mesaje"><i class="fas fa-thumbs-up"></i> Se actualizo la ocupacion '.$_POST["ocupacion"].'</div>';

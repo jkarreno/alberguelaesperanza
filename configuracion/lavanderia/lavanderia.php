@@ -15,7 +15,7 @@ if(isset($_POST["hacer"]))
 	if($_POST["hacer"]=='addprenda')
 	{
 		mysqli_query($conn, "INSERT INTO lavanderia (Prenda)
-									VALUES ('".$_POST["prenda"]."')") or die(mysqli_error($conn));
+									VALUES ('".strtoupper($_POST["prenda"])."')") or die(mysqli_error($conn));
 
 		$mensaje='<div class="mesaje" id="mesaje"><i class="fas fa-thumbs-up"></i> Se agrego la prenda '.$_POST["prenda"].'</div>';
 
@@ -25,7 +25,7 @@ if(isset($_POST["hacer"]))
     //editar lavanderia
     if($_POST["hacer"]=='editprenda')
     {
-        mysqli_query($conn, "UPDATE lavanderia SET prenda='".$_POST["prenda"]."'
+        mysqli_query($conn, "UPDATE lavanderia SET prenda='".strtoupper($_POST["prenda"])."'
                                             WHERE Id='".$_POST["idprenda"]."'");
 
         $mensaje='<div class="mesaje" id="mesaje"><i class="fas fa-thumbs-up"></i> Se actualizo la prenda '.$_POST["prenda"].'</div>';
