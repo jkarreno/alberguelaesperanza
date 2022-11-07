@@ -32,45 +32,45 @@ $edadn=$anno-12;
 //total de personas atendidas
 //$TPersonas=mysqli_num_rows(mysqli_query($conn, "SELECT COUNT(r.IdPA) AS personas, r.IdPA FROM reservaciones AS r WHERE r.IdPA!=0 AND r.Fecha LIKE '".$anno."-".$mes."-%' AND r.Estatus=1 GROUP BY r.IdPA"));
 $TPersonas=mysqli_num_rows(mysqli_query($conn, "SELECT concat_ws('-', r.IdPA, r.Tipo) AS idpa FROM reservaciones AS r 
-                                                WHERE `Fecha` LIKE '".$anno."-".$mes."-%' AND Estatus=1 GROUP BY concat_ws('-', r.IdPA, r.Tipo)"));
+                                                WHERE `Fecha` LIKE '".$anno."-".$mes."-%' AND Estatus=1 AND Cama>0 GROUP BY concat_ws('-', r.IdPA, r.Tipo)"));
 //total hombres
 $TPH=mysqli_num_rows(mysqli_query($conn, "SELECT COUNT(r.IdPA) AS personas, r.IdPA FROM reservaciones AS r 
                                             INNER JOIN pacientes AS p ON r.IdPA=p.Id 
-                                            WHERE r.IdPA!=0 AND p.Sexo='M' AND r.Fecha LIKE '".$anno."-".$mes."-%' AND r.Estatus=1 GROUP BY r.IdPA"));
+                                            WHERE r.IdPA!=0 AND p.Sexo='M' AND r.Fecha LIKE '".$anno."-".$mes."-%' AND r.Estatus=1 AND r.Cama>0 GROUP BY r.IdPA"));
 //total mujeres
 $TPM=mysqli_num_rows(mysqli_query($conn, "SELECT COUNT(r.IdPA) AS personas, r.IdPA FROM reservaciones AS r 
                                             INNER JOIN pacientes AS p ON r.IdPA=p.Id 
-                                            WHERE r.IdPA!=0 AND p.Sexo='F' AND r.Fecha LIKE '".$anno."-".$mes."-%' AND r.Estatus=1 GROUP BY r.IdPA"));
+                                            WHERE r.IdPA!=0 AND p.Sexo='F' AND r.Fecha LIKE '".$anno."-".$mes."-%' AND r.Estatus=1 AND r.Cama>0 GROUP BY r.IdPA"));
 
 //total pacientes
 $ResTP=mysqli_fetch_array(mysqli_query($conn, "SELECT COUNT(s.Id) AS Numero 
                                 FROM (SELECT Id FROM pacientes WHERE Id IN 
-                                (SELECT IdPA FROM reservaciones WHERE Fecha LIKE '".$anno."-".$mes."-%' AND Tipo = 'P' AND Estatus=1 GROUP BY IdPA ORDER BY IdPA ASC)) AS s"));
+                                (SELECT IdPA FROM reservaciones WHERE Fecha LIKE '".$anno."-".$mes."-%' AND Tipo = 'P' AND Estatus=1 AND Cama>0 GROUP BY IdPA ORDER BY IdPA ASC)) AS s"));
 $TP=$ResTP["Numero"];
 //total pacientes hombres
 $TPH=mysqli_num_rows(mysqli_query($conn, "SELECT COUNT(r.IdPA) AS personas, r.IdPA FROM reservaciones AS r 
                                             INNER JOIN pacientes AS p ON p.Id=r.IdPA
-                                            WHERE r.IdPA!=0 AND r.Tipo='P' AND r.Fecha LIKE '".$anno."-".$mes."-%' AND p.Sexo='M' AND r.Estatus=1 GROUP BY r.IdPA"));
+                                            WHERE r.IdPA!=0 AND r.Tipo='P' AND r.Fecha LIKE '".$anno."-".$mes."-%' AND p.Sexo='M' AND r.Estatus=1 AND Cama>0 GROUP BY r.IdPA"));
 //total pacientes hombres niños
 $TPHN=mysqli_num_rows(mysqli_query($conn, "SELECT COUNT(r.IdPA) AS personas, r.IdPA FROM reservaciones AS r 
                                             INNER JOIN pacientes AS p ON p.Id=r.IdPA
-                                            WHERE r.IdPA!=0 AND r.Tipo='P' AND r.Fecha LIKE '".$anno."-".$mes."-%' AND p.Sexo='M' AND p.FechaNacimiento>'".$edadn."-".$mes."-01' AND r.Estatus=1 GROUP BY r.IdPA"));
+                                            WHERE r.IdPA!=0 AND r.Tipo='P' AND r.Fecha LIKE '".$anno."-".$mes."-%' AND p.Sexo='M' AND p.FechaNacimiento>'".$edadn."-".$mes."-01' AND r.Estatus=1 AND Cama>0 GROUP BY r.IdPA"));
 //total pacientes hombres adultos
 $TPHA=mysqli_num_rows(mysqli_query($conn, "SELECT COUNT(r.IdPA) AS personas, r.IdPA FROM reservaciones AS r 
                                             INNER JOIN pacientes AS p ON p.Id=r.IdPA
-                                            WHERE r.IdPA!=0 AND r.Tipo='P' AND r.Fecha LIKE '".$anno."-".$mes."-%' AND p.Sexo='M' AND p.FechaNacimiento<'".$edadn."-".$mes."-01' AND r.Estatus=1 GROUP BY r.IdPA"));
+                                            WHERE r.IdPA!=0 AND r.Tipo='P' AND r.Fecha LIKE '".$anno."-".$mes."-%' AND p.Sexo='M' AND p.FechaNacimiento<'".$edadn."-".$mes."-01' AND r.Estatus=1 AND Cama>0 GROUP BY r.IdPA"));
 //total pacientes mujeres
 $TPM=mysqli_num_rows(mysqli_query($conn, "SELECT COUNT(r.IdPA) AS personas, r.IdPA FROM reservaciones AS r 
                                             INNER JOIN pacientes AS p ON p.Id=r.IdPA
-                                            WHERE r.IdPA!=0 AND r.Tipo='P' AND r.Fecha LIKE '".$anno."-".$mes."-%' AND p.Sexo='F' AND r.Estatus=1 GROUP BY r.IdPA"));
+                                            WHERE r.IdPA!=0 AND r.Tipo='P' AND r.Fecha LIKE '".$anno."-".$mes."-%' AND p.Sexo='F' AND r.Estatus=1 AND Cama>0 GROUP BY r.IdPA"));
 //total pacientes mujeres niñas
 $TPMN=mysqli_num_rows(mysqli_query($conn, "SELECT COUNT(r.IdPA) AS personas, r.IdPA FROM reservaciones AS r 
                                             INNER JOIN pacientes AS p ON p.Id=r.IdPA
-                                            WHERE r.IdPA!=0 AND r.Tipo='P' AND r.Fecha LIKE '".$anno."-".$mes."-%' AND p.Sexo='F' AND p.FechaNacimiento>'".$edadn."-".$mes."-01' AND r.Estatus=1 GROUP BY r.IdPA"));
+                                            WHERE r.IdPA!=0 AND r.Tipo='P' AND r.Fecha LIKE '".$anno."-".$mes."-%' AND p.Sexo='F' AND p.FechaNacimiento>'".$edadn."-".$mes."-01' AND r.Estatus=1 AND Cama>0 GROUP BY r.IdPA"));
 //total pacientes mujeres adultas
 $TPMA=mysqli_num_rows(mysqli_query($conn, "SELECT COUNT(r.IdPA) AS personas, r.IdPA FROM reservaciones AS r 
                                             INNER JOIN pacientes AS p ON p.Id=r.IdPA
-                                            WHERE r.IdPA!=0 AND r.Tipo='P' AND r.Fecha LIKE '".$anno."-".$mes."-%' AND p.Sexo='F' AND p.FechaNacimiento<'".$edadn."-".$mes."-01' AND r.Estatus=1 GROUP BY r.IdPA"));
+                                            WHERE r.IdPA!=0 AND r.Tipo='P' AND r.Fecha LIKE '".$anno."-".$mes."-%' AND p.Sexo='F' AND p.FechaNacimiento<'".$edadn."-".$mes."-01' AND r.Estatus=1 AND Cama>0 GROUP BY r.IdPA"));
 
 //total acompañantes
 $TA=mysqli_num_rows(mysqli_query($conn, "SELECT COUNT(r.IdPA) AS personas, r.IdPA FROM reservaciones AS r WHERE r.IdPA!=0 AND r.Tipo='A' AND r.Fecha LIKE '".$anno."-".$mes."-%' AND r.Estatus=1 GROUP BY r.IdPA"));
@@ -143,7 +143,7 @@ $Y=$anno;
 //                                AND FechaNacimiento < '".($Y-6)."-".$mes."-01' AND FechaNacimiento >= '".($Y-12)."-".$mes."-01') AS s");
 $ResDoce=mysqli_query($conn, "SELECT COUNT(s.Id) AS Numero 
                                 FROM (SELECT Id FROM pacientes WHERE Id IN 
-                                (SELECT IdPA FROM reservaciones WHERE Fecha LIKE '".$anno."-".$mes."-%' AND Tipo = 'P' AND Estatus=1 GROUP BY IdPA ORDER BY IdPA ASC) 
+                                (SELECT IdPA FROM reservaciones WHERE Fecha LIKE '".$anno."-".$mes."-%' AND Tipo = 'P' AND Estatus=1 AND Cama>0 GROUP BY IdPA ORDER BY IdPA ASC) 
                                 AND FechaNacimiento < '".$anno."-".$mes."-31' AND FechaNacimiento >= '".($Y-12)."-".$mes."-01') AS s");
 $RResDoce=mysqli_fetch_array($ResDoce);
 $_SESSION["PRDoce"]=$RResDoce["Numero"];
@@ -156,7 +156,7 @@ $_SESSION["PRDoce"]=$RResDoce["Numero"];
 //edad de 13 a 20 años pacientes
 $ResVeinte=mysqli_query($conn, "SELECT COUNT(s.Id) AS Numero 
                                 FROM (SELECT Id FROM pacientes WHERE Id IN 
-                                (SELECT IdPA FROM reservaciones WHERE Fecha LIKE '".$anno."-".$mes."-%' AND Tipo = 'P' AND Estatus=1 GROUP BY IdPA ORDER BY IdPA ASC) 
+                                (SELECT IdPA FROM reservaciones WHERE Fecha LIKE '".$anno."-".$mes."-%' AND Tipo = 'P' AND Estatus=1 AND Cama>0 GROUP BY IdPA ORDER BY IdPA ASC) 
                                 AND FechaNacimiento < '".($Y-12)."-".$mes."-01' AND FechaNacimiento >= '".($Y-20)."-".$mes."-01') AS s");
 $RResVeinte=mysqli_fetch_array($ResVeinte);
 $_SESSION["PRVeinte"]=$RResVeinte["Numero"];
@@ -169,7 +169,7 @@ $_SESSION["PRVeinte"]=$RResVeinte["Numero"];
 //edad de 21 a 64 años pacientes
 $ResSesentaycuatro=mysqli_query($conn, "SELECT COUNT(s.Id) AS Numero 
                                 FROM (SELECT Id FROM pacientes WHERE Id IN 
-                                (SELECT IdPA FROM reservaciones WHERE Fecha LIKE '".$anno."-".$mes."-%' AND Tipo = 'P' AND Estatus=1 GROUP BY IdPA ORDER BY IdPA ASC) 
+                                (SELECT IdPA FROM reservaciones WHERE Fecha LIKE '".$anno."-".$mes."-%' AND Tipo = 'P' AND Estatus=1 AND Cama>0 GROUP BY IdPA ORDER BY IdPA ASC) 
                                 AND FechaNacimiento < '".($Y-20)."-".$mes."-01' AND FechaNacimiento >= '".($Y-64)."-".$mes."-01') AS s");
 $RResSesentaycuatro=mysqli_fetch_array($ResSesentaycuatro);
 $_SESSION["PRSesentaycuatro"]=$RResSesentaycuatro["Numero"];
@@ -183,7 +183,7 @@ $_SESSION["PRSesentaycuatro"]=$RResSesentaycuatro["Numero"];
 //edad de mas de 65 años pacientes
 $ResMas=mysqli_query($conn, "SELECT COUNT(s.Id) AS Numero 
                                 FROM (SELECT Id FROM pacientes WHERE Id IN 
-                                (SELECT IdPA FROM reservaciones WHERE Fecha LIKE '".$anno."-".$mes."-%' AND Tipo = 'P' AND Estatus=1 GROUP BY IdPA ORDER BY IdPA ASC) 
+                                (SELECT IdPA FROM reservaciones WHERE Fecha LIKE '".$anno."-".$mes."-%' AND Tipo = 'P' AND Estatus=1 AND Cama>0 GROUP BY IdPA ORDER BY IdPA ASC) 
                                 AND FechaNacimiento < '".($Y-64)."-".$mes."-01') AS s");
 $RResMas=mysqli_fetch_array($ResMas);
 $_SESSION["PRMas"]=$RResMas["Numero"];

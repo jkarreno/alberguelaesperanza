@@ -6,3 +6,6 @@ error_log
 
 # capeta todo
 TODO 
+
+#Visual Studio Code
+.vscode/

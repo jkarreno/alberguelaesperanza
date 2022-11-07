@@ -202,7 +202,7 @@ if(isset($_POST["hacer"]))
         $TP=mysqli_num_rows(mysqli_query($conn, "SELECT COUNT(r.IdPA) AS personas, r.IdPA FROM reservaciones AS r 
                                                     INNER JOIN pacientes AS p ON p.Id=r.IdPA
                                                     INNER JOIN reservacion as re ON re.Id=r.IdReservacion
-                                                    WHERE re.Instituto LIKE '".$_POST["hospitales"]."' AND re.Diagnostico LIKE '".$_POST["enfermedades"]."' AND p.FechaNacimiento < '".$edadpi."-".$mesnf."-".$dianf."' AND p.FechaNacimiento >= '".$edadpf."-".$mesnf."-".$dianf."'  
+                                                    WHERE re.Instituto LIKE '".$_POST["hospitales"]."' AND re.Diagnostico LIKE '".$_POST["enfermedades"]."' AND p.FechaNacimiento < '".$edadpi."-".$mesnf."-".$dianf."' AND p.FechaNacimiento >= '".$edadpf."-".$mesni."-".$diani."'  
                                                     AND p.Estado LIKE '".$_POST["estados"]."' AND r.IdPA!=0 AND r.Tipo='P' AND r.Fecha >= '".$_POST["periodode"]."' AND r.Fecha <= '".$_POST["periodohasta"]."' AND r.Cama>0 AND r.Estatus=1 AND p.Sexo LIKE '".$_POST["genero"]."' 
                                                     GROUP BY r.IdPA"));
         
@@ -919,7 +919,7 @@ if(isset($_POST["hacer"]))
                     <label class="l_form">- Adultas: '.$TAMA.'</label>';
             $_SESSION["rep_per"][6][4]=$TAM;
             $_SESSION["rep_per"][6][5]=$TAMN;
-            $_SESSION["rep_per"][6][3]=$TAMA;
+            $_SESSION["rep_per"][6][6]=$TAMA;
         }
         $cadena.='</div>
                 <div class="c45">
