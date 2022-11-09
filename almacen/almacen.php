@@ -99,7 +99,7 @@ while($RResPr=mysqli_fetch_array($ResProductos))
 }
 $cadena.='          </select>
                 </td>
-                <td colspan="2" style="text-align: right">| '.permisos(132, '<a href="#" onclick="masivos()" class="liga">Masivos</a>').' | '.permisos(120, '<a href="#" onclick="add_producto()" class="liga">Nuevo producto</a>').' |</td>
+                <td colspan="2" style="text-align: right">| '.permisos(132, '<a href="#" onclick="masivos()" class="liga">Masivos</a>').' | '.permisos(120, '<a href="#" onclick="add_producto()" class="liga">Nuevo producto</a>').' | <a href="almacen/existencias_excel.php" target="_blank"><i class="fa-solid fa-file-excel"></i></a></td>
             </tr>
             <tr>
                 <th colspan="5" align="center" class="textotitable">Productos</td>
