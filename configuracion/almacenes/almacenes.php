@@ -32,6 +32,18 @@ if(isset($_POST["hacer"]))
         //bitacora
 		mysqli_query($conn, "INSERT INTO bitacora (FechaHora, IdUser, Hizo, Datos) VALUES ('".time()."', '".$_SESSION["Id"]."', '115', '".json_encode($_POST)."')");
     }
+    //borrar almacen
+    if($_POST["hacer"]=='delalmacen')
+    {
+        $ResAlmacen=mysqli_fetch_array(mysqli_query($conn, "SELECT Nombre FROM almacenes WHERE Id='".$_POST["almacen"]."' LIMIT 1"));
+
+        mysqli_query($conn, "DELETE FROM almacenes WHERE Id='".$_POST["almacen"]."'") OR die(mysqli_error($conn));
+
+        $mensaje='<div class="mesaje" id="mesaje"><i class="fas fa-thumbs-up"></i> Se elimino el almacen '.$ResAlmacen["Nombre"].'</div>';
+
+        //bitacora
+		mysqli_query($conn, "INSERT INTO bitacora (FechaHora, IdUser, Hizo, Datos) VALUES ('".time()."', '".$_SESSION["Id"]."', '136', '".json_encode($_POST)."')");
+    }
 }
 
 $cadena=$mensaje.'<table style="width:80%">
@@ -61,7 +73,7 @@ while($RResAlm=mysqli_fetch_array($ResAlmacenes))
                         '.permisos(115, '<a href="#" onclick="edit_almacen(\''.$RResAlm["Id"].'\')"><i class="fa fa-pencil-square" aria-hidden="true"></i></a>').' 
                     </td>
                     <td onmouseover="row_'.$J.'.style.background=\'#badad8\'" onmouseout="row_'.$J.'.style.background=\''.$bgcolor.'\'" align="center" class="texto" valign="middle">
-                        <a href="#" onclick="delete_almacen(\''.$RResAlm["Id"].'\')"><i class="fa fa-trash" aria-hidden="true"></i></a>
+                        '.permisos(136, '<a href="#" onclick="delete_almacen(\''.$RResAlm["Id"].'\')"><i class="fa fa-trash" aria-hidden="true"></i></a>').'
                     </td>
                 </tr>';
     
@@ -101,11 +113,11 @@ function edit_almacen(almacen){
 	});
 }
 
-function delete_poblacion(poblacion){
+function delete_almacen(almacen){
     $.ajax({
 				type: 'POST',
-				url : 'configuracion/institutos/del_instituto.php',
-                data: 'poblacion=' + poblacion
+				url : 'configuracion/almacenes/del_almacen.php',
+                data: 'almacen=' + almacen
 	}).done (function ( info ){
 		$('#contenido2').html(info);
 	});
