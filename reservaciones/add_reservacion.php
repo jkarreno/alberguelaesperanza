@@ -214,9 +214,9 @@ if($ResPac["Id"]!=NULL)
         $cadena.='      </td>
                         <td onmouseover="row_'.$J.'.style.background=\'#badad8\'" onmouseout="row_'.$J.'.style.background=\''.$bgcolor.'\'" align="right" class="texto" valign="middle">';
                         
-        $dpaci=mysqli_num_rows(mysqli_query($conn, "SELECT IdPA FROM reservaciones WHERE IdReservacion='".$ResRP["Id"]."' AND Tipo='P' AND Cama>='0' GROUP BY IdPA")); //cuantos dias esta en el albergue
+        $dpaci=mysqli_num_rows(mysqli_query($conn, "SELECT IdPA FROM reservaciones WHERE IdReservacion='".$ResRP["Id"]."' AND Tipo='P' AND Cama>'0' GROUP BY IdPA")); //cuantos dias esta en el albergue
 
-        $ResPac=mysqli_fetch_array(mysqli_query($conn, "SELECT FechaNacimiento WHERE Id='".$dpaci["IdPA"]."'"));
+        $ResPac=mysqli_fetch_array(mysqli_query($conn, "SELECT FechaNacimiento FROM pacientes WHERE Id='".$dpaci["IdPA"]."'"));
 
         if($dpaci>0)
         {
