@@ -3,24 +3,25 @@
 session_start();
 include('../conexion.php');
 include('../funciones.php');
-include ("../caja/excelgen.class.php");
 
-//initiate a instance of "excelgen" class
-$excel = new ExcelGen("ExistenciasAlmacen");
+require '../vendor/autoload.php';
 
-//initiate $row,$col variables
-$row=0;
-$col=0;
-
-$excel->WriteText($row,$col,"Producto");$col++;
-$excel->WriteText($row,$col,"Presentacion");$col++;
-$excel->WriteText($row,$col,"Almacen");$col++;
-$excel->WriteText($row,$col,"Existencia");$col++;
-
-$row++;
-$col=0;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\IOFactory;
 
 $ResProductos=mysqli_query($conn, "SELECT * FROM productos ORDER BY Nombre ASC");
+
+$excel = new SpreadSheet();
+$hojaActiva = $excel->getActiveSheet();
+$hojaActiva ->setTitle("ExistenciasAlmacen");
+
+$hojaActiva->setCellValue('A1', 'Producto');
+$hojaActiva->setCellValue('B1', 'Presentación');
+$hojaActiva->setCellValue('C1', 'Almacén');
+$hojaActiva->setCellValue('D1', 'Existencia');
+
+$fila=2;
+
 while($RResP=mysqli_fetch_array($ResProductos))
 {
     $ResPr=mysqli_fetch_array(mysqli_query($conn, "SELECT * FROM presentaciones WHERE Id='".$RResP["Presentacion"]."' LIMIT 1"));
@@ -33,19 +34,25 @@ while($RResP=mysqli_fetch_array($ResProductos))
         {
             while($RResI=mysqli_fetch_array($ResInventario))
             {
-                $excel->WriteText($row,$col,strtoupper(utf8_encode($RResP["Nombre"])).' - '.$RResP["Volumen"]);$col++;
-                $excel->WriteText($row,$col,$ResPr["Nombre"]);$col++;
-                $excel->WriteText($row,$col,$RResA["Nombre"]);$col++;
-                $excel->WriteText($row,$col,$RResI["Stock"]);$col++;
+                $hojaActiva->setCellValue('A'.$fila, strtoupper(utf8_encode($RResP["Nombre"])).' - '.$RResP["Volumen"]);
+                $hojaActiva->setCellValue('B'.$fila, $ResPr["Nombre"]);
+                $hojaActiva->setCellValue('C'.$fila, $RResA["Nombre"]);
+                $hojaActiva->setCellValue('D'.$fila, $RResI["Stock"]);
 
-                $row++;
-                $col=0;
+
+                $fila++;
             }
         }
     }
-
-    
 }
 
-//stream Excel for user to download or show on browser
-$excel->SendFile();
+/* Here there will be some code where you create $spreadsheet */
+
+// redirect output to client browser
+header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+header('Content-Disposition: attachment;filename="ExistenciasAlmacen.xlsx"');
+header('Cache-Control: max-age=0');
+
+$writer = \PhpOffice\PhpSpreadsheet\IOFactory::createWriter($excel, 'Xlsx');
+$writer->save('php://output');
+exit;
