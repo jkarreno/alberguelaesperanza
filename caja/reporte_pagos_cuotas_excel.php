@@ -2,27 +2,30 @@
 //Inicio la sesion 
 session_start();
 include('../conexion.php');
-include ("excelgen.class.php");
+include('../funciones.php');
 
-//initiate a instance of "excelgen" class
-$excel = new ExcelGen("ReporteCuotas");
+require '../vendor/autoload.php';
 
-//initiate $row,$col variables
-$row=0;
-$col=0;
 
-$excel->WriteText($row,$col,"Cobrado Por");$col++;
-$excel->WriteText($row,$col,"N. Recibo");$col++;
-$excel->WriteText($row,$col,"Fecha");$col++;
-$excel->WriteText($row,$col,"N. Paciente");$col++;
-$excel->WriteText($row,$col,"Paciente");$col++;
-$excel->WriteText($row,$col,"Reservación");$col++;
-$excel->WriteText($row,$col,"Monto");$col++;
-
-$row++;
-$col=0;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\IOFactory;
 
 $ResRecibos=mysqli_query($conn, "SELECT * FROM pagoreservacion WHERE Fecha>='".$_GET["fechaini"]."' AND Fecha<='".$_GET["fechafin"]."' ORDER BY Id DESC");
+
+$excel = new SpreadSheet();
+$hojaActiva = $excel->getActiveSheet();
+$hojaActiva ->setTitle("ReporteCuotas");
+
+$hojaActiva->setCellValue('A1', 'Cobrado Por');
+$hojaActiva->setCellValue('B1', 'N. Recibo');
+$hojaActiva->setCellValue('C1', 'Fecha');
+$hojaActiva->setCellValue('D1', 'N. Paciente');
+$hojaActiva->setCellValue('E1', 'Paciente');
+$hojaActiva->setCellValue('F1', 'Reservación');
+$hojaActiva->setCellValue('G1', 'Monto');
+
+$fila=2;
+
 while($RResRec=mysqli_fetch_array($ResRecibos))
 {
     $ResPaciente=mysqli_fetch_array(mysqli_query($conn, "SELECT p.Id AS IdP, concat_ws(' ', p.Nombre, p.Apellidos) AS NombrePaciente FROM reservacion AS r 
@@ -30,24 +33,28 @@ while($RResRec=mysqli_fetch_array($ResRecibos))
                                             WHERE r.Id='".$RResRec["IdReservacion"]."'")); 
 
 	$ResUsu=mysqli_fetch_array(mysqli_query($conn, "SELECT Nombre FROM usuarios WHERE Id='".$RResRec["Usuario"]."' LIMIT 1"));
-        
-        $excel->WriteText($row,$col,$ResUsu["Nombre"]);$col++;
-        $excel->WriteText($row,$col,$RResRec["Id"]);$col++;
-		$excel->WriteText($row,$col,$RResRec["Fecha"]);$col++;
-		$excel->WriteText($row,$col,$ResPaciente["IdP"]);$col++;
-		$excel->WriteText($row,$col,$ResPaciente["NombrePaciente"]);$col++;
-		$excel->WriteText($row,$col,$RResRec["IdReservacion"]);$col++;
-		$excel->WriteNumber($row,$col,$RResRec["Monto"]);$col++;
 
-        $row++;
-		$col=0;
+    $hojaActiva->setCellValue('A'.$fila, $ResUsu["Nombre"]);
+    $hojaActiva->setCellValue('B'.$fila, $RResRec["Id"]);
+    $hojaActiva->setCellValue('C'.$fila, $RResRec["Fecha"]);
+    $hojaActiva->setCellValue('D'.$fila, $ResPaciente["IdP"]);
+    $hojaActiva->setCellValue('E'.$fila, $ResPaciente["NombrePaciente"]);
+    $hojaActiva->setCellValue('F'.$fila, $RResRec["IdReservacion"]);
+    $hojaActiva->setCellValue('G'.$fila, $RResRec["Monto"]);
+
+    $fila++;
 }
 
 //bitacora
 mysqli_query($conn, "INSERT INTO bitacora (FechaHora, IdUser, Hizo, Datos) VALUES ('".time()."', '".$_SESSION["Id"]."', '110', '".json_encode($_GET)."')");
 
-//stream Excel for user to download or show on browser
-$excel->SendFile();
-?>
+/* Here there will be some code where you create $spreadsheet */
 
+// redirect output to client browser
+header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+header('Content-Disposition: attachment;filename="ReporteCuotas.xlsx"');
+header('Cache-Control: max-age=0');
 
+$writer = \PhpOffice\PhpSpreadsheet\IOFactory::createWriter($excel, 'Xlsx');
+$writer->save('php://output');
+exit;
