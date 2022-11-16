@@ -3,55 +3,52 @@
 session_start();
 include('../conexion.php');
 include('../funciones.php');
-include ("../caja/excelgen.class.php");
 
-//initiate a instance of "excelgen" class
-$excel = new ExcelGen("ReportePersonas");
+require '../vendor/autoload.php';
 
-//initiate $row,$col variables
-$row=0;
-$col=0;
 
-$hos=0;
-$ali=0;
-$lav=0;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\IOFactory;
 
-$excel->WriteText($row,$col,"Numero");$col++;
-$excel->WriteText($row,$col,"Registro");$col++;
-$excel->WriteText($row,$col,"Tipo");$col++;
-$excel->WriteText($row,$col,"Nombre");$col++;
-$excel->WriteText($row,$col,"Apellidos");$col++;
-$excel->WriteText($row,$col,"Direccion");$col++;
-$excel->WriteText($row,$col,"Colonia");$col++;
-$excel->WriteText($row,$col,"C.P.");$col++;
-$excel->WriteText($row,$col,"Municipio");$col++;
-$excel->WriteText($row,$col,"Estado");$col++;
-$excel->WriteText($row,$col,"Telefono Fijo");$col++;
-$excel->WriteText($row,$col,"Telefono Celular");$col++;
-$excel->WriteText($row,$col,"Correo Electrónico");$col++;
-$excel->WriteText($row,$col,"Sexo");$col++;
-$excel->WriteText($row,$col,"Fecha de Nacimiento");$col++;
-$excel->WriteText($row,$col,"Edad");$col++;
-$excel->WriteText($row,$col,"Talla");$col++;
-$excel->WriteText($row,$col,"Peso");$col++;
-$excel->WriteText($row,$col,"Religion");$col++;
-$excel->WriteText($row,$col,"Escolaridad");$col++;
-$excel->WriteText($row,$col,utf8_decode("Ocupación"));$col++;
-$excel->WriteText($row,$col,"CURP");$col++;
-$excel->WriteText($row,$col,"INE");$col++;
-$excel->WriteText($row,$col,"Edo Civil");$col++;
-$excel->WriteText($row,$col,"Hospital");$col++;
-$excel->WriteText($row,$col,"Carnet");$col++;
-$excel->WriteText($row,$col,"Diagnostico");$col++;
-$excel->WriteText($row,$col,"Indigena");$col++;
-$excel->WriteText($row,$col,"Discapacitado");$col++;
-$excel->WriteText($row,$col,"Hospedaje");$col++;
-$excel->WriteText($row,$col,"Alimentos");$col++;
-$excel->WriteText($row,$col,"Lavanderia");$col++;
-$excel->WriteText($row,$col,"Fecha de Registro");$col++;
+$excel = new SpreadSheet();
+$hojaActiva = $excel->getActiveSheet();
+$hojaActiva ->setTitle("ReportePersonas");
 
-$row++;
-$col=0;
+$hojaActiva->setCellValue('A1', "Numero");
+$hojaActiva->setCellValue('B1', "Registro");
+$hojaActiva->setCellValue('C1', "Tipo");
+$hojaActiva->setCellValue('D1', "Nombre");
+$hojaActiva->setCellValue('E1', "Apellidos");
+$hojaActiva->setCellValue('F1', "Direccion");
+$hojaActiva->setCellValue('G1', "Colonia");
+$hojaActiva->setCellValue('H1', "C.P.");
+$hojaActiva->setCellValue('I1', "Municipio");
+$hojaActiva->setCellValue('J1', "Estado");
+$hojaActiva->setCellValue('K1', "Telefono Fijo");
+$hojaActiva->setCellValue('L1', "Telefono Celular");
+$hojaActiva->setCellValue('M1', "Correo Electrónico");
+$hojaActiva->setCellValue('N1', "Sexo");
+$hojaActiva->setCellValue('O1', "Fecha de Nacimiento");
+$hojaActiva->setCellValue('P1', "Edad");
+$hojaActiva->setCellValue('Q1', "Talla");
+$hojaActiva->setCellValue('R1', "Peso");
+$hojaActiva->setCellValue('S1', "Religion");
+$hojaActiva->setCellValue('T1', "Escolaridad");
+$hojaActiva->setCellValue('U1', utf8_decode("Ocupación"));
+$hojaActiva->setCellValue('V1', "CURP");
+$hojaActiva->setCellValue('W1', "INE");
+$hojaActiva->setCellValue('X1', "Edo Civil");
+$hojaActiva->setCellValue('Y1', "Hospital");
+$hojaActiva->setCellValue('Z1', "Carnet");
+$hojaActiva->setCellValue('AA1', "Diagnostico");
+$hojaActiva->setCellValue('AB1', "Indigena");
+$hojaActiva->setCellValue('AC1', "Discapacitado");
+$hojaActiva->setCellValue('AD1', "Hospedaje");
+$hojaActiva->setCellValue('AE1', "Alimentos");
+$hojaActiva->setCellValue('AF1', "Lavanderia");
+$hojaActiva->setCellValue('AG1', "Fecha de Registro");
+
+$fila=2;
 
 $ResPersonas=mysqli_query($conn, "SELECT concat_ws('-', r.IdPA, r.Tipo) AS idpa FROM `reservaciones` AS r 
                                     WHERE `Fecha` LIKE '".$_GET["anno"]."-".$_GET["mes"]."-%' AND Estatus='1' GROUP BY concat_ws('-', r.IdPA, r.Tipo)");
@@ -60,10 +57,9 @@ $J=1;
 while($ResP=mysqli_fetch_array($ResPersonas))
 {
     $p=explode('-', $ResP["idpa"]);
-    $excel->WriteText($row,$col,$J);$col++;
-    $excel->WriteText($row,$col,$p[0]);$col++;
-    $excel->WriteText($row,$col,$p[1]);$col++;
-    
+    $hojaActiva->setCellValue('A'.$fila, $J);
+    $hojaActiva->setCellValue('B'.$fila, $p[0]);
+    $hojaActiva->setCellValue('C'.$fila, $p[1]);
 
     if($p[1]=='P')
     {
@@ -97,41 +93,40 @@ while($ResP=mysqli_fetch_array($ResPersonas))
         if($ResHosps>7){$lavanderia=ceil($ResHosps["HOSP"]/7);}
         else{$lavanderia=1;}
 
-        $excel->WriteText($row,$col,$ResPac["Nombre"]);$col++;
-        $excel->WriteText($row,$col,$ResPac["Apellidos"]);$col++;
-        $excel->WriteText($row,$col,$ResPac["Domicilio"]);$col++;
-        $excel->WriteText($row,$col,$ResPac["Colonia"]);$col++;
-        $excel->WriteText($row,$col,$ResPac["CP"]);$col++;
-        $excel->WriteText($row,$col,$ResMunicipio["Municipio"]);$col++;
-        $excel->WriteText($row,$col,$ResEstado["Estado"]);$col++;
-        $excel->WriteText($row,$col,$ResPac["TelefonoFijo"]);$col++;
-        $excel->WriteText($row,$col,$ResPac["TelefonoCelular"]);$col++;
-        $excel->WriteText($row,$col,$ResPac["CorreoE"]);$col++;
-        $excel->WriteText($row,$col,$ResPac["Sexo"]);$col++;
-        $excel->WriteText($row,$col,fechados($ResPac["FechaNacimiento"]));$col++;
-        $excel->WriteText($row,$col,utf8_decode($edad));$col++;
-        $excel->WriteText($row,$col,$ResPac["Talla"]);$col++;
-        $excel->WriteText($row,$col,$ResPac["Peso"]);$col++;
-        $excel->WriteText($row,$col,$ResReligion["Religion"]);$col++;
-        $excel->WriteText($row,$col,$ResEscolaridad["Escolaridad"]);$col++;
-        $excel->WriteText($row,$col,$ResOcupacion["Ocupacion"]);$col++;
-        $excel->WriteText($row,$col,strtoupper($ResPac["Curp"]));$col++;
-        $excel->WriteText($row,$col,strtoupper($ResPac["ClaveINE"]));$col++;
-        $excel->WriteText($row,$col,$ResEdoCivil["EdoCivil"]);$col++;
-        $excel->WriteText($row,$col,$ResHospital["Instituto"]);$col++;
-        $excel->WriteText($row,$col,$ResPac["Carnet1"]);$col++;
-        $excel->WriteText($row,$col,$ResDiagnostico["Diagnostico"]);$col++;
-        if($ResPac["Indigena"]==1){$excel->WriteText($row,$col,'SI');}else{$excel->WriteText($row,$col,'NO');}$col++;
-        if($ResPac["Discapacitado"]==1){$excel->WriteText($row,$col,'SI');}else{$excel->WriteText($row,$col,'NO');}$col++;
-        $excel->WriteText($row,$col,$ResHosps["HOSP"]);$col++;
-        $excel->WriteText($row,$col,$alimentos);$col++;
-        $excel->WriteText($row,$col,$lavanderia);$col++;
-        $excel->WriteText($row,$col,$ResPac["FechaRegistro"]);$col++;
+        $hojaActiva->setCellValue('D'.$fila,$ResPac["Nombre"]);
+        $hojaActiva->setCellValue('E'.$fila,$ResPac["Apellidos"]);
+        $hojaActiva->setCellValue('F'.$fila,$ResPac["Domicilio"]);
+        $hojaActiva->setCellValue('G'.$fila,$ResPac["Colonia"]);
+        $hojaActiva->setCellValue('H'.$fila,$ResPac["CP"]);
+        $hojaActiva->setCellValue('I'.$fila,$ResMunicipio["Municipio"]);
+        $hojaActiva->setCellValue('J'.$fila,$ResEstado["Estado"]);
+        $hojaActiva->setCellValue('K'.$fila,$ResPac["TelefonoFijo"]);
+        $hojaActiva->setCellValue('L'.$fila,$ResPac["TelefonoCelular"]);
+        $hojaActiva->setCellValue('M'.$fila,$ResPac["CorreoE"]);
+        $hojaActiva->setCellValue('N'.$fila,$ResPac["Sexo"]);
+        $hojaActiva->setCellValue('O'.$fila,fechados($ResPac["FechaNacimiento"]));
+        $hojaActiva->setCellValue('P'.$fila,utf8_decode($edad));
+        $hojaActiva->setCellValue('Q'.$fila,$ResPac["Talla"]);
+        $hojaActiva->setCellValue('R'.$fila,$ResPac["Peso"]);
+        $hojaActiva->setCellValue('S'.$fila,$ResReligion["Religion"]);
+        $hojaActiva->setCellValue('T'.$fila,$ResEscolaridad["Escolaridad"]);
+        $hojaActiva->setCellValue('U'.$fila,$ResOcupacion["Ocupacion"]);
+        $hojaActiva->setCellValue('V'.$fila,strtoupper($ResPac["Curp"]));
+        $hojaActiva->setCellValue('W'.$fila,strtoupper($ResPac["ClaveINE"]));
+        $hojaActiva->setCellValue('X'.$fila,$ResEdoCivil["EdoCivil"]);
+        $hojaActiva->setCellValue('Y'.$fila,$ResHospital["Instituto"]);
+        $hojaActiva->setCellValue('Z'.$fila,$ResPac["Carnet1"]);
+        $hojaActiva->setCellValue('AA'.$fila,$ResDiagnostico["Diagnostico"]);
+        if($ResPac["Indigena"]==1){$hojaActiva->setCellValue('AB'.$fila,'SI');}else{$hojaActiva->setCellValue('AB'.$fila,'NO');}
+        if($ResPac["Discapacitado"]==1){$hojaActiva->setCellValue('AC'.$fila,'SI');}else{$hojaActiva->setCellValue('AC'.$fila,'NO');}
+        $hojaActiva->setCellValue('AD'.$fila,$ResHosps["HOSP"]);
+        $hojaActiva->setCellValue('AE'.$fila,$alimentos);
+        $hojaActiva->setCellValue('AF'.$fila,$lavanderia);
+        $hojaActiva->setCellValue('AG'.$fila,$ResPac["FechaRegistro"]);
 
         $hos=$hos+$ResHosps["HOSP"];
         $ali=$ali+$alimentos;
         $lav=$lav+$lavanderia;
-
     }
     elseif($p[1]=='A')
     {
@@ -163,76 +158,59 @@ while($ResP=mysqli_fetch_array($ResPersonas))
         if($ResHosps>7){$lavanderia=ceil($ResHosps["HOSP"]/7);}
         else{$lavanderia=1;}
 
-        $excel->WriteText($row,$col,$ResAco["Nombre"]);$col++;
-        $excel->WriteText($row,$col,$ResAco["Apellidos"]);$col++;
-        $excel->WriteText($row,$col,$ResAco["Domicilio"]);$col++;
-        $excel->WriteText($row,$col,$ResAco["Colonia"]);$col++;
-        $excel->WriteText($row,$col,$ResAco["CP"]);$col++;
-        $excel->WriteText($row,$col,$ResMunicipio["Municipio"]);$col++;
-        $excel->WriteText($row,$col,$ResEstado["Estado"]);$col++;
-        $excel->WriteText($row,$col,$ResAco["TelefonoFijo"]);$col++;
-        $excel->WriteText($row,$col,$ResAco["TelefonoCelular"]);$col++;
-        $excel->WriteText($row,$col,'');$col++;
-        $excel->WriteText($row,$col,$ResAco["Sexo"]);$col++;
-        $excel->WriteText($row,$col,fechados($ResAco["FechaNacimiento"]));$col++;
-        $excel->WriteText($row,$col,utf8_decode($edad));$col++;
-        $excel->WriteText($row,$col,$ResAco["Talla"]);$col++;
-        $excel->WriteText($row,$col,$ResAco["Peso"]);$col++;
-        $excel->WriteText($row,$col,$ResReligion["Religion"]);$col++;
-        $excel->WriteText($row,$col,$ResEscolaridad["Escolaridad"]);$col++;
-        $excel->WriteText($row,$col,$ResOcupacion["Ocupacion"]);$col++;
-        $excel->WriteText($row,$col,strtoupper($ResAco["Curp"]));$col++;
-        $excel->WriteText($row,$col,'');$col++;
-        $excel->WriteText($row,$col,$ResEdoCivil["EdoCivil"]);$col++;
-        $excel->WriteText($row,$col,'');$col++;
-        $excel->WriteText($row,$col,'');$col++;
-        $excel->WriteText($row,$col,'');$col++;
-        $excel->WriteText($row,$col,'');$col++;
-        $excel->WriteText($row,$col,'');$col++;
-        $excel->WriteText($row,$col,$ResHosps["HOSP"]);$col++;
-        $excel->WriteText($row,$col,$alimentos);$col++;
-        $excel->WriteText($row,$col,$lavanderia);$col++;
-        $excel->WriteText($row,$col,'');$col++;
+        $hojaActiva->setCellValue('D'.$fila,$ResAco["Nombre"]);
+        $hojaActiva->setCellValue('E'.$fila,$ResAco["Apellidos"]);
+        $hojaActiva->setCellValue('F'.$fila,$ResAco["Domicilio"]);
+        $hojaActiva->setCellValue('G'.$fila,$ResAco["Colonia"]);
+        $hojaActiva->setCellValue('H'.$fila,$ResAco["CP"]);
+        $hojaActiva->setCellValue('I'.$fila,$ResMunicipio["Municipio"]);
+        $hojaActiva->setCellValue('J'.$fila,$ResEstado["Estado"]);
+        $hojaActiva->setCellValue('K'.$fila,$ResAco["TelefonoFijo"]);
+        $hojaActiva->setCellValue('L'.$fila,$ResAco["TelefonoCelular"]);
+        $hojaActiva->setCellValue('M'.$fila,'');
+        $hojaActiva->setCellValue('N'.$fila,$ResAco["Sexo"]);
+        $hojaActiva->setCellValue('O'.$fila,fechados($ResAco["FechaNacimiento"]));
+        $hojaActiva->setCellValue('P'.$fila,utf8_decode($edad));
+        $hojaActiva->setCellValue('Q'.$fila,$ResAco["Talla"]);
+        $hojaActiva->setCellValue('R'.$fila,$ResAco["Peso"]);
+        $hojaActiva->setCellValue('S'.$fila,$ResReligion["Religion"]);
+        $hojaActiva->setCellValue('T'.$fila,$ResEscolaridad["Escolaridad"]);
+        $hojaActiva->setCellValue('U'.$fila,$ResOcupacion["Ocupacion"]);
+        $hojaActiva->setCellValue('V'.$fila,strtoupper($ResAco["Curp"]));
+        $hojaActiva->setCellValue('W'.$fila,'');
+        $hojaActiva->setCellValue('X'.$fila,$ResEdoCivil["EdoCivil"]);
+        $hojaActiva->setCellValue('Y'.$fila,'');
+        $hojaActiva->setCellValue('Z'.$fila,'');
+        $hojaActiva->setCellValue('AA'.$fila,'');
+        $hojaActiva->setCellValue('AB'.$fila,'');
+        $hojaActiva->setCellValue('AC'.$fila,'');
+        $hojaActiva->setCellValue('AD'.$fila,$ResHosps["HOSP"]);
+        $hojaActiva->setCellValue('AE'.$fila,$alimentos);
+        $hojaActiva->setCellValue('AF'.$fila,$lavanderia);
+        $hojaActiva->setCellValue('AG'.$fila,'');
 
         $hos=$hos+$ResHosps["HOSP"];
         $ali=$ali+$alimentos;
         $lav=$lav+$lavanderia;
     }
 
-    $row++;
-	$col=0;
+    $fila++;
     $J++;
 }
 
-$excel->WriteText($row,$col,'');$col++;
-$excel->WriteText($row,$col,'');$col++;
-$excel->WriteText($row,$col,'');$col++;
-$excel->WriteText($row,$col,'');$col++;
-$excel->WriteText($row,$col,'');$col++;
-$excel->WriteText($row,$col,'');$col++;
-$excel->WriteText($row,$col,'');$col++;
-$excel->WriteText($row,$col,'');$col++;
-$excel->WriteText($row,$col,'');$col++;
-$excel->WriteText($row,$col,'');$col++;
-$excel->WriteText($row,$col,'');$col++;
-$excel->WriteText($row,$col,'');$col++;
-$excel->WriteText($row,$col,'');$col++;
-$excel->WriteText($row,$col,'');$col++;
-$excel->WriteText($row,$col,'');$col++;
-$excel->WriteText($row,$col,'');$col++;
-$excel->WriteText($row,$col,'');$col++;
-$excel->WriteText($row,$col,'');$col++;
-$excel->WriteText($row,$col,'');$col++;
-$excel->WriteText($row,$col,'');$col++;
-$excel->WriteText($row,$col,'');$col++;
-$excel->WriteText($row,$col,$hos);$col++;
-$excel->WriteText($row,$col,$ali);$col++;
-$excel->WriteText($row,$col,$lav);$col++;
 
+$hojaActiva->setCellValue('AD'.$fila,$hos);$col++;
+$hojaActiva->setCellValue('AE'.$fila,$ali);$col++;
+$hojaActiva->setCellValue('AF'.$fila,$lav);$col++;
 
 //bitacora
 mysqli_query($conn, "INSERT INTO bitacora (FechaHora, IdUser, Hizo, Datos) VALUES ('".time()."', '".$_SESSION["Id"]."', '103', '".json_encode($_GET)."')");
 
-//stream Excel for user to download or show on browser
-$excel->SendFile();
-?>
+// redirect output to client browser
+header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+header('Content-Disposition: attachment;filename="ReportePersonas.xlsx"');
+header('Cache-Control: max-age=0');
+
+$writer = \PhpOffice\PhpSpreadsheet\IOFactory::createWriter($excel, 'Xlsx');
+$writer->save('php://output');
+exit;
