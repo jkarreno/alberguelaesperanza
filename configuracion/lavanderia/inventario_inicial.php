@@ -8,6 +8,7 @@ include('../../funciones.php');
 $ResPren=mysqli_fetch_array(mysqli_query($conn, "SELECT * FROM lavanderia WHERE Id='".$_POST["prenda"]."' LIMIT 1"));
 
 $ResPrenA=mysqli_fetch_array(mysqli_query($conn, "SELECT Balance FROM lavanderia_inventario WHERE IdPrenda='".$_POST["prenda"]."' AND IdPA='-1' ORDER BY Id DESC LIMIT 1"));
+$ResPrenP=mysqli_fetch_array(mysqli_query($conn, "SELECT Balance FROM lavanderia_inventario WHERE IdPrenda='".$_POST["prenda"]."' AND IdPA='-2' ORDER BY Id DESC LIMIT 1"));
 $ResPrenU=mysqli_fetch_array(mysqli_query($conn, "SELECT Balance FROM lavanderia_inventario WHERE IdPrenda='".$_POST["prenda"]."' AND IdPA='0' ORDER BY Id DESC LIMIT 1"));
 
 $cadena='<div class="c100 card">
@@ -16,8 +17,9 @@ $cadena='<div class="c100 card">
                 <div class="c30">
                     <label class="l_form">Alamacén:</label>
                     <select name="almacen" id="almacen">
-						<option value="-1">Almacen</option>
 						<option value="0">En uso</option>
+						<option value="-1">Armario Lavanderia</option>
+						<option value="-2">Armario Pasillo</option>
 					</select>
                 </div>
 				<div class="c30">
@@ -42,14 +44,17 @@ $cadena='<div class="c100 card">
 		
 		<div class="c100 card">
 			<h2>Movimientos de inventario</h2>
-			<div class="c30">
-				<label class="l_form">Prendas en Almacen: '.$ResPrenA["Balance"].'</label>
+			<div class="c25">
+				<label class="l_form">Armario Lavandería: '.$ResPrenA["Balance"].'</label>
 			</div>
-			<div class="c30">
-				<label class="l_form">Prendas en Uso: '.$ResPrenU["Balance"].'</label>
+			<div class="c25">
+				<label class="l_form">Armario Pasillo: '.$ResPrenP["Balance"].'</label>
 			</div>
-			<div class="c30">
-				<label class="l_form">Total prendas: '.($ResPrenU["Balance"]+$ResPrenA["Balance"]).'</label>
+			<div class="c25">
+				<label class="l_form">En Uso: '.$ResPrenU["Balance"].'</label>
+			</div>
+			<div class="c25">
+				<label class="l_form">Total prendas: '.($ResPrenU["Balance"]+$ResPrenA["Balance"]+$ResPrenP["Balance"]).'</label>
 			</div>
 
 			<div class="c100">
@@ -73,22 +78,22 @@ $l=1; $bgcolor='#fff'; $balance=0;
 while($RResIP=mysqli_fetch_array($ResInvP))
 {
 
-	if($RResIP["IdReservacion"]==0 AND ($RResIP["IdPA"]==0 OR $RResIP["IdPA"]==-1) AND $RResIP["PA"]=='I')
+	if($RResIP["IdReservacion"]==0 AND ($RResIP["IdPA"]==0 OR $RResIP["IdPA"]<=-1) AND $RResIP["PA"]=='I')
 	{
 		$RResIP["IdReservacion"]='---';
 		$paciente='CAPTURA DE INVENTARIO';
 	}
-	else if($RResIP["IdReservacion"]==0 AND ($RResIP["IdPA"]==0 OR $RResIP["IdPA"]==-1) AND $RResIP["PA"]=='E')
+	else if($RResIP["IdReservacion"]==0 AND ($RResIP["IdPA"]==0 OR $RResIP["IdPA"]<=-1) AND $RResIP["PA"]=='E')
 	{
 		$RResIP["IdReservacion"]='---';
 		$paciente='INGRESO A INVENTARIO';
 	}
-	else if($RResIP["IdReservacion"]==0 AND ($RResIP["IdPA"]==0 OR $RResIP["IdPA"]==-1) AND $RResIP["PA"]=='S')
+	else if($RResIP["IdReservacion"]==0 AND ($RResIP["IdPA"]==0 OR $RResIP["IdPA"]<=-1) AND $RResIP["PA"]=='S')
 	{
 		$RResIP["IdReservacion"]='---';
 		$paciente='SALIDA DE INVENTARIO';
 	}
-	else if($RResIP["IdReservacion"]==0 AND ($RResIP["IdPA"]==0 OR $RResIP["IdPA"]==-1) AND $RResIP["PA"]=='T')
+	else if($RResIP["IdReservacion"]==0 AND ($RResIP["IdPA"]==0 OR $RResIP["IdPA"]<=-1) AND $RResIP["PA"]=='T')
 	{
 		$RResIP["IdReservacion"]='---';
 		$paciente='TRASLADO DE INVENTARIO DE ALMACEN';
@@ -113,7 +118,11 @@ while($RResIP=mysqli_fetch_array($ResInvP))
 
 	if($RResIP["IdPA"]=='-1')
 	{
-		$almacen='Almacén'; 
+		$almacen='Armario Lavandería'; 
+	}
+	elseif($RResIP["IdPA"]=='-2')
+	{
+		$almacen='Armario Pasillo'; 
 	}
 	else
 	{
