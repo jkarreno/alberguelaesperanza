@@ -53,6 +53,7 @@ while($RResS=mysqli_fetch_array($ResStock))
     $hojaActiva->setCellValue($col.$fila, $RResS["Cantidad"]);$col++;
     $hojaActiva->setCellValue($col.$fila, $RResS["Stock"]);$col++;
     $hojaActiva->setCellValue($col.$fila, $caducidad);$col++;
+    $hojaActiva->setCellValue($col.$fila, $RResS["Observaciones"]);$col++;
     $hojaActiva->setCellValue($col.$fila, fechados($RResS["Fecha"]));$col++;
 
     $J++;

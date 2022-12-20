@@ -155,7 +155,7 @@ $cadena.='                  </datalist>
             </td>    
         </tr>
         <tr>
-            <td colspan="11" align="right"><a href="almacen/producto_excel.php?producto='.$_POST["producto"].'&almacen='.$almacen.'" download><i class="fa-solid fa-file-excel"></i></a> | <a href="#"><i class="fa-solid fa-file-pdf"></i></a></td>
+            <td colspan="11" align="right"><a href="almacen/producto_excel.php?producto='.$_POST["producto"].'&almacen='.$almacen.'" download><i class="fa-solid fa-file-excel"></i></a> | <a href="almacen/producto_pdf.php?producto='.$_POST["producto"].'&almacen='.$almacen.'" target="_blank"><i class="fa-solid fa-file-pdf"></i></a></td>
         </tr>
         <tr>
             <th colspan="11" align="center" class="textotitable">Productos</td>
