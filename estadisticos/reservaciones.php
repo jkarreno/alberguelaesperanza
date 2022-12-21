@@ -85,86 +85,86 @@ $cadena.='      </select>
                     <tbody>
                     <tr style="background: #fff" id="row_01">
                         <td onmouseover="row_01.style.background=\'#badad8\'" onmouseout="row_01.style.background=\'#fff\'" align="left" class="texto" valign="middle">'.permisos(101, '<a href="#" onclick="e_res_mes(\''.$anno.'\', \'01\')">').'Ene'.permisos(101, '</a>').'</td>
-                        <td onmouseover="row_01.style.background=\'#badad8\'" onmouseout="row_01.style.background=\'#fff\'" align="center" class="texto" valign="middle">'.number_format($RPCEne).'</td>
-                        <td onmouseover="row_01.style.background=\'#badad8\'" onmouseout="row_01.style.background=\'#fff\'" align="center" class="texto" valign="middle">'.number_format($RCOEne).'</td>
-                        <td onmouseover="row_01.style.background=\'#badad8\'" onmouseout="row_01.style.background=\'#fff\'" align="center" class="texto" valign="middle">'.number_format($RCAEne).'</td>
+                        <td onmouseover="row_01.style.background=\'#badad8\'" onmouseout="row_01.style.background=\'#fff\'" align="center" class="texto" valign="middle"><a href="javascript:void(0)" onclick="rep_reservaciones(\'01\', \''.$anno.'\', \'0\')">'.number_format($RPCEne).'</a></td>
+                        <td onmouseover="row_01.style.background=\'#badad8\'" onmouseout="row_01.style.background=\'#fff\'" align="center" class="texto" valign="middle"><a href="javascript:void(0)" onclick="rep_reservaciones(\'01\', \''.$anno.'\', \'1\')">'.number_format($RCOEne).'</a></td>
+                        <td onmouseover="row_01.style.background=\'#badad8\'" onmouseout="row_01.style.background=\'#fff\'" align="center" class="texto" valign="middle"><a href="javascript:void(0)" onclick="rep_reservaciones(\'01\', \''.$anno.'\', \'2\')">'.number_format($RCAEne).'</a></td>
                         <td onmouseover="row_01.style.background=\'#badad8\'" onmouseout="row_01.style.background=\'#fff\'" align="center" class="texto" valign="middle">'.number_format(($RPCEne+$RCOEne+$RCAEne)).'</td>
                     </tr>
                     <tr style="background: #ccc" id="row_02">
                         <td onmouseover="row_02.style.background=\'#badad8\'" onmouseout="row_02.style.background=\'#ccc\'" align="left" class="texto" valign="middle">'.permisos(101, '<a href="#" onclick="e_res_mes(\''.$anno.'\', \'02\')">').'Feb'.permisos(101, '</a>').'</td>
-                        <td onmouseover="row_02.style.background=\'#badad8\'" onmouseout="row_02.style.background=\'#ccc\'" align="center" class="texto" valign="middle">'.number_format($RPCFeb).'</td>
-                        <td onmouseover="row_02.style.background=\'#badad8\'" onmouseout="row_02.style.background=\'#ccc\'" align="center" class="texto" valign="middle">'.number_format($RCOFeb).'</td>
-                        <td onmouseover="row_02.style.background=\'#badad8\'" onmouseout="row_02.style.background=\'#ccc\'" align="center" class="texto" valign="middle">'.number_format($RCAFeb).'</td>
+                        <td onmouseover="row_02.style.background=\'#badad8\'" onmouseout="row_02.style.background=\'#ccc\'" align="center" class="texto" valign="middle"><a href="javascript:void(0)" onclick="rep_reservaciones(\'02\', \''.$anno.'\', \'0\')">'.number_format($RPCFeb).'</a></td>
+                        <td onmouseover="row_02.style.background=\'#badad8\'" onmouseout="row_02.style.background=\'#ccc\'" align="center" class="texto" valign="middle"><a href="javascript:void(0)" onclick="rep_reservaciones(\'02\', \''.$anno.'\', \'1\')">'.number_format($RCOFeb).'</a></td>
+                        <td onmouseover="row_02.style.background=\'#badad8\'" onmouseout="row_02.style.background=\'#ccc\'" align="center" class="texto" valign="middle"><a href="javascript:void(0)" onclick="rep_reservaciones(\'02\', \''.$anno.'\', \'2\')">'.number_format($RCAFeb).'</a></td>
                         <td onmouseover="row_02.style.background=\'#badad8\'" onmouseout="row_02.style.background=\'#ccc\'" align="center" class="texto" valign="middle">'.number_format(($RPCFeb+$RCOFeb+$RCAFeb)).'</td>
                     </tr>
                     <tr style="background: #fff" id="row_03">
                         <td onmouseover="row_03.style.background=\'#badad8\'" onmouseout="row_03.style.background=\'#fff\'" align="left" class="texto" valign="middle">'.permisos(101, '<a href="#" onclick="e_res_mes(\''.$anno.'\', \'03\')">').'Mar'.permisos(101, '</a>').'</td>
-                        <td onmouseover="row_03.style.background=\'#badad8\'" onmouseout="row_03.style.background=\'#fff\'" align="center" class="texto" valign="middle">'.number_format($RPCMar).'</td>
-                        <td onmouseover="row_03.style.background=\'#badad8\'" onmouseout="row_03.style.background=\'#fff\'" align="center" class="texto" valign="middle">'.number_format($RCOMar).'</td>
-                        <td onmouseover="row_03.style.background=\'#badad8\'" onmouseout="row_03.style.background=\'#fff\'" align="center" class="texto" valign="middle">'.number_format($RCAMar).'</td>
+                        <td onmouseover="row_03.style.background=\'#badad8\'" onmouseout="row_03.style.background=\'#fff\'" align="center" class="texto" valign="middle"><a href="javascript:void(0)" onclick="rep_reservaciones(\'03\', \''.$anno.'\', \'0\')">'.number_format($RPCMar).'</a></td>
+                        <td onmouseover="row_03.style.background=\'#badad8\'" onmouseout="row_03.style.background=\'#fff\'" align="center" class="texto" valign="middle"><a href="javascript:void(0)" onclick="rep_reservaciones(\'03\', \''.$anno.'\', \'1\')">'.number_format($RCOMar).'</a></td>
+                        <td onmouseover="row_03.style.background=\'#badad8\'" onmouseout="row_03.style.background=\'#fff\'" align="center" class="texto" valign="middle"><a href="javascript:void(0)" onclick="rep_reservaciones(\'03\', \''.$anno.'\', \'2\')">'.number_format($RCAMar).'</a></td>
                         <td onmouseover="row_03.style.background=\'#badad8\'" onmouseout="row_03.style.background=\'#fff\'" align="center" class="texto" valign="middle">'.number_format(($RPCMar+$RCOMar+$RCAMar)).'</td>
                     </tr>
                     <tr style="background: #ccc" id="row_04">
                         <td onmouseover="row_04.style.background=\'#badad8\'" onmouseout="row_04.style.background=\'#ccc\'" align="left" class="texto" valign="middle">'.permisos(101, '<a href="#" onclick="e_res_mes(\''.$anno.'\', \'04\')">').'Abr'.permisos(101, '</a>').'</td>
-                        <td onmouseover="row_04.style.background=\'#badad8\'" onmouseout="row_04.style.background=\'#ccc\'" align="center" class="texto" valign="middle">'.number_format($RPCAbr).'</td>
-                        <td onmouseover="row_04.style.background=\'#badad8\'" onmouseout="row_04.style.background=\'#ccc\'" align="center" class="texto" valign="middle">'.number_format($RCOAbr).'</td>
-                        <td onmouseover="row_04.style.background=\'#badad8\'" onmouseout="row_04.style.background=\'#ccc\'" align="center" class="texto" valign="middle">'.number_format($RCAAbr).'</td>
+                        <td onmouseover="row_04.style.background=\'#badad8\'" onmouseout="row_04.style.background=\'#ccc\'" align="center" class="texto" valign="middle"><a href="javascript:void(0)" onclick="rep_reservaciones(\'04\', \''.$anno.'\', \'0\')">'.number_format($RPCAbr).'</a></td>
+                        <td onmouseover="row_04.style.background=\'#badad8\'" onmouseout="row_04.style.background=\'#ccc\'" align="center" class="texto" valign="middle"><a href="javascript:void(0)" onclick="rep_reservaciones(\'04\', \''.$anno.'\', \'1\')">'.number_format($RCOAbr).'</a></td>
+                        <td onmouseover="row_04.style.background=\'#badad8\'" onmouseout="row_04.style.background=\'#ccc\'" align="center" class="texto" valign="middle"><a href="javascript:void(0)" onclick="rep_reservaciones(\'04\', \''.$anno.'\', \'2\')">'.number_format($RCAAbr).'</a></td>
                         <td onmouseover="row_04.style.background=\'#badad8\'" onmouseout="row_04.style.background=\'#ccc\'" align="center" class="texto" valign="middle">'.number_format(($RPCAbr+$RCOAbr+$RCAAbr)).'</td>
                     </tr>
                     <tr style="background: #fff" id="row_05">
                         <td onmouseover="row_05.style.background=\'#badad8\'" onmouseout="row_05.style.background=\'#fff\'" align="left" class="texto" valign="middle">'.permisos(101, '<a href="#" onclick="e_res_mes(\''.$anno.'\', \'05\')">').'May'.permisos(101, '</a>').'</td>
-                        <td onmouseover="row_05.style.background=\'#badad8\'" onmouseout="row_05.style.background=\'#fff\'" align="center" class="texto" valign="middle">'.number_format($RPCMay).'</td>
-                        <td onmouseover="row_05.style.background=\'#badad8\'" onmouseout="row_05.style.background=\'#fff\'" align="center" class="texto" valign="middle">'.number_format($RCOMay).'</td>
-                        <td onmouseover="row_05.style.background=\'#badad8\'" onmouseout="row_05.style.background=\'#fff\'" align="center" class="texto" valign="middle">'.number_format($RCAMay).'</td>
+                        <td onmouseover="row_05.style.background=\'#badad8\'" onmouseout="row_05.style.background=\'#fff\'" align="center" class="texto" valign="middle"><a href="javascript:void(0)" onclick="rep_reservaciones(\'05\', \''.$anno.'\', \'0\')">'.number_format($RPCMay).'</a></td>
+                        <td onmouseover="row_05.style.background=\'#badad8\'" onmouseout="row_05.style.background=\'#fff\'" align="center" class="texto" valign="middle"><a href="javascript:void(0)" onclick="rep_reservaciones(\'05\', \''.$anno.'\', \'1\')">'.number_format($RCOMay).'</a></td>
+                        <td onmouseover="row_05.style.background=\'#badad8\'" onmouseout="row_05.style.background=\'#fff\'" align="center" class="texto" valign="middle"><a href="javascript:void(0)" onclick="rep_reservaciones(\'05\', \''.$anno.'\', \'2\')">'.number_format($RCAMay).'</a></td>
                         <td onmouseover="row_05.style.background=\'#badad8\'" onmouseout="row_05.style.background=\'#fff\'" align="center" class="texto" valign="middle">'.number_format(($RPCMay+$RCOMay+$RCAMay)).'</td>
                     </tr>
                     <tr style="background: #ccc" id="row_06">
                         <td onmouseover="row_06.style.background=\'#badad8\'" onmouseout="row_06.style.background=\'#ccc\'" align="left" class="texto" valign="middle">'.permisos(101, '<a href="#" onclick="e_res_mes(\''.$anno.'\', \'06\')">').'Jun'.permisos(101, '</a>').'</td>
-                        <td onmouseover="row_06.style.background=\'#badad8\'" onmouseout="row_06.style.background=\'#ccc\'" align="center" class="texto" valign="middle">'.number_format($RPCJun).'</td>
-                        <td onmouseover="row_06.style.background=\'#badad8\'" onmouseout="row_06.style.background=\'#ccc\'" align="center" class="texto" valign="middle">'.number_format($RCOJun).'</td>
-                        <td onmouseover="row_06.style.background=\'#badad8\'" onmouseout="row_06.style.background=\'#ccc\'" align="center" class="texto" valign="middle">'.number_format($RCAJun).'</td>
+                        <td onmouseover="row_06.style.background=\'#badad8\'" onmouseout="row_06.style.background=\'#ccc\'" align="center" class="texto" valign="middle"><a href="javascript:void(0)" onclick="rep_reservaciones(\'06\', \''.$anno.'\', \'0\')">'.number_format($RPCJun).'</a></td>
+                        <td onmouseover="row_06.style.background=\'#badad8\'" onmouseout="row_06.style.background=\'#ccc\'" align="center" class="texto" valign="middle"><a href="javascript:void(0)" onclick="rep_reservaciones(\'06\', \''.$anno.'\', \'1\')">'.number_format($RCOJun).'</a></td>
+                        <td onmouseover="row_06.style.background=\'#badad8\'" onmouseout="row_06.style.background=\'#ccc\'" align="center" class="texto" valign="middle"><a href="javascript:void(0)" onclick="rep_reservaciones(\'06\', \''.$anno.'\', \'2\')">'.number_format($RCAJun).'</a></td>
                         <td onmouseover="row_06.style.background=\'#badad8\'" onmouseout="row_06.style.background=\'#ccc\'" align="center" class="texto" valign="middle">'.number_format(($RPCJun+$RCOJun+$RCAJun)).'</td>
                     </tr>
                     <tr style="background: #fff" id="row_07">
                         <td onmouseover="row_07.style.background=\'#badad8\'" onmouseout="row_07.style.background=\'#fff\'" align="left" class="texto" valign="middle">'.permisos(101, '<a href="#" onclick="e_res_mes(\''.$anno.'\', \'07\')">').'Jul'.permisos(101, '</a>').'</td>
-                        <td onmouseover="row_07.style.background=\'#badad8\'" onmouseout="row_07.style.background=\'#fff\'" align="center" class="texto" valign="middle">'.number_format($RPCJul).'</td>
-                        <td onmouseover="row_07.style.background=\'#badad8\'" onmouseout="row_07.style.background=\'#fff\'" align="center" class="texto" valign="middle">'.number_format($RCOJul).'</td>
-                        <td onmouseover="row_07.style.background=\'#badad8\'" onmouseout="row_07.style.background=\'#fff\'" align="center" class="texto" valign="middle">'.number_format($RCAJul).'</td>
+                        <td onmouseover="row_07.style.background=\'#badad8\'" onmouseout="row_07.style.background=\'#fff\'" align="center" class="texto" valign="middle"><a href="javascript:void(0)" onclick="rep_reservaciones(\'07\', \''.$anno.'\', \'0\')">'.number_format($RPCJul).'</a></td>
+                        <td onmouseover="row_07.style.background=\'#badad8\'" onmouseout="row_07.style.background=\'#fff\'" align="center" class="texto" valign="middle"><a href="javascript:void(0)" onclick="rep_reservaciones(\'07\', \''.$anno.'\', \'1\')">'.number_format($RCOJul).'</a></td>
+                        <td onmouseover="row_07.style.background=\'#badad8\'" onmouseout="row_07.style.background=\'#fff\'" align="center" class="texto" valign="middle"><a href="javascript:void(0)" onclick="rep_reservaciones(\'07\', \''.$anno.'\', \'2\')">'.number_format($RCAJul).'</a></td>
                         <td onmouseover="row_07.style.background=\'#badad8\'" onmouseout="row_07.style.background=\'#fff\'" align="center" class="texto" valign="middle">'.number_format(($RPCJul+$RCOJul+$RCAJul)).'</td>
                     </tr>
                     <tr style="background: #ccc" id="row_08">
                         <td onmouseover="row_08.style.background=\'#badad8\'" onmouseout="row_08.style.background=\'#ccc\'" align="left" class="texto" valign="middle">'.permisos(101, '<a href="#" onclick="e_res_mes(\''.$anno.'\', \'08\')">').'Ago'.permisos(101, '</a>').'</td>
-                        <td onmouseover="row_08.style.background=\'#badad8\'" onmouseout="row_08.style.background=\'#ccc\'" align="center" class="texto" valign="middle">'.number_format($RPCAgo).'</td>
-                        <td onmouseover="row_08.style.background=\'#badad8\'" onmouseout="row_08.style.background=\'#ccc\'" align="center" class="texto" valign="middle">'.number_format($RCOAgo).'</td>
-                        <td onmouseover="row_08.style.background=\'#badad8\'" onmouseout="row_08.style.background=\'#ccc\'" align="center" class="texto" valign="middle">'.number_format($RCAAgo).'</td>
+                        <td onmouseover="row_08.style.background=\'#badad8\'" onmouseout="row_08.style.background=\'#ccc\'" align="center" class="texto" valign="middle"><a href="javascript:void(0)" onclick="rep_reservaciones(\'08\', \''.$anno.'\', \'0\')">'.number_format($RPCAgo).'</a></td>
+                        <td onmouseover="row_08.style.background=\'#badad8\'" onmouseout="row_08.style.background=\'#ccc\'" align="center" class="texto" valign="middle"><a href="javascript:void(0)" onclick="rep_reservaciones(\'08\', \''.$anno.'\', \'1\')">'.number_format($RCOAgo).'</a></td>
+                        <td onmouseover="row_08.style.background=\'#badad8\'" onmouseout="row_08.style.background=\'#ccc\'" align="center" class="texto" valign="middle"><a href="javascript:void(0)" onclick="rep_reservaciones(\'08\', \''.$anno.'\', \'2\')">'.number_format($RCAAgo).'</a></td>
                         <td onmouseover="row_08.style.background=\'#badad8\'" onmouseout="row_08.style.background=\'#ccc\'" align="center" class="texto" valign="middle">'.number_format(($RPCAgo+$RCOAgo+$RCAAgo)).'</td>
                     </tr>
                     <tr style="background: #fff" id="row_09">
                         <td onmouseover="row_09.style.background=\'#badad8\'" onmouseout="row_09.style.background=\'#fff\'" align="left" class="texto" valign="middle">'.permisos(101, '<a href="#" onclick="e_res_mes(\''.$anno.'\', \'09\')">').'Sep'.permisos(101, '</a>').'</td>
-                        <td onmouseover="row_09.style.background=\'#badad8\'" onmouseout="row_09.style.background=\'#fff\'" align="center" class="texto" valign="middle">'.number_format($RPCSep).'</td>
-                        <td onmouseover="row_09.style.background=\'#badad8\'" onmouseout="row_09.style.background=\'#fff\'" align="center" class="texto" valign="middle">'.number_format($RCOSep).'</td>
-                        <td onmouseover="row_09.style.background=\'#badad8\'" onmouseout="row_09.style.background=\'#fff\'" align="center" class="texto" valign="middle">'.number_format($RCASep).'</td>
+                        <td onmouseover="row_09.style.background=\'#badad8\'" onmouseout="row_09.style.background=\'#fff\'" align="center" class="texto" valign="middle"><a href="javascript:void(0)" onclick="rep_reservaciones(\'09\', \''.$anno.'\', \'0\')">'.number_format($RPCSep).'</a></td>
+                        <td onmouseover="row_09.style.background=\'#badad8\'" onmouseout="row_09.style.background=\'#fff\'" align="center" class="texto" valign="middle"><a href="javascript:void(0)" onclick="rep_reservaciones(\'09\', \''.$anno.'\', \'1\')">'.number_format($RCOSep).'</a></td>
+                        <td onmouseover="row_09.style.background=\'#badad8\'" onmouseout="row_09.style.background=\'#fff\'" align="center" class="texto" valign="middle"><a href="javascript:void(0)" onclick="rep_reservaciones(\'09\', \''.$anno.'\', \'2\')">'.number_format($RCASep).'</a></td>
                         <td onmouseover="row_09.style.background=\'#badad8\'" onmouseout="row_09.style.background=\'#fff\'" align="center" class="texto" valign="middle">'.number_format(($RPCSep+$RCOSep+$RCASep)).'</td>
                     </tr>
                     <tr style="background: #ccc" id="row_10">
                         <td onmouseover="row_10.style.background=\'#badad8\'" onmouseout="row_10.style.background=\'#ccc\'" align="left" class="texto" valign="middle">'.permisos(101, '<a href="#" onclick="e_res_mes(\''.$anno.'\', \'10\')">').'Oct'.permisos(101, '</a>').'</td>
-                        <td onmouseover="row_10.style.background=\'#badad8\'" onmouseout="row_10.style.background=\'#ccc\'" align="center" class="texto" valign="middle">'.number_format($RPCOct).'</td>
-                        <td onmouseover="row_10.style.background=\'#badad8\'" onmouseout="row_10.style.background=\'#ccc\'" align="center" class="texto" valign="middle">'.number_format($RCOOct).'</td>
-                        <td onmouseover="row_10.style.background=\'#badad8\'" onmouseout="row_10.style.background=\'#ccc\'" align="center" class="texto" valign="middle">'.number_format($RCAOct).'</td>
+                        <td onmouseover="row_10.style.background=\'#badad8\'" onmouseout="row_10.style.background=\'#ccc\'" align="center" class="texto" valign="middle"><a href="javascript:void(0)" onclick="rep_reservaciones(\'10\', \''.$anno.'\', \'0\')">'.number_format($RPCOct).'</a></td>
+                        <td onmouseover="row_10.style.background=\'#badad8\'" onmouseout="row_10.style.background=\'#ccc\'" align="center" class="texto" valign="middle"><a href="javascript:void(0)" onclick="rep_reservaciones(\'10\', \''.$anno.'\', \'1\')">'.number_format($RCOOct).'</a></td>
+                        <td onmouseover="row_10.style.background=\'#badad8\'" onmouseout="row_10.style.background=\'#ccc\'" align="center" class="texto" valign="middle"><a href="javascript:void(0)" onclick="rep_reservaciones(\'10\', \''.$anno.'\', \'2\')">'.number_format($RCAOct).'</a></td>
                         <td onmouseover="row_10.style.background=\'#badad8\'" onmouseout="row_10.style.background=\'#ccc\'" align="center" class="texto" valign="middle">'.number_format(($RPCOct+$RCOOct+$RCAOct)).'</td>
                     </tr>
                     <tr style="background: #fff" id="row_11">
                         <td onmouseover="row_11.style.background=\'#badad8\'" onmouseout="row_11.style.background=\'#fff\'" align="left" class="texto" valign="middle">'.permisos(101, '<a href="#" onclick="e_res_mes(\''.$anno.'\', \'11\')">').'Nov'.permisos(101, '</a>').'</td>
-                        <td onmouseover="row_11.style.background=\'#badad8\'" onmouseout="row_11.style.background=\'#fff\'" align="center" class="texto" valign="middle">'.number_format($RPCNov).'</td>
-                        <td onmouseover="row_11.style.background=\'#badad8\'" onmouseout="row_11.style.background=\'#fff\'" align="center" class="texto" valign="middle">'.number_format($RCONov).'</td>
-                        <td onmouseover="row_11.style.background=\'#badad8\'" onmouseout="row_11.style.background=\'#fff\'" align="center" class="texto" valign="middle">'.number_format($RCANov).'</td>
+                        <td onmouseover="row_11.style.background=\'#badad8\'" onmouseout="row_11.style.background=\'#fff\'" align="center" class="texto" valign="middle"><a href="javascript:void(0)" onclick="rep_reservaciones(\'11\', \''.$anno.'\', \'0\')">'.number_format($RPCNov).'</a></td>
+                        <td onmouseover="row_11.style.background=\'#badad8\'" onmouseout="row_11.style.background=\'#fff\'" align="center" class="texto" valign="middle"><a href="javascript:void(0)" onclick="rep_reservaciones(\'11\', \''.$anno.'\', \'1\')">'.number_format($RCONov).'</a></td>
+                        <td onmouseover="row_11.style.background=\'#badad8\'" onmouseout="row_11.style.background=\'#fff\'" align="center" class="texto" valign="middle"><a href="javascript:void(0)" onclick="rep_reservaciones(\'11\', \''.$anno.'\', \'2\')">'.number_format($RCANov).'</a></td>
                         <td onmouseover="row_11.style.background=\'#badad8\'" onmouseout="row_11.style.background=\'#fff\'" align="center" class="texto" valign="middle">'.number_format(($RPCNov+$RCONov+$RCANov)).'</td>
                     </tr>
                     <tr style="background: #ccc" id="row_12">
                         <td onmouseover="row_12.style.background=\'#badad8\'" onmouseout="row_12.style.background=\'#ccc\'" align="left" class="texto" valign="middle">'.permisos(101, '<a href="#" onclick="e_res_mes(\''.$anno.'\', \'12\')">').'Dic'.permisos(101, '</a>').'</td>
-                        <td onmouseover="row_12.style.background=\'#badad8\'" onmouseout="row_12.style.background=\'#ccc\'" align="center" class="texto" valign="middle">'.number_format($RPCDic).'</td>
-                        <td onmouseover="row_12.style.background=\'#badad8\'" onmouseout="row_12.style.background=\'#ccc\'" align="center" class="texto" valign="middle">'.number_format($RCODic).'</td>
-                        <td onmouseover="row_12.style.background=\'#badad8\'" onmouseout="row_12.style.background=\'#ccc\'" align="center" class="texto" valign="middle">'.number_format($RCADic).'</td>
+                        <td onmouseover="row_12.style.background=\'#badad8\'" onmouseout="row_12.style.background=\'#ccc\'" align="center" class="texto" valign="middle"><a href="javascript:void(0)" onclick="rep_reservaciones(\'12\', \''.$anno.'\', \'0\')">'.number_format($RPCDic).'</a></td>
+                        <td onmouseover="row_12.style.background=\'#badad8\'" onmouseout="row_12.style.background=\'#ccc\'" align="center" class="texto" valign="middle"><a href="javascript:void(0)" onclick="rep_reservaciones(\'12\', \''.$anno.'\', \'1\')">'.number_format($RCODic).'</a></td>
+                        <td onmouseover="row_12.style.background=\'#badad8\'" onmouseout="row_12.style.background=\'#ccc\'" align="center" class="texto" valign="middle"><a href="javascript:void(0)" onclick="rep_reservaciones(\'12\', \''.$anno.'\', \'2\')">'.number_format($RCADic).'</a></td>
                         <td onmouseover="row_12.style.background=\'#badad8\'" onmouseout="row_12.style.background=\'#ccc\'" align="center" class="texto" valign="middle">'.number_format(($RPCDic+$RCODic+$RCADic)).'</td>
                     </tr>
                     <tr style="background: #fff" id="row_13">
@@ -329,6 +329,16 @@ function rep_pers(){
 				url : 'estadisticos/reporte_personalizado.php'
 	}).done (function ( info ){
 		$('#contenido').html(info);
+	});
+}
+function rep_reservaciones(mes, anno, reser)
+{
+    $.ajax({
+				type: 'POST',
+				url : 'estadisticos/rep_reservaciones.php',
+                data: 'anno=' + anno + '&mes=' + mes + '&reser=' + reser
+	}).done (function ( info ){
+		$('#cont_mes_res').html(info);
 	});
 }
 </script>
