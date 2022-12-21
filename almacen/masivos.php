@@ -78,7 +78,7 @@ $cadena.='                  <option value="'.$RResA["Id"].'">'.$RResA["Nombre"].
 $cadena.='              </select>
                     </td>
                     <td>
-                        <select name="productos" id="productos">
+                        <select name="productos" id="productos" onchange="poncaducidad(document.getElementById(\'movimiento\').value, document.getElementById(\'almacen\').value, this.value)">
                             <option value="0">Selecciona</option>';
 $ResProductos=mysqli_query($conn, "SELECT * FROM productos ORDER BY Nombre ASC");
 while($RResPr=mysqli_fetch_array($ResProductos))
@@ -93,7 +93,9 @@ $cadena.='              </select>
                         <input type="number" name="cantidad" id="cantidad">
                     </td>
                     <td>
-                        <input type="month" name="caducidad" id="caducidad">
+                        <div id="d_caducidad">
+                            <input type="month" name="caducidad" id="caducidad">
+                        </div>
                     </td>
                     <td>
                         <input list="origenl" name="origen" id="origen">
@@ -192,6 +194,16 @@ function guardar_masivos()
                 data: 'hacer=gm' 
 	}).done (function ( info ){
 		$('#contenido').html(info);
+	});
+}
+function poncaducidad(movimiento, almacen, producto)
+{
+    $.ajax({
+				type: 'POST',
+				url : 'almacen/poncaducidad.php',
+                data: 'movimiento=' + movimiento + "&almacen=" + almacen + "&producto=" + producto 
+	}).done (function ( info ){
+		$('#d_caducidad').html(info);
 	});
 }
 
