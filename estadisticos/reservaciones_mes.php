@@ -803,49 +803,35 @@ $cadena.='  </div>
         <div class="c100 card"> 
             <div class="c45">
                 <label class="l_form">Procedencia: '.$NumEstados.' estados</label>';
-                $e=1; $destados='{
+                $ResEstados=mysqli_query($conn, "SELECT * FROM Estados ORDER BY Estado");
+                $destados='{
                     labels: ["Estados"], datasets:[';
-                while($RResEst=mysqli_fetch_array($ResProcedencia))
+                while($RResEstados=mysqli_fetch_array($ResEstados))
                 {
-                    $cadena.='<label class="l_form"> <i class="fas fa-map-signs  i_estadistico"></i> '.utf8_encode($RResEst["Estado"]).': '.$RResEst["Numero"].'</label>';
+                    $sumap=mysqli_num_rows(mysqli_query($conn, "SELECT r.IdPA, p.Estado FROM reservaciones as r 
+                                                INNER JOIN pacientes AS p ON r.IdPA=p.Id
+                                                WHERE r.Tipo = 'P' AND r.Fecha LIKE '".$anno."-".$mes."-%' AND r.Estatus = 1 AND p.Estado = '".$RResEstados["Id"]."' AND r.Cama > 0 GROUP BY r.IdPA"));
+                    $sumaa=mysqli_num_rows(mysqli_query($conn, "SELECT r.IdPA, a.Estado FROM reservaciones as r 
+                                                INNER JOIN acompannantes AS a ON r.IdPA=a.Id
+                                                WHERE r.Tipo = 'A' AND r.Fecha LIKE '".$anno."-".$mes."-%' AND r.Estatus = 1 AND a.Estado = '".$RResEstados["Id"]."' AND r.Cama > 0 GROUP BY r.IdPA"));
 
-                    $r=rand(0,255); $g=rand(0,255); $b=rand(0,255);
+                    $suma=$sumap+$sumaa;
 
-                    $destados.='{
-                        label: \''.utf8_encode($RResEst["Estado"]).'\',
-                        data:['.$RResEst["Numero"].'],
-                        backgroundColor: [\'rgba('.$r.','.$g.','.$b.', 0.2)\'],
-                        borderColor: [\'rgba('.$r.','.$g.','.$b.', 1)\'],
-                        borderWidth: [2]
-                        
-                    }';
-
-                    if($e<$NumEstados)
+                    if($suma>0)
                     {
-                        $destados.=',';
+                        $cadena.='<label class="l_form"> <i class="fas fa-map-signs  i_estadistico"></i> '.utf8_encode($RResEstados["Estado"]).': '.$suma.'</label>';
+                        $r=rand(0,255); $g=rand(0,255); $b=rand(0,255);
+                        $destados.='{
+                                label: \''.utf8_encode($RResEstados["Estado"]).'\',
+                                data:['.$suma.'],
+                                backgroundColor: [\'rgba('.$r.','.$g.','.$b.', 0.2)\'],
+                                borderColor: [\'rgba('.$r.','.$g.','.$b.', 1)\'],
+                                borderWidth: [2]
+                                
+                            },';
                     }
 
-
-                    $labels2.='\''.utf8_encode($RResEst["Estado"]).'\',';
-                    $data2.=$RResEst["Numero"].',';
-                    $backgroundcolor2.='\'rgba('.$r.','.$g.','.$b.', 0.2)\',';
-                    $bordercolor2.='\'rgba('.$r.','.$g.','.$b.', 1)\',';
-                    $borderwidth2.='2,';
-
-                    $ResMunicipio=mysqli_query($conn, "SELECT COUNT(Mu.Municipio) AS Numero, Mu.Municipio AS Municipio
-                                                        FROM (SELECT COUNT(m.Municipio) AS Pacientes, m.Municipio AS Municipio
-                                                                FROM pacientes AS p 
-                                                                INNER JOIN municipios AS m ON p.Municipio=m.Id 
-                                                                INNER JOIN reservacion AS r ON r.IdPaciente=p.Id 
-                                                                WHERE r.FechaReservacion LIKE '".$anno."-".$mes."-%' AND m.Estado='".$RResEst["EId"]."'
-                                                                GROUP BY r.IdPaciente, m.Municipio) AS Mu
-                                                        GROUP BY Mu.Municipio ORDER BY Mu.Municipio ASC");
-                    while($RResMun=mysqli_fetch_array($ResMunicipio))
-                    {
-                        //$cadena.='<label class="l_form"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* '.utf8_encode($RResMun["Municipio"]).': '.$RResMun["Numero"].'</label>';
-                        
-                    }
-
+                    
                 }
                 $destados.=']};';
 $cadena.='  </div>
