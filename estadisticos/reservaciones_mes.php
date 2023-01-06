@@ -26,11 +26,12 @@ $TpConfirmar=mysqli_num_rows($ResCon);
 $ResCan=mysqli_query($conn, "SELECT * FROM reservacion WHERE Fecha LIKE '".$anno."-".$mes."-%' AND Estatus=2 ORDER BY Fecha DESC");
 $TCancelaciones=mysqli_num_rows($ResCan);
 
+$RepReservaciones='{"Reservaciones":"'.$TReservaciones.'", "Estancias":"'.$TOcupaciones.'", "Por Confirmar":"'.$TpConfirmar.'", "Cancelaciones":"'.$TCancelaciones.'"}';
+
 //edad
 $edadn=$anno-12;
 
 //total de personas atendidas
-//$TPersonas=mysqli_num_rows(mysqli_query($conn, "SELECT COUNT(r.IdPA) AS personas, r.IdPA FROM reservaciones AS r WHERE r.IdPA!=0 AND r.Fecha LIKE '".$anno."-".$mes."-%' AND r.Estatus=1 GROUP BY r.IdPA"));
 $TPersonas=mysqli_num_rows(mysqli_query($conn, "SELECT concat_ws('-', r.IdPA, r.Tipo) AS idpa FROM reservaciones AS r 
                                                 WHERE `Fecha` LIKE '".$anno."-".$mes."-%' AND Estatus=1 AND Cama>0 GROUP BY concat_ws('-', r.IdPA, r.Tipo)"));
 //total hombres
@@ -260,6 +261,8 @@ $alimentos=$ResHospedajes["hospedajes"]*3;
 $lavanderia=$ResHospedajes["hospedajes"]/7;
 $servicios=$ResHospedajes["hospedajes"]+$alimentos+$lavanderia;
 
+$RepServicios='{"Servicios Otorgados":"'.$servicios.'", "Hospedajes":"'.$ResHospedajes["hospedajes"].'", "Alimentos":"'.$alimentos.'", "Lavanderia":"'.$lavanderia.'"}';
+
 //enfermedades
 $ResEnfermedades=mysqli_query($conn, "SELECT p.Diagnostico1 AS Diagnostico, COUNT(*) AS Numero FROM `reservacion`AS r 
                                         INNER JOIN pacientes AS p ON p.Id=r.IdPaciente 
@@ -395,9 +398,11 @@ $cadena='<h2>Reservaciones '; if($mes!='%'){$cadena.=mes($mes).' - ';}$cadena.=$
                 });
 
             </script>
-        </div>
+        </div>';
 
-        <div class="c100 card">
+        $RepTotalAlbergados='{"Total":"'.$TPersonas.'", "Pacientes":"'.$TP.'", "Acompañantes":"'.$TA.'", "Hombres":"'.($TPH+$TAH).'", "Mujeres":"'.($TPM+$TAM).'"}';
+
+        $cadena.='<div class="c100 card">
             <div class="c45"">
                 <label class="l_form">Total de Albergados: '.number_format($TPersonas).'</label>
                 <label class="l_form"><i class="fas fa-user-injured i_estadistico"></i> Pacientes: '.$TP.'</label>
@@ -457,9 +462,11 @@ $cadena='<h2>Reservaciones '; if($mes!='%'){$cadena.=mes($mes).' - ';}$cadena.=$
                 });
 
             </script>
-        </div>
+        </div>';
+
+        $RepPacientes='{"Pacientes":"'.$TP.'", "Hombres":"'.$TPH.'", "Niños":"'.$TPHN.'", "Adultos":"'.$TPHA.'", "Mujeres":"'.$TPM.'", "Niñas":"'.$TPMN.'", "Adultas":"'.$TPMA.'"}';
         
-        <div class="c100 card">
+        $cadena.='<div class="c100 card">
             <div class="c45">
                 <label class="l_form">Pacientes: '.$TP.'</label>
                 <label class="l_form"><i class="fas fa-male i_estadistico"></i> Hombres: '.$TPH.'</label>
@@ -478,7 +485,7 @@ $cadena='<h2>Reservaciones '; if($mes!='%'){$cadena.=mes($mes).' - ';}$cadena.=$
                 
                 var data = {
                     labels: ["Pacientes Hombres", "Pacientes Mujeres"],
-                      datasets: [{
+                        datasets: [{
                             label: \'Pacientes\',
                             data:['.$TPH.','.$TPM.'],
                             backgroundColor: [\'rgba(0,0,252, 0.2)\', \'rgba(252,0,103, 0.2)\'],
@@ -513,8 +520,11 @@ $cadena='<h2>Reservaciones '; if($mes!='%'){$cadena.=mes($mes).' - ';}$cadena.=$
                 });
 
             </script>
-        </div>
-        <div class="c100 card">
+        </div>';
+
+        $RepAcompanantes='{"Acompañantes":"'.$TA.'", "Hombres":"'.$TAH.'", "Niños":"'.$TAHN.'", "Adultos":"'.$TAHA.'", "Mujeres":"'.$TAM.'", "Niñas":"'.$TAMN.'", "Adultas":"'.$TAMA.'"}';
+
+        $cadena.='<div class="c100 card">
             <div class="c45">
             <label class="l_form">Acompañantes: '.$TA.'</label>
             <label class="l_form"><i class="fas fa-male i_estadistico"></i> Hombres: '.$TAH.'</label>
@@ -568,9 +578,11 @@ $cadena='<h2>Reservaciones '; if($mes!='%'){$cadena.=mes($mes).' - ';}$cadena.=$
                 });
 
             </script>
-        </div>
+        </div>';
 
-        <div class="c100 card">
+        $RepEdadesP='{"0 a 12 años":"'.$RResDoce["Numero"].'", "13 a 20 años":"'.$RResVeinte["Numero"].'", "21 a 64 años":"'.$RResSesentaycuatro["Numero"].'", "65 y mmás años":"'.$RResMas["Numero"].'"}';
+
+        $cadena.='<div class="c100 card">
             <div class="c45">
             <label class="l_form">Edades Pacientes</label>
             <label class="l_form"><i class="fas fa-child i_estadistico"></i> 0 a 12 años: '.$RResDoce["Numero"].'</label>
@@ -630,8 +642,11 @@ $cadena='<h2>Reservaciones '; if($mes!='%'){$cadena.=mes($mes).' - ';}$cadena.=$
                 });
 
             </script>
-        </div>
-        <div class="c100 card">
+        </div>';
+
+        $RepEdadesA='{"0 a 12 años":"'.$_SESSION["ARDoce"].'", "13 a 20 años":"'.$_SESSION["ARVeinte"].'", "21 a 64 años":"'.$_SESSION["ARSesentaycuatro"].'", "65 y más años":"'.$_SESSION["ARMas"].'"}';
+
+        $cadena.='<div class="c100 card">
             <div class="c45">
             <label class="l_form">Edades Acompañantes</label>
             <label class="l_form"><i class="fas fa-child i_estadistico"></i> 0 a 12 años: '.$_SESSION["ARDoce"].'</label>
@@ -691,9 +706,11 @@ $cadena='<h2>Reservaciones '; if($mes!='%'){$cadena.=mes($mes).' - ';}$cadena.=$
                 });
 
             </script>
-        </div>
+        </div>';
 
-        <div class="c100 card">
+        $RepEnfermedades='{"Enfermedades":"'.$Enfermedades.'", ';
+
+        $cadena.='<div class="c100 card">
             <div class="c45">
                 <label class="l_form">Enfermedades: '.$Enfermedades.'</label>';
                 $e=1; $denf='{
@@ -705,6 +722,8 @@ $cadena='<h2>Reservaciones '; if($mes!='%'){$cadena.=mes($mes).' - ';}$cadena.=$
                     $cadena.='<label class="l_form"> <i class="fas fa-head-side-cough i_estadistico"></i> '.$ResEnfermedad["Diagnostico"].' - '.$RResEnf["Numero"].'</label>';
 
                     $r=rand(0,255); $g=rand(0,255); $b=rand(0,255);
+
+                    $RepEnfermedades.='"'.$ResEnfermedad["Diagnostico"].'":"'.$RResEnf["Numero"].'"';
                     
                     $denf.='{
                         label: \''.$ResEnfermedad["Diagnostico"].'\',
@@ -718,11 +737,13 @@ $cadena='<h2>Reservaciones '; if($mes!='%'){$cadena.=mes($mes).' - ';}$cadena.=$
                     if($e<$Enfermedades)
                     {
                         $denf.=',';
+                        $RepEnfermedades.=', ';
                     }
 
                     $e++;
                 }
                 $denf.=']};';
+                $RepEnfermedades.='}';
 $cadena.='  </div>
             <div class="c45">
                 <canvas id="myChart_enfermedades"></canvas>
@@ -749,9 +770,11 @@ $cadena.='  </div>
                 });
 
             </script>
-        </div>
+        </div>';
 
-        <div class="c100 card"> 
+        $RepHospitales='{"Hospitales":"'.$NumHosp.'", ';
+
+        $cadena.='<div class="c100 card"> 
             <div class="c45">
                 <label class="l_form">Hospitales: '.$NumHosp.'</label>';
                 $h=1; $dhosp='{
@@ -760,6 +783,8 @@ $cadena.='  </div>
                 {
                     $cadena.='<label class="l_form"><i class="fas fa-hospital i_estadistico"></i> - '.$RResHosp["Hospital"].': '.$RResHosp["Numero"].'</label>';
                     $r=rand(0,255); $g=rand(0,255); $b=rand(0,255);
+
+                    $RepHospitales.='"'.$RResHosp["Hospital"].'":"'.$RResHosp["Numero"].'"';
                     
                     $dhosp.='{
                         label: \''.$RResHosp["Hospital"].'\',
@@ -773,11 +798,13 @@ $cadena.='  </div>
                     if($h<$NumHosp)
                     {
                         $dhosp.=',';
+                        $RepHospitales.=', ';
                     }
 
                     $h++;
                 }
                 $dhosp.=']};';
+                $RepHospitales.='}';
 $cadena.='  </div>
             <div class="c45">
                 <canvas id="myChart_hospitales"></canvas>
@@ -799,8 +826,11 @@ $cadena.='  </div>
                 });
                 
             </script>
-        </div>
-        <div class="c100 card"> 
+        </div>';
+
+        $RepProcedencia='{"Procedencia":"'.$NumEstados.'", ';
+        
+        $cadena.='<div class="c100 card"> 
             <div class="c45">
                 <label class="l_form">Procedencia: '.$NumEstados.' estados</label>';
                 $ResEstados=mysqli_query($conn, "SELECT * FROM Estados ORDER BY Estado");
@@ -820,6 +850,8 @@ $cadena.='  </div>
                     if($suma>0)
                     {
                         $cadena.='<label class="l_form"> <i class="fas fa-map-signs  i_estadistico"></i> '.utf8_encode($RResEstados["Estado"]).': '.$suma.'</label>';
+
+                        $RepProcedencia.='"'.$RResEstados["Estado"].'":"'.$suma.'", ';
                         $r=rand(0,255); $g=rand(0,255); $b=rand(0,255);
                         $destados.='{
                                 label: \''.utf8_encode($RResEstados["Estado"]).'\',
@@ -834,6 +866,7 @@ $cadena.='  </div>
                     
                 }
                 $destados.=']};';
+                $RepProcedencia.='}';
 $cadena.='  </div>
             <div class="c45">
                 <canvas id="myChart_procedencia"></canvas>
@@ -859,6 +892,31 @@ $cadena.='  </div>
         
 
 echo $cadena;
+
+//guarda reporte
+$ResRep=mysqli_query($conn, "SELECT * FROM rep_mensual WHERE Mes='".$mes."' AND Anno='".$anno."' LIMIT 1");
+
+if(mysqli_num_rows($ResRep)==1)
+{
+    mysqli_query($conn, "UPDATE rep_mensual SET Reservaciones='".$RepReservaciones."', 
+                                                ServiciosOtorgados='".$RepServicios."', 
+                                                TotalAlbergados='".$RepTotalAlbergados."', 
+                                                Pacientes='".$RepPacientes."', 
+                                                Acompannantes='".$RepAcompanantes."', 
+                                                EdadesPacientes='".$RepEdadesP."', 
+                                                EdadesAcompannantes='".$RepEdadesA."', 
+                                                Enfermedades='".$RepEnfermedades."', 
+                                                Hospitales='".$RepHospitales."', 
+                                                Procedencia='".$RepProcedencia."' 
+                                        WHERE Mes='".$mes."' AND Anno='".$anno."'");
+}
+elseif(mysqli_num_rows($ResRep)==0)
+{
+    mysqli_query($conn, "INSERT INTO rep_mensual (Mes, Anno, Reservaciones, ServiciosOtorgados, TotalAlbergados, Pacientes, Acompannantes, EdadesPacientes, EdadesAcompannantes, Enfermedades, Hospitales, Procedencia)
+                                        VALUES ('".$mes."', '".$anno."', '".$RepReservaciones."', '".$RepServicios."', '".$RepTotalAlbergados."', '".$RepPacientes."', '".$RepAcompanantes."', '".$RepEdadesP."', 
+                                                '".$RepEdadesA."', '".$RepEnfermedades."', '".$RepHospitales."', '".$RepProcedencia."')");
+}
+
 
 //bitacora
 mysqli_query($conn, "INSERT INTO bitacora (FechaHora, IdUser, Hizo, Datos) VALUES ('".time()."', '".$_SESSION["Id"]."', '101', '".json_encode($_POST)."')");
