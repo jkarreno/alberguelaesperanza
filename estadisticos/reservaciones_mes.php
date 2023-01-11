@@ -275,16 +275,7 @@ $last = $L->format( 'Y-m-t' );
 $cadena='<h2>Reservaciones '; if($mes!='%'){$cadena.=mes($mes).' - ';}$cadena.=$anno.'</h2>
         <div class="c100 card">
             <div class="c100" style="display: flex; flex-wrap: wrap; justify-content: center; align-items: center; align-content: center;">
-                <form name="frestiempo" id="frestiempo">
-                <div class="c25">
-                    De: <input type="date" name="fechai" id="fechai" style="width: calc(100% - 50px);" value="'.$anno.'-'.$mes.'-01"> 
-                </div>
-                <div class="c25">
-                    A: <input type="date" name="fechaf" id="fechaf" style="width: calc(100% - 50px);" value="'.$last.'"> 
-                </div>
-                <div class="c25">
-                    <input type="submit" name="bot_periodo" id="bot_periodo" value="Ver">
-                </div>
+                
                 <div class="c25">
                     '.permisos(102, '<a href="estadisticos/lista_reservaciones.php?anno='.$anno.'&mes='.$mes.'" target="_blank"><i class="fas fa-th-list"></i> Ver lista</a>').' 
                     '.permisos(103, '<a href="estadisticos/lista_personas_excel.php?anno='.$anno.'&mes='.$mes.'" target="_blank"><i class="far fa-file-excel"></i> Exportar</a>').'
