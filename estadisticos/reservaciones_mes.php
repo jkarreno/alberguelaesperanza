@@ -26,7 +26,7 @@ $TpConfirmar=mysqli_num_rows($ResCon);
 $ResCan=mysqli_query($conn, "SELECT * FROM reservacion WHERE Fecha LIKE '".$anno."-".$mes."-%' AND Estatus=2 ORDER BY Fecha DESC");
 $TCancelaciones=mysqli_num_rows($ResCan);
 
-$RepReservaciones='{"Reservaciones":"'.$TReservaciones.'", "Estancias":"'.$TOcupaciones.'", "Por Confirmar":"'.$TpConfirmar.'", "Cancelaciones":"'.$TCancelaciones.'"}';
+$RepReservaciones='{"Reservaciones":"'.$TReservaciones.'", "Estancias":"'.$TOcupaciones.'", "PorConfirmar":"'.$TpConfirmar.'", "Cancelaciones":"'.$TCancelaciones.'"}';
 
 //edad
 $edadn=$anno-12;
@@ -261,7 +261,7 @@ $alimentos=$ResHospedajes["hospedajes"]*3;
 $lavanderia=$ResHospedajes["hospedajes"]/7;
 $servicios=$ResHospedajes["hospedajes"]+$alimentos+$lavanderia;
 
-$RepServicios='{"Servicios Otorgados":"'.$servicios.'", "Hospedajes":"'.$ResHospedajes["hospedajes"].'", "Alimentos":"'.$alimentos.'", "Lavanderia":"'.$lavanderia.'"}';
+$RepServicios='{"ServiciosOtorgados":"'.$servicios.'", "Hospedajes":"'.$ResHospedajes["hospedajes"].'", "Alimentos":"'.$alimentos.'", "Lavanderia":"'.$lavanderia.'"}';
 
 //enfermedades
 $ResEnfermedades=mysqli_query($conn, "SELECT p.Diagnostico1 AS Diagnostico, COUNT(*) AS Numero FROM `reservacion`AS r 
@@ -391,7 +391,7 @@ $cadena='<h2>Reservaciones '; if($mes!='%'){$cadena.=mes($mes).' - ';}$cadena.=$
             </script>
         </div>';
 
-        $RepTotalAlbergados='{"Total":"'.$TPersonas.'", "Pacientes":"'.$TP.'", "Acompañantes":"'.$TA.'", "Hombres":"'.($TPH+$TAH).'", "Mujeres":"'.($TPM+$TAM).'"}';
+        $RepTotalAlbergados='{"Total":"'.$TPersonas.'", "Pacientes":"'.$TP.'", "Acompannantes":"'.$TA.'", "Hombres":"'.($TPH+$TAH).'", "Mujeres":"'.($TPM+$TAM).'"}';
 
         $cadena.='<div class="c100 card">
             <div class="c45"">
@@ -455,7 +455,7 @@ $cadena='<h2>Reservaciones '; if($mes!='%'){$cadena.=mes($mes).' - ';}$cadena.=$
             </script>
         </div>';
 
-        $RepPacientes='{"Pacientes":"'.$TP.'", "Hombres":"'.$TPH.'", "Niños":"'.$TPHN.'", "Adultos":"'.$TPHA.'", "Mujeres":"'.$TPM.'", "Niñas":"'.$TPMN.'", "Adultas":"'.$TPMA.'"}';
+        $RepPacientes='{"Pacientes":"'.$TP.'", "Hombres":"'.$TPH.'", "Ninnos":"'.$TPHN.'", "Adultos":"'.$TPHA.'", "Mujeres":"'.$TPM.'", "Ninnas":"'.$TPMN.'", "Adultas":"'.$TPMA.'"}';
         
         $cadena.='<div class="c100 card">
             <div class="c45">
@@ -513,7 +513,7 @@ $cadena='<h2>Reservaciones '; if($mes!='%'){$cadena.=mes($mes).' - ';}$cadena.=$
             </script>
         </div>';
 
-        $RepAcompanantes='{"Acompañantes":"'.$TA.'", "Hombres":"'.$TAH.'", "Niños":"'.$TAHN.'", "Adultos":"'.$TAHA.'", "Mujeres":"'.$TAM.'", "Niñas":"'.$TAMN.'", "Adultas":"'.$TAMA.'"}';
+        $RepAcompanantes='{"Acompannantes":"'.$TA.'", "Hombres":"'.$TAH.'", "Ninnos":"'.$TAHN.'", "Adultos":"'.$TAHA.'", "Mujeres":"'.$TAM.'", "Ninnas":"'.$TAMN.'", "Adultas":"'.$TAMA.'"}';
 
         $cadena.='<div class="c100 card">
             <div class="c45">
@@ -571,7 +571,7 @@ $cadena='<h2>Reservaciones '; if($mes!='%'){$cadena.=mes($mes).' - ';}$cadena.=$
             </script>
         </div>';
 
-        $RepEdadesP='{"0 a 12 años":"'.$RResDoce["Numero"].'", "13 a 20 años":"'.$RResVeinte["Numero"].'", "21 a 64 años":"'.$RResSesentaycuatro["Numero"].'", "65 y mmás años":"'.$RResMas["Numero"].'"}';
+        $RepEdadesP='{"cero":"'.$RResDoce["Numero"].'", "trece":"'.$RResVeinte["Numero"].'", "veintiuno":"'.$RResSesentaycuatro["Numero"].'", "sesentaycinco":"'.$RResMas["Numero"].'"}';
 
         $cadena.='<div class="c100 card">
             <div class="c45">
@@ -635,7 +635,7 @@ $cadena='<h2>Reservaciones '; if($mes!='%'){$cadena.=mes($mes).' - ';}$cadena.=$
             </script>
         </div>';
 
-        $RepEdadesA='{"0 a 12 años":"'.$_SESSION["ARDoce"].'", "13 a 20 años":"'.$_SESSION["ARVeinte"].'", "21 a 64 años":"'.$_SESSION["ARSesentaycuatro"].'", "65 y más años":"'.$_SESSION["ARMas"].'"}';
+        $RepEdadesA='{"cero":"'.$_SESSION["ARDoce"].'", "trece":"'.$_SESSION["ARVeinte"].'", "veintuno":"'.$_SESSION["ARSesentaycuatro"].'", "sesentaycinco":"'.$_SESSION["ARMas"].'"}';
 
         $cadena.='<div class="c100 card">
             <div class="c45">
@@ -699,7 +699,7 @@ $cadena='<h2>Reservaciones '; if($mes!='%'){$cadena.=mes($mes).' - ';}$cadena.=$
             </script>
         </div>';
 
-        $RepEnfermedades='{"Enfermedades":"'.$Enfermedades.'", ';
+        $RepEnfermedades='{"Enfermedades":"'.$Enfermedades.'", "enfermedad": [';
 
         $cadena.='<div class="c100 card">
             <div class="c45">
@@ -714,7 +714,7 @@ $cadena='<h2>Reservaciones '; if($mes!='%'){$cadena.=mes($mes).' - ';}$cadena.=$
 
                     $r=rand(0,255); $g=rand(0,255); $b=rand(0,255);
 
-                    $RepEnfermedades.='"'.$ResEnfermedad["Diagnostico"].'":"'.$RResEnf["Numero"].'"';
+                    $RepEnfermedades.='{"nombre": "'.$ResEnfermedad["Diagnostico"].'", "cantidad":"'.$RResEnf["Numero"].'"}';
                     
                     $denf.='{
                         label: \''.$ResEnfermedad["Diagnostico"].'\',
@@ -734,7 +734,7 @@ $cadena='<h2>Reservaciones '; if($mes!='%'){$cadena.=mes($mes).' - ';}$cadena.=$
                     $e++;
                 }
                 $denf.=']};';
-                $RepEnfermedades.='}';
+                $RepEnfermedades.=']}';
 $cadena.='  </div>
             <div class="c45">
                 <canvas id="myChart_enfermedades"></canvas>
@@ -763,7 +763,7 @@ $cadena.='  </div>
             </script>
         </div>';
 
-        $RepHospitales='{"Hospitales":"'.$NumHosp.'", ';
+        $RepHospitales='{"Hospitales":"'.$NumHosp.'", "institutos":[';
 
         $cadena.='<div class="c100 card"> 
             <div class="c45">
@@ -775,7 +775,7 @@ $cadena.='  </div>
                     $cadena.='<label class="l_form"><i class="fas fa-hospital i_estadistico"></i> - '.$RResHosp["Hospital"].': '.$RResHosp["Numero"].'</label>';
                     $r=rand(0,255); $g=rand(0,255); $b=rand(0,255);
 
-                    $RepHospitales.='"'.$RResHosp["Hospital"].'":"'.$RResHosp["Numero"].'"';
+                    $RepHospitales.='{"nombre":"'.$RResHosp["Hospital"].'", "cantidad":"'.$RResHosp["Numero"].'"}';
                     
                     $dhosp.='{
                         label: \''.$RResHosp["Hospital"].'\',
@@ -795,7 +795,7 @@ $cadena.='  </div>
                     $h++;
                 }
                 $dhosp.=']};';
-                $RepHospitales.='}';
+                $RepHospitales.=']}';
 $cadena.='  </div>
             <div class="c45">
                 <canvas id="myChart_hospitales"></canvas>
@@ -819,7 +819,7 @@ $cadena.='  </div>
             </script>
         </div>';
 
-        $RepProcedencia='{"Procedencia":"'.$NumEstados.'", ';
+        $RepProcedencia='{"Procedencia":"'.$NumEstados.'", "estados":[';
         
         $cadena.='<div class="c100 card"> 
             <div class="c45">
@@ -842,7 +842,7 @@ $cadena.='  </div>
                     {
                         $cadena.='<label class="l_form"> <i class="fas fa-map-signs  i_estadistico"></i> '.utf8_encode($RResEstados["Estado"]).': '.$suma.'</label>';
 
-                        $RepProcedencia.='"'.$RResEstados["Estado"].'":"'.$suma.'", ';
+                        $RepProcedencia.='{"nombre":"'.$RResEstados["Estado"].'", "cantidad":"'.$suma.'"}, ';
                         $r=rand(0,255); $g=rand(0,255); $b=rand(0,255);
                         $destados.='{
                                 label: \''.utf8_encode($RResEstados["Estado"]).'\',
@@ -857,7 +857,7 @@ $cadena.='  </div>
                     
                 }
                 $destados.=']};';
-                $RepProcedencia.='}';
+                $RepProcedencia.=']}';
 $cadena.='  </div>
             <div class="c45">
                 <canvas id="myChart_procedencia"></canvas>

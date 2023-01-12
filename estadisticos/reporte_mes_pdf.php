@@ -14,125 +14,19 @@ require_once ('../jpgraph/jpgraph_bar.php');
 $anno=$_GET["anno"];
 $mes=$_GET["mes"];
 
+$ReRep=mysqli_fetch_array(mysqli_query($conn, "SELECT * FROM rep_mensual WHERE Mes='".$mes."' AND Anno='".$anno."' LIMIT 1"));
+
 //calcula datos
-
-//total de reservaciones
-$ResRes=mysqli_query($conn, "SELECT * FROM reservacion WHERE Fecha LIKE '".$anno."-".$mes."-%' ORDER BY Fecha DESC");
-$TReservaciones=mysqli_num_rows($ResRes);
-//total de ocupaciones
-$ResOcu=mysqli_query($conn, "SELECT * FROM reservacion WHERE Fecha LIKE '".$anno."-".$mes."-%' AND Estatus=1 ORDER BY Fecha DESC");
-$TOcupaciones=mysqli_num_rows($ResOcu);
-//total por confirmar
-$ResCon=mysqli_query($conn, "SELECT * FROM reservacion WHERE Fecha LIKE '".$anno."-".$mes."-%' AND Estatus=0 ORDER BY Fecha DESC");
-$TpConfirmar=mysqli_num_rows($ResCon);
-//total cancelaciones
-$ResCan=mysqli_query($conn, "SELECT * FROM reservacion WHERE Fecha LIKE '".$anno."-".$mes."-%' AND Estatus=2 ORDER BY Fecha DESC");
-$TCancelaciones=mysqli_num_rows($ResCan);
-
-//Servicios
-//hospedajes
-$ResHospedajes=mysqli_fetch_array(mysqli_query($conn, "SELECT count(Id) AS hospedajes FROM reservaciones WHERE Fecha LIKE '".$anno."-".$mes."-%' AND Cama>0 AND Estatus='1' "));
-$alimentos=$ResHospedajes["hospedajes"]*3;
-$lavanderia=$ResHospedajes["hospedajes"]/7;
-$servicios=$ResHospedajes["hospedajes"]+$alimentos+$lavanderia;
-
-//edad
-$edadn=$anno-12;
-
-//total de personas atendidas
-//$TPersonas=mysqli_num_rows(mysqli_query($conn, "SELECT COUNT(r.IdPA) AS personas, r.IdPA FROM reservaciones AS r WHERE r.IdPA!=0 AND r.Fecha LIKE '".$anno."-".$mes."-%' AND r.Estatus=1 GROUP BY r.IdPA"));
-$TPersonas=mysqli_num_rows(mysqli_query($conn, "SELECT concat_ws('-', r.IdPA, r.Tipo) AS idpa FROM reservaciones AS r 
-                                                WHERE `Fecha` LIKE '".$anno."-".$mes."-%' AND Estatus=1 AND Cama>0 GROUP BY concat_ws('-', r.IdPA, r.Tipo)"));
-//total hombres
-$TPH=mysqli_num_rows(mysqli_query($conn, "SELECT COUNT(r.IdPA) AS personas, r.IdPA FROM reservaciones AS r 
-                                            INNER JOIN pacientes AS p ON r.IdPA=p.Id 
-                                            WHERE r.IdPA!=0 AND p.Sexo='M' AND r.Fecha LIKE '".$anno."-".$mes."-%' AND r.Estatus=1 AND Cama>0 GROUP BY r.IdPA"));
-//total mujeres
-$TPM=mysqli_num_rows(mysqli_query($conn, "SELECT COUNT(r.IdPA) AS personas, r.IdPA FROM reservaciones AS r 
-                                            INNER JOIN pacientes AS p ON r.IdPA=p.Id 
-                                            WHERE r.IdPA!=0 AND p.Sexo='F' AND r.Fecha LIKE '".$anno."-".$mes."-%' AND r.Estatus=1 AND Cama>0 GROUP BY r.IdPA"));
-
-//total pacientes
-$TP=mysqli_num_rows(mysqli_query($conn, "SELECT COUNT(r.IdPA) AS personas, r.IdPA FROM reservaciones AS r WHERE r.IdPA!=0 AND r.Tipo='P' AND r.Fecha LIKE '".$anno."-".$mes."-%' AND r.Estatus=1 AND r.Cama>0 GROUP BY r.IdPA"));
-//total pacientes hombres
-$TPH=mysqli_num_rows(mysqli_query($conn, "SELECT COUNT(r.IdPA) AS personas, r.IdPA FROM reservaciones AS r 
-                                            INNER JOIN pacientes AS p ON p.Id=r.IdPA
-                                            WHERE r.IdPA!=0 AND r.Tipo='P' AND r.Fecha LIKE '".$anno."-".$mes."-%' AND p.Sexo='M' AND r.Estatus=1 AND r.Cama>0 GROUP BY r.IdPA"));
-//total pacientes hombres niños
-$TPHN=mysqli_num_rows(mysqli_query($conn, "SELECT COUNT(r.IdPA) AS personas, r.IdPA FROM reservaciones AS r 
-                                            INNER JOIN pacientes AS p ON p.Id=r.IdPA
-                                            WHERE r.IdPA!=0 AND r.Tipo='P' AND r.Fecha LIKE '".$anno."-".$mes."-%' AND p.Sexo='M' AND p.FechaNacimiento>'".$edadn."-".$mes."-01' AND r.Estatus=1 AND r.Cama>0 GROUP BY r.IdPA"));
-//total pacientes hombres adultos
-$TPHA=mysqli_num_rows(mysqli_query($conn, "SELECT COUNT(r.IdPA) AS personas, r.IdPA FROM reservaciones AS r 
-                                            INNER JOIN pacientes AS p ON p.Id=r.IdPA
-                                            WHERE r.IdPA!=0 AND r.Tipo='P' AND r.Fecha LIKE '".$anno."-".$mes."-%' AND p.Sexo='M' AND p.FechaNacimiento<'".$edadn."-".$mes."-01' AND r.Estatus=1 AND r.Cama>0 GROUP BY r.IdPA"));
-//total pacientes mujeres
-$TPM=mysqli_num_rows(mysqli_query($conn, "SELECT COUNT(r.IdPA) AS personas, r.IdPA FROM reservaciones AS r 
-                                            INNER JOIN pacientes AS p ON p.Id=r.IdPA
-                                            WHERE r.IdPA!=0 AND r.Tipo='P' AND r.Fecha LIKE '".$anno."-".$mes."-%' AND p.Sexo='F' AND r.Estatus=1 AND r.Cama>0 GROUP BY r.IdPA"));
-//total pacientes mujeres niñas
-$TPMN=mysqli_num_rows(mysqli_query($conn, "SELECT COUNT(r.IdPA) AS personas, r.IdPA FROM reservaciones AS r 
-                                            INNER JOIN pacientes AS p ON p.Id=r.IdPA
-                                            WHERE r.IdPA!=0 AND r.Tipo='P' AND r.Fecha LIKE '".$anno."-".$mes."-%' AND p.Sexo='F' AND p.FechaNacimiento>'".$edadn."-".$mes."-01' AND r.Estatus=1 AND r.Cama>0 GROUP BY r.IdPA"));
-//total pacientes mujeres adultas
-$TPMA=mysqli_num_rows(mysqli_query($conn, "SELECT COUNT(r.IdPA) AS personas, r.IdPA FROM reservaciones AS r 
-                                            INNER JOIN pacientes AS p ON p.Id=r.IdPA
-                                            WHERE r.IdPA!=0 AND r.Tipo='P' AND r.Fecha LIKE '".$anno."-".$mes."-%' AND p.Sexo='F' AND p.FechaNacimiento<'".$edadn."-".$mes."-01' AND r.Estatus=1  AND r.Cama>0 GROUP BY r.IdPA"));
-
-//total acompañantes
-$TA=mysqli_num_rows(mysqli_query($conn, "SELECT COUNT(r.IdPA) AS personas, r.IdPA FROM reservaciones AS r WHERE r.IdPA!=0 AND r.Tipo='A' AND r.Fecha LIKE '".$anno."-".$mes."-%' AND r.Estatus=1 GROUP BY r.IdPA"));
-//total acompañantes hombres
-$TAH=mysqli_num_rows(mysqli_query($conn, "SELECT COUNT(r.IdPA) AS personas, r.IdPA FROM reservaciones AS r 
-                                            INNER JOIN acompannantes AS a ON a.Id=r.IdPA
-                                            WHERE r.IdPA!=0 AND r.Tipo='A' AND r.Fecha LIKE '".$anno."-".$mes."-%' AND a.Sexo='M' AND r.Estatus=1 GROUP BY r.IdPA"));
-//total acompañantes hombres niños
-$TAHN=mysqli_num_rows(mysqli_query($conn, "SELECT COUNT(r.IdPA) AS personas, r.IdPA FROM reservaciones AS r 
-                                            INNER JOIN acompannantes AS p ON p.Id=r.IdPA
-                                            WHERE r.IdPA!=0 AND r.Tipo='A' AND r.Fecha LIKE '".$anno."-".$mes."-%' AND p.Sexo='M' AND p.FechaNacimiento>'".$edadn."-".$mes."-01' AND r.Estatus=1 GROUP BY r.IdPA"));
-//total acompañantes hombres adultos
-$TAHA=mysqli_num_rows(mysqli_query($conn, "SELECT COUNT(r.IdPA) AS personas, r.IdPA FROM reservaciones AS r 
-                                            INNER JOIN acompannantes AS p ON p.Id=r.IdPA
-                                            WHERE r.IdPA!=0 AND r.Tipo='A' AND r.Fecha LIKE '".$anno."-".$mes."-%' AND p.Sexo='M' AND p.FechaNacimiento<'".$edadn."-".$mes."-01' AND r.Estatus=1 GROUP BY r.IdPA"));
-//total acompañantes mujeres
-$TAM=mysqli_num_rows(mysqli_query($conn, "SELECT COUNT(r.IdPA) AS personas, r.IdPA FROM reservaciones AS r 
-                                            INNER JOIN acompannantes AS a ON a.Id=r.IdPA
-                                            WHERE r.IdPA!=0 AND r.Tipo='A' AND r.Fecha LIKE '".$anno."-".$mes."-%' AND a.Sexo='F' AND r.Estatus=1 GROUP BY r.IdPA"));
-//total acompañantes mujeres niñas
-$TAMN=mysqli_num_rows(mysqli_query($conn, "SELECT COUNT(r.IdPA) AS personas, r.IdPA FROM reservaciones AS r 
-                                            INNER JOIN acompannantes AS p ON p.Id=r.IdPA
-                                            WHERE r.IdPA!=0 AND r.Tipo='A' AND r.Fecha LIKE '".$anno."-".$mes."-%' AND p.Sexo='F' AND p.FechaNacimiento>'".$edadn."-".$mes."-01' AND r.Estatus=1 GROUP BY r.IdPA"));
-//total acompañantes mujeres adultas
-$TAMA=mysqli_num_rows(mysqli_query($conn, "SELECT COUNT(r.IdPA) AS personas, r.IdPA FROM reservaciones AS r 
-                                            INNER JOIN acompannantes AS p ON p.Id=r.IdPA
-                                            WHERE r.IdPA!=0 AND r.Tipo='A' AND r.Fecha LIKE '".$anno."-".$mes."-%' AND p.Sexo='F' AND p.FechaNacimiento<'".$edadn."-".$mes."-01' AND r.Estatus=1 GROUP BY r.IdPA"));
-
-//enfermedades
-$ResEnfermedades=mysqli_query($conn, "SELECT p.Diagnostico1 AS Diagnostico, COUNT(*) AS Numero FROM `reservacion`AS r 
-                                        INNER JOIN pacientes AS p ON p.Id=r.IdPaciente 
-                                        WHERE r.Fecha LIKE '".$anno."-".$mes."-%' AND p.Diagnostico1!='' GROUP BY p.Diagnostico1 ORDER BY `Numero` ASC");
-$Enfermedades=mysqli_num_rows($ResEnfermedades);
-
-//pacientes por hospital
-$ResHospitales=mysqli_query($conn, "SELECT COUNT(I.Hospital) AS Numero, I.Hospital AS Hospital
-                                        FROM (SELECT COUNT(i.Instituto) AS Pacientes, i.Instituto AS Hospital 
-                                                FROM pacientes AS p 
-                                                INNER JOIN institutos AS i ON p.Instituto1=i.Id 
-                                                INNER JOIN reservacion AS r ON r.IdPaciente=p.Id 
-                                                WHERE r.FechaReservacion LIKE '".$anno."-".$mes."-%' 
-                                                GROUP BY r.IdPaciente, i.Instituto) AS I 
-                                        GROUP BY I.Hospital ORDER BY I.Hospital ASC");
-$NumHosp=mysqli_num_rows($ResHospitales);
-
-//pacientes por procedencia
-$ResProcedencia=mysqli_query($conn, "SELECT COUNT(Es.Estado) AS Numero, Es.Estado AS Estado, Es.EId
-                                    FROM (SELECT COUNT(E.Estado) AS Pacientes, E.Estado AS Estado, E.Id AS EId
-                                        FROM pacientes AS p 
-                                        INNER JOIN Estados AS E ON p.Estado=E.Id 
-                                        INNER JOIN reservacion AS r ON r.IdPaciente=p.Id 
-                                        WHERE r.FechaReservacion LIKE '".$anno."-".$mes."-%' 
-                                        GROUP BY r.IdPaciente, E.Estado, E.Id) AS Es
-                                    GROUP BY Es.Estado, Es.EId ORDER BY Es.Estado ASC");
-$NumEstados=mysqli_num_rows($ResProcedencia);
+$Reservaciones=json_decode($ReRep["Reservaciones"], false);
+$Servicios=json_decode($ReRep["ServiciosOtorgados"], false);
+$Albergados=json_decode($ReRep["TotalAlbergados"], false);
+$Pacientes=json_decode($ReRep["Pacientes"], false);
+$EdadesP=json_decode($ReRep["EdadesPacientes"], false);
+$Acompannantes=json_decode($ReRep["Acompannantes"], false);
+$EdadesA=json_decode($ReRep["EdadesAcompannantes"], false);
+$Enfermedades=json_decode($ReRep["Enfermedades"], true);
+$Hospitales=json_decode($ReRep["Hospitales"], true);
+$Procedencia=json_decode(str_replace(', ]}', ']}', $ReRep["Procedencia"]), true);
 
 $Y=$anno;
 
@@ -182,7 +76,7 @@ $pdf->Cell(208,6,utf8_decode('RESERVACIONES: '),1,0,'L',0);
 $pdf->SetFont('Arial','',10);
 $pdf->SetY(26);
 $pdf->SetX(37);
-$pdf->Cell(20,6,$TReservaciones,0,0,'L',0);
+$pdf->Cell(20,6,$Reservaciones->Reservaciones,0,0,'L',0);
 //
 $pdf->SetFont('Arial','B',10);
 $pdf->SetY(32);
@@ -192,7 +86,7 @@ $pdf->Cell(45,6,utf8_decode('Ocupaciones: '),1,0,'L',0);
 $pdf->SetFont('Arial','',10);
 $pdf->SetY(32);
 $pdf->SetX(4);
-$pdf->Cell(40,6,$TOcupaciones,0,0,'R',0);
+$pdf->Cell(40,6,$Reservaciones->Estancias,0,0,'R',0);
 //
 $pdf->SetFont('Arial','B',10);
 $pdf->SetY(38);
@@ -202,7 +96,7 @@ $pdf->Cell(45,6,utf8_decode('Por Confirmar: '),1,0,'L',0);
 $pdf->SetFont('Arial','',10);
 $pdf->SetY(38);
 $pdf->SetX(4);
-$pdf->Cell(40,6,$TpConfirmar,0,0,'R',0);
+$pdf->Cell(40,6,$Reservaciones->PorConfirmar,0,0,'R',0);
 //
 $pdf->SetFont('Arial','B',10);
 $pdf->SetY(44);
@@ -212,12 +106,12 @@ $pdf->Cell(45,6,utf8_decode('Canceladas: '),1,0,'L',0);
 $pdf->SetFont('Arial','',10);
 $pdf->SetY(44);
 $pdf->SetX(4);
-$pdf->Cell(40,6,$TCancelaciones,0,0,'R',0);
+$pdf->Cell(40,6,$Reservaciones->Cancelaciones,0,0,'R',0);
 //grafica
     // Creamos el grafico
-    $datos1=array($TOcupaciones, 0, 0);
-    $datos2=array(0, $TpConfirmar, 0);
-    $datos3=array(0, 0, $TCancelaciones);
+    $datos1=array($Reservaciones->Estancias, 0, 0);
+    $datos2=array(0, $Reservaciones->PorConfirmar, 0);
+    $datos3=array(0, 0, $Reservaciones->Cancelaciones);
     $labels=array("Ocupaciones","Por Confirmar","Canceladas");  
 
     $grafico = new Graph(800, 600, 'auto');
@@ -261,7 +155,7 @@ $pdf->Cell(208,6,utf8_decode('SERVICIOS OTORGADOS: '),1,0,'L',0);
 $pdf->SetFont('Arial','',10);
 $pdf->SetY(142);
 $pdf->SetX(50);
-$pdf->Cell(20,6,number_format($servicios),0,0,'L',0);
+$pdf->Cell(20,6,number_format($Servicios->ServiciosOtorgados),0,0,'L',0);
 //
 $pdf->SetFont('Arial','B',10);
 $pdf->SetY(148);
@@ -271,7 +165,7 @@ $pdf->Cell(45,6,utf8_decode('Hospedajes: '),1,0,'L',0);
 $pdf->SetFont('Arial','',10);
 $pdf->SetY(148);
 $pdf->SetX(4);
-$pdf->Cell(40,6,number_format($ResHospedajes["hospedajes"]),0,0,'R',0);
+$pdf->Cell(40,6,number_format($Servicios->Hospedajes),0,0,'R',0);
 //
 $pdf->SetFont('Arial','B',10);
 $pdf->SetY(154);
@@ -281,7 +175,7 @@ $pdf->Cell(45,6,utf8_decode('Alimentos: '),1,0,'L',0);
 $pdf->SetFont('Arial','',10);
 $pdf->SetY(154);
 $pdf->SetX(4);
-$pdf->Cell(40,6,number_format($alimentos),0,0,'R',0);
+$pdf->Cell(40,6,number_format($Servicios->Alimentos),0,0,'R',0);
 //
 $pdf->SetFont('Arial','B',10);
 $pdf->SetY(160);
@@ -291,12 +185,12 @@ $pdf->Cell(45,6,utf8_decode('Lavanderia: '),1,0,'L',0);
 $pdf->SetFont('Arial','',10);
 $pdf->SetY(160);
 $pdf->SetX(4);
-$pdf->Cell(40,6,number_format($lavanderia),0,0,'R',0);
+$pdf->Cell(40,6,number_format($Servicios->Lavanderia),0,0,'R',0);
 //grafica
     // Creamos el grafico
-    $datos4=array($ResHospedajes["hospedajes"], 0, 0);
-    $datos5=array(0, $alimentos, 0);
-    $datos6=array(0, 0, $lavanderia);
+    $datos4=array($Servicios->Hospedajes, 0, 0);
+    $datos5=array(0, $Servicios->Alimentos, 0);
+    $datos6=array(0, 0, $Servicios->Lavanderia);
     $labels2=array("Hospedajes","Alimentos","Lavanderia");  
 
     $grafico2 = new Graph(800, 600, 'auto');
@@ -367,7 +261,7 @@ $pdf->Cell(208,6,utf8_decode('PERSONAS ATENDIDAS: '),1,0,'L',0);
 $pdf->SetFont('Arial','',10);
 $pdf->SetY(26);
 $pdf->SetX(50);
-$pdf->Cell(20,6,number_format($TPersonas),0,0,'L',0);
+$pdf->Cell(20,6,number_format($Albergados->Total),0,0,'L',0);
 //
 $pdf->SetFont('Arial','B',10);
 $pdf->SetY(32);
@@ -377,7 +271,7 @@ $pdf->Cell(45,6,utf8_decode('Pacientes: '),1,0,'L',0);
 $pdf->SetFont('Arial','',10);
 $pdf->SetY(32);
 $pdf->SetX(4);
-$pdf->Cell(40,6,number_format($TP),0,0,'R',0);
+$pdf->Cell(40,6,number_format($Albergados->Pacientes),0,0,'R',0);
 //
 $pdf->SetFont('Arial','B',10);
 $pdf->SetY(38);
@@ -387,7 +281,7 @@ $pdf->Cell(45,6,utf8_decode('Acompañantes: '),1,0,'L',0);
 $pdf->SetFont('Arial','',10);
 $pdf->SetY(38);
 $pdf->SetX(4);
-$pdf->Cell(40,6,number_format($TA),0,0,'R',0);
+$pdf->Cell(40,6,number_format($Albergados->Acompannantes),0,0,'R',0);
 //
 $pdf->SetFont('Arial','B',10);
 $pdf->SetY(44);
@@ -397,7 +291,7 @@ $pdf->Cell(45,6,utf8_decode('Hombres: '),1,0,'L',0);
 $pdf->SetFont('Arial','',10);
 $pdf->SetY(44);
 $pdf->SetX(4);
-$pdf->Cell(40,6,number_format($TPH+$TAH),0,0,'R',0);
+$pdf->Cell(40,6,number_format($Albergados->Hombres),0,0,'R',0);
 //
 $pdf->SetFont('Arial','B',10);
 $pdf->SetY(50);
@@ -407,13 +301,13 @@ $pdf->Cell(45,6,utf8_decode('Mujeres: '),1,0,'L',0);
 $pdf->SetFont('Arial','',10);
 $pdf->SetY(50);
 $pdf->SetX(4);
-$pdf->Cell(40,6,number_format($TPM+$TAM),0,0,'R',0);
+$pdf->Cell(40,6,number_format($Albergados->Mujeres),0,0,'R',0);
 //grafica
     // Creamos el grafico
-    $datos7=array($TP, 0, 0, 0);
-    $datos8=array(0, $TA, 0, 0);
-    $datos9=array(0, 0, ($TPH+$TAH), 0);
-    $datos10=array(0, 0, 0, ($TPM+$TAM));
+    $datos7=array($Albergados->Pacientes, 0, 0, 0);
+    $datos8=array(0, $Albergados->Acompannantes, 0, 0);
+    $datos9=array(0, 0, ($Albergados->Hombres), 0);
+    $datos10=array(0, 0, 0, ($Albergados->Mujeres));
     $labels3=array("Pacientes","Acompañantes","Hombres", "Mujeres");  
 
     $grafico3 = new Graph(800, 600, 'auto');
@@ -461,7 +355,7 @@ $pdf->Cell(208,6,utf8_decode('PACIENTES: '),1,0,'L',0);
 $pdf->SetFont('Arial','',10);
 $pdf->SetY(142);
 $pdf->SetX(30);
-$pdf->Cell(20,6,number_format($TP),0,0,'L',0);
+$pdf->Cell(20,6,number_format($Pacientes->Pacientes),0,0,'L',0);
 //
 $pdf->SetFont('Arial','B',10);
 $pdf->SetY(148);
@@ -471,7 +365,7 @@ $pdf->Cell(45,6,utf8_decode('Hombres: '),1,0,'L',0);
 $pdf->SetFont('Arial','',10);
 $pdf->SetY(148);
 $pdf->SetX(4);
-$pdf->Cell(40,6,number_format($TPH),0,0,'R',0);
+$pdf->Cell(40,6,number_format($Pacientes->Hombres),0,0,'R',0);
 //
 $pdf->SetFont('Arial','B',10);
 $pdf->SetY(154);
@@ -481,7 +375,7 @@ $pdf->Cell(45,6,utf8_decode('Hombres Niños: '),1,0,'L',0);
 $pdf->SetFont('Arial','',10);
 $pdf->SetY(154);
 $pdf->SetX(4);
-$pdf->Cell(40,6,number_format($TPHN),0,0,'R',0);
+$pdf->Cell(40,6,number_format($Pacientes->Ninnos),0,0,'R',0);
 //
 $pdf->SetFont('Arial','B',10);
 $pdf->SetY(160);
@@ -491,7 +385,7 @@ $pdf->Cell(45,6,utf8_decode('Hombres Adultos: '),1,0,'L',0);
 $pdf->SetFont('Arial','',10);
 $pdf->SetY(160);
 $pdf->SetX(4);
-$pdf->Cell(40,6,number_format($TPHA),0,0,'R',0);
+$pdf->Cell(40,6,number_format($Pacientes->Adultos),0,0,'R',0);
 //
 $pdf->SetFont('Arial','B',10);
 $pdf->SetY(166);
@@ -501,7 +395,7 @@ $pdf->Cell(45,6,utf8_decode('Mujeres: '),1,0,'L',0);
 $pdf->SetFont('Arial','',10);
 $pdf->SetY(166);
 $pdf->SetX(4);
-$pdf->Cell(40,6,number_format($TPM),0,0,'R',0);
+$pdf->Cell(40,6,number_format($Pacientes->Mujeres),0,0,'R',0);
 //
 $pdf->SetFont('Arial','B',10);
 $pdf->SetY(172);
@@ -511,7 +405,7 @@ $pdf->Cell(45,6,utf8_decode('Mujeres Niñas: '),1,0,'L',0);
 $pdf->SetFont('Arial','',10);
 $pdf->SetY(172);
 $pdf->SetX(4);
-$pdf->Cell(40,6,number_format($TPMN),0,0,'R',0);
+$pdf->Cell(40,6,number_format($Pacientes->Ninnas),0,0,'R',0);
 //
 $pdf->SetFont('Arial','B',10);
 $pdf->SetY(178);
@@ -521,15 +415,15 @@ $pdf->Cell(45,6,utf8_decode('Mujeres Adultas: '),1,0,'L',0);
 $pdf->SetFont('Arial','',10);
 $pdf->SetY(178);
 $pdf->SetX(4);
-$pdf->Cell(40,6,number_format($TPMA),0,0,'R',0);
+$pdf->Cell(40,6,number_format($Pacientes->Adultas),0,0,'R',0);
 //grafica
     // Creamos el grafico
-    $datos11=array($TPH, 0, 0, 0, 0, 0);
-    $datos12=array(0, $TPHN, 0, 0, 0, 0);
-    $datos13=array(0, 0, $TPHA, 0, 0, 0);
-    $datos14=array(0, 0, 0, $TPM, 0, 0);
-    $datos15=array(0, 0, 0, 0, $TPMN, 0);
-    $datos16=array(0, 0, 0, 0, 0, $TPMA);
+    $datos11=array($Pacientes->Hombres, 0, 0, 0, 0, 0);
+    $datos12=array(0, $Pacientes->Ninnos, 0, 0, 0, 0);
+    $datos13=array(0, 0, $Pacientes->Adultos, 0, 0, 0);
+    $datos14=array(0, 0, 0, $Pacientes->Mujeres, 0, 0);
+    $datos15=array(0, 0, 0, 0, $Pacientes->Ninnas, 0);
+    $datos16=array(0, 0, 0, 0, 0, $Pacientes->Adultas);
     $labels4=array("Hombres","Niños","Adultos", "Mujeres", "Niñas", "Adultas");  
 
     $grafico4 = new Graph(800, 600, 'auto');
@@ -620,7 +514,7 @@ $pdf->Cell(45,6,utf8_decode('0 a 12 años: '),1,0,'L',0);
 $pdf->SetFont('Arial','',10);
 $pdf->SetY(32);
 $pdf->SetX(4);
-$pdf->Cell(40,6,number_format($_SESSION["PRDoce"]),0,0,'R',0);
+$pdf->Cell(40,6,number_format($EdadesP->cero),0,0,'R',0);
 //
 $pdf->SetFont('Arial','B',10);
 $pdf->SetY(38);
@@ -630,7 +524,7 @@ $pdf->Cell(45,6,utf8_decode('13 a 20 años: '),1,0,'L',0);
 $pdf->SetFont('Arial','',10);
 $pdf->SetY(38);
 $pdf->SetX(4);
-$pdf->Cell(40,6,number_format($_SESSION["PRVeinte"]),0,0,'R',0);
+$pdf->Cell(40,6,number_format($EdadesP->trece),0,0,'R',0);
 //
 $pdf->SetFont('Arial','B',10);
 $pdf->SetY(44);
@@ -640,7 +534,7 @@ $pdf->Cell(45,6,utf8_decode('21 a 64 años: '),1,0,'L',0);
 $pdf->SetFont('Arial','',10);
 $pdf->SetY(44);
 $pdf->SetX(4);
-$pdf->Cell(40,6,number_format($_SESSION["PRSesentaycuatro"]),0,0,'R',0);
+$pdf->Cell(40,6,number_format($EdadesP->veintiuno),0,0,'R',0);
 //
 $pdf->SetFont('Arial','B',10);
 $pdf->SetY(50);
@@ -650,14 +544,14 @@ $pdf->Cell(45,6,utf8_decode('65 y más años: '),1,0,'L',0);
 $pdf->SetFont('Arial','',10);
 $pdf->SetY(50);
 $pdf->SetX(4);
-$pdf->Cell(40,6,number_format($_SESSION["PRMas"]),0,0,'R',0);
+$pdf->Cell(40,6,number_format($EdadesP->sesentaycinco),0,0,'R',0);
 //
 //grafico
     //creamos el grafico
-    $datosep1=array($_SESSION["PRDoce"], 0, 0, 0);
-    $datosep2=array(0, $_SESSION["PRVeinte"], 0, 0);
-    $datosep3=array(0, 0, $_SESSION["PRSesentaycuatro"], 0);
-    $datosep4=array(0, 0, 0, $_SESSION["PRMas"]);
+    $datosep1=array($EdadesP->cero, 0, 0, 0);
+    $datosep2=array(0, $EdadesP->trece, 0, 0);
+    $datosep3=array(0, 0, $EdadesP->veintiuno, 0);
+    $datosep4=array(0, 0, 0, $EdadesP->sesentaycinco);
     
     $labels9=array("0 a 12", "13 a 20", "21 a 64", "65 y más"); 
 
@@ -706,7 +600,7 @@ $pdf->Cell(208,6,utf8_decode('ACOMPAÑANTES: '),1,0,'L',0);
 $pdf->SetFont('Arial','',10);
 $pdf->SetY(142);
 $pdf->SetX(50);
-$pdf->Cell(20,6,number_format($TA),0,0,'L',0);
+$pdf->Cell(20,6,number_format($Acompannantes->Acompannantes),0,0,'L',0);
 //
 $pdf->SetFont('Arial','B',10);
 $pdf->SetY(148);
@@ -716,7 +610,7 @@ $pdf->Cell(45,6,utf8_decode('Hombres: '),1,0,'L',0);
 $pdf->SetFont('Arial','',10);
 $pdf->SetY(148);
 $pdf->SetX(4);
-$pdf->Cell(40,6,number_format($TAH),0,0,'R',0);
+$pdf->Cell(40,6,number_format($Acompannantes->Hombres),0,0,'R',0);
 //
 $pdf->SetFont('Arial','B',10);
 $pdf->SetY(154);
@@ -726,7 +620,7 @@ $pdf->Cell(45,6,utf8_decode('Niños: '),1,0,'L',0);
 $pdf->SetFont('Arial','',10);
 $pdf->SetY(154);
 $pdf->SetX(4);
-$pdf->Cell(40,6,number_format($TAHN),0,0,'R',0);
+$pdf->Cell(40,6,number_format($Acompannantes->Ninnos),0,0,'R',0);
 //
 $pdf->SetFont('Arial','B',10);
 $pdf->SetY(160);
@@ -736,7 +630,7 @@ $pdf->Cell(45,6,utf8_decode('Adultos: '),1,0,'L',0);
 $pdf->SetFont('Arial','',10);
 $pdf->SetY(160);
 $pdf->SetX(4);
-$pdf->Cell(40,6,number_format($TAHA),0,0,'R',0);
+$pdf->Cell(40,6,number_format($Acompannantes->Adultos),0,0,'R',0);
 //
 $pdf->SetFont('Arial','B',10);
 $pdf->SetY(166);
@@ -746,7 +640,7 @@ $pdf->Cell(45,6,utf8_decode('Mujeres: '),1,0,'L',0);
 $pdf->SetFont('Arial','',10);
 $pdf->SetY(166);
 $pdf->SetX(4);
-$pdf->Cell(40,6,number_format($TAM),0,0,'R',0);
+$pdf->Cell(40,6,number_format($Acompannantes->Mujeres),0,0,'R',0);
 //
 $pdf->SetFont('Arial','B',10);
 $pdf->SetY(172);
@@ -756,7 +650,7 @@ $pdf->Cell(45,6,utf8_decode('Niñas: '),1,0,'L',0);
 $pdf->SetFont('Arial','',10);
 $pdf->SetY(172);
 $pdf->SetX(4);
-$pdf->Cell(40,6,number_format($TAMN),0,0,'R',0);
+$pdf->Cell(40,6,number_format($Acompannantes->Ninnas),0,0,'R',0);
 //
 $pdf->SetFont('Arial','B',10);
 $pdf->SetY(178);
@@ -766,15 +660,15 @@ $pdf->Cell(45,6,utf8_decode('Adultas: '),1,0,'L',0);
 $pdf->SetFont('Arial','',10);
 $pdf->SetY(178);
 $pdf->SetX(4);
-$pdf->Cell(40,6,number_format($TAMA),0,0,'R',0);
+$pdf->Cell(40,6,number_format($Acompannantes->Adultas),0,0,'R',0);
 //grafica
     // Creamos el grafico
-    $datos17=array($TAH, 0, 0, 0, 0, 0);
-    $datos18=array(0, $TAHN, 0, 0, 0, 0);
-    $datos19=array(0, 0, $TAHA, 0, 0, 0);
-    $datos20=array(0, 0, 0, $TAM, 0, 0);
-    $datos21=array(0, 0, 0, 0, $TAMN, 0);
-    $datos22=array(0, 0, 0, 0, 0, $TAMA);
+    $datos17=array($Acompannantes->Hombres, 0, 0, 0, 0, 0);
+    $datos18=array(0, $Acompannantes->Ninnos, 0, 0, 0, 0);
+    $datos19=array(0, 0, $Acompannantes->Adultos, 0, 0, 0);
+    $datos20=array(0, 0, 0, $Acompannantes->Mujeres, 0, 0);
+    $datos21=array(0, 0, 0, 0, $Acompannantes->Ninnas, 0);
+    $datos22=array(0, 0, 0, 0, 0, $Acompannantes->Adultas);
     $labels5=array("Hombres","Niños","Adultos", "Mujeres", "Niñas", "Adultas");  
 
     $grafico5 = new Graph(800, 600, 'auto');
@@ -865,7 +759,7 @@ $pdf->Cell(45,6,utf8_decode('0 a 12 años: '),1,0,'L',0);
 $pdf->SetFont('Arial','',10);
 $pdf->SetY(32);
 $pdf->SetX(4);
-$pdf->Cell(40,6,number_format($_SESSION["ARDoce"]),0,0,'R',0);
+$pdf->Cell(40,6,number_format($EdadesA->cero),0,0,'R',0);
 //
 $pdf->SetFont('Arial','B',10);
 $pdf->SetY(38);
@@ -875,7 +769,7 @@ $pdf->Cell(45,6,utf8_decode('13 a 20 años: '),1,0,'L',0);
 $pdf->SetFont('Arial','',10);
 $pdf->SetY(38);
 $pdf->SetX(4);
-$pdf->Cell(40,6,number_format($_SESSION["ARVeinte"]),0,0,'R',0);
+$pdf->Cell(40,6,number_format($EdadesA->trece),0,0,'R',0);
 //
 $pdf->SetFont('Arial','B',10);
 $pdf->SetY(44);
@@ -885,7 +779,7 @@ $pdf->Cell(45,6,utf8_decode('21 a 64 años: '),1,0,'L',0);
 $pdf->SetFont('Arial','',10);
 $pdf->SetY(44);
 $pdf->SetX(4);
-$pdf->Cell(40,6,number_format($_SESSION["ARSesentaycuatro"]),0,0,'R',0);
+$pdf->Cell(40,6,number_format($EdadesA->veintuno),0,0,'R',0);
 //
 $pdf->SetFont('Arial','B',10);
 $pdf->SetY(50);
@@ -895,15 +789,15 @@ $pdf->Cell(45,6,utf8_decode('65 y más años: '),1,0,'L',0);
 $pdf->SetFont('Arial','',10);
 $pdf->SetY(50);
 $pdf->SetX(4);
-$pdf->Cell(40,6,number_format($_SESSION["ARMas"]),0,0,'R',0);
+$pdf->Cell(40,6,number_format($EdadesA->sesentaycinco),0,0,'R',0);
 //
 
 //grafico
     //creamos el grafico
-    $datosea1=array($_SESSION["ARDoce"], 0, 0, 0);
-    $datosea2=array(0, $_SESSION["ARVeinte"], 0, 0);
-    $datosea3=array(0, 0, $_SESSION["ARSesentaycuatro"], 0);
-    $datosea4=array(0, 0, 0, $_SESSION["ARMas"]);
+    $datosea1=array($EdadesA->cero, 0, 0, 0);
+    $datosea2=array(0, $EdadesA->trece, 0, 0);
+    $datosea3=array(0, 0, $EdadesA->veintuno, 0);
+    $datosea4=array(0, 0, 0, $EdadesA->sesentaycinco);
     $labels10=array("0 a 12", "13 a 20", "21 a 64", "65 y más"); 
 
     $grafico10 = new Graph(800, 600, 'auto');
@@ -953,27 +847,27 @@ $pdf->Cell(208,6,utf8_decode('ENFERMEDADES: '),1,0,'L',0);
 $pdf->SetFont('Arial','',10);
 $pdf->SetY(142);
 $pdf->SetX(50);
-$pdf->Cell(20,6,number_format($Enfermedades),0,0,'L',0);
+$pdf->Cell(20,6,number_format($Enfermedades["Enfermedades"]),0,0,'L',0);
 //
 $Y=148;
 $labels6=array(); $j=0; $datos_e=array(); $color_e=array();
 
-while($RResEnf=mysqli_fetch_array($ResEnfermedades))
-{
-    $ResEnfermedad=mysqli_fetch_array(mysqli_query($conn, "SELECT Diagnostico FROM diagnosticos WHERE Id='".$RResEnf["Diagnostico"]."' LIMIT 1"));
+$enfermedad = $Enfermedades['enfermedad'];
+
+foreach($enfermedad as $diagnostico) {
 
     $pdf->SetFont('Arial','B',10);
     $pdf->SetY($Y);
     $pdf->SetX(4);
-    $pdf->Cell(196,6,utf8_decode($ResEnfermedad["Diagnostico"].': '),1,0,'L',0);
+    $pdf->Cell(196,6,utf8_decode($diagnostico["nombre"].': '),1,0,'L',0);
     //
     $pdf->SetFont('Arial','',10);
     $pdf->SetY($Y);
     $pdf->SetX(200);
-    $pdf->Cell(12,6,number_format($RResEnf["Numero"]),1,0,'R',0);
+    $pdf->Cell(12,6,number_format($diagnostico["cantidad"]),1,0,'R',0);
 
-    array_push($datos_e, $RResEnf["Numero"]);
-    array_push($labels6, $ResEnfermedad["Diagnostico"]);
+    array_push($datos_e, $diagnostico["cantidad"]);
+    array_push($labels6, $diagnostico["nombre"]);
     array_push($color_e, randomColor());
 
     $Y=$Y+6;
@@ -1014,7 +908,7 @@ while($RResEnf=mysqli_fetch_array($ResEnfermedades))
 }
 //grafica
     // Creamos el grafico
-    $grafico6 = new Graph(800, 600, 'auto');
+    $grafico6 = new Graph(800, 900, 'auto');
     $grafico6->SetScale("textlin");
     $grafico6->title->Set("Enfermedades");
     $grafico6->xaxis->SetTickLabels($labels6);   
@@ -1106,23 +1000,25 @@ $pdf->Cell(208,6,utf8_decode('HOSPITALES: '),1,0,'L',0);
 $pdf->SetFont('Arial','',10);
 $pdf->SetY(26);
 $pdf->SetX(37);
-$pdf->Cell(20,6,$NumHosp,0,0,'L',0);
+$pdf->Cell(20,6,$Hospitales["Hospitales"],0,0,'L',0);
 $Y=32;
 $labels7=array(); $j=0; $datos_h=array(); $color_h=array();
-while($RResHosp=mysqli_fetch_array($ResHospitales))
-{
+
+$institutos = $Hospitales['institutos'];
+
+foreach($institutos as $lugares) {
     $pdf->SetFont('Arial','B',10);
     $pdf->SetY($Y);
     $pdf->SetX(4);
-    $pdf->Cell(196,6,utf8_decode($RResHosp["Hospital"].': '),1,0,'L',0);
+    $pdf->Cell(196,6,utf8_decode($lugares["nombre"].': '),1,0,'L',0);
     //
     $pdf->SetFont('Arial','',10);
     $pdf->SetY($Y);
     $pdf->SetX(200);
-    $pdf->Cell(12,6,number_format($RResHosp["Numero"]),1,0,'R',0);
+    $pdf->Cell(12,6,number_format($lugares["cantidad"]),1,0,'R',0);
 
-    array_push($datos_h, $RResHosp["Numero"]);
-    array_push($labels7, utf8_decode($RResHosp["Hospital"]));
+    array_push($datos_h, $lugares["cantidad"]);
+    array_push($labels7, utf8_decode($lugares["nombre"]));
     array_push($color_h, randomColor());
 
     $Y=$Y+6;
@@ -1254,23 +1150,26 @@ $pdf->Cell(208,6,utf8_decode('ESTADOS: '),1,0,'L',0);
 $pdf->SetFont('Arial','',10);
 $pdf->SetY(26);
 $pdf->SetX(37);
-$pdf->Cell(20,6,$NumEstados,0,0,'L',0);
+$pdf->Cell(20,6,$Procedencia["Procedencia"],0,0,'L',0);
 $Y=32;
 $labels8=array(); $j=0; $datos_es=array(); $color_es=array();
-while($RResEst=mysqli_fetch_array($ResProcedencia))
+
+$estados = $Procedencia["estados"];
+
+foreach($estados as $estado)
 {
     $pdf->SetFont('Arial','B',10);
     $pdf->SetY($Y);
     $pdf->SetX(4);
-    $pdf->Cell(196,6,$RResEst["Estado"].': ',1,0,'L',0);
+    $pdf->Cell(196,6,$estado["nombre"].': ',1,0,'L',0);
     //
     $pdf->SetFont('Arial','',10);
     $pdf->SetY($Y);
     $pdf->SetX(200);
-    $pdf->Cell(12,6,number_format($RResEst["Numero"]),1,0,'R',0);
+    $pdf->Cell(12,6,number_format($estado["cantidad"]),1,0,'R',0);
 
-    array_push($datos_es, $RResEst["Numero"]);
-    array_push($labels8, $RResEst["Estado"]);
+    array_push($datos_es, $estado["cantidad"]);
+    array_push($labels8, $estado["nombre"]);
     array_push($color_es, randomColor());
 
     $Y=$Y+6;
