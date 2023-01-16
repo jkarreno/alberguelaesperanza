@@ -708,13 +708,13 @@ $cadena='<h2>Reservaciones '; if($mes!='%'){$cadena.=mes($mes).' - ';}$cadena.=$
                     labels: ["Enfermedades"], datasets:[';
                 while($RResEnf=mysqli_fetch_array($ResEnfermedades))
                 {
-                    $ResEnfermedad=mysqli_fetch_array(mysqli_query($conn, "SELECT Diagnostico FROM diagnosticos WHERE Id='".$RResEnf["Diagnostico"]."' LIMIT 1"));
+                    $ResEnfermedad=mysqli_fetch_array(mysqli_query($conn, "SELECT Id, Diagnostico FROM diagnosticos WHERE Id='".$RResEnf["Diagnostico"]."' LIMIT 1"));
 
                     $cadena.='<label class="l_form"> <i class="fas fa-head-side-cough i_estadistico"></i> '.$ResEnfermedad["Diagnostico"].' - '.$RResEnf["Numero"].'</label>';
 
                     $r=rand(0,255); $g=rand(0,255); $b=rand(0,255);
 
-                    $RepEnfermedades.='{"nombre": "'.$ResEnfermedad["Diagnostico"].'", "cantidad":"'.$RResEnf["Numero"].'"}';
+                    $RepEnfermedades.='{"nombre": "'.$ResEnfermedad["Id"].'", "cantidad":"'.$RResEnf["Numero"].'"}';
                     
                     $denf.='{
                         label: \''.$ResEnfermedad["Diagnostico"].'\',

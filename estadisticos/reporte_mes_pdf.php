@@ -856,10 +856,12 @@ $enfermedad = $Enfermedades['enfermedad'];
 
 foreach($enfermedad as $diagnostico) {
 
+    $ResEnf=mysqli_fetch_array(mysqli_query($conn, "SELECT Diagnostico FROM diagnosticos WHERE Id='".$diagnostico["nombre"]."' LIMIT 1"));
+
     $pdf->SetFont('Arial','B',10);
     $pdf->SetY($Y);
     $pdf->SetX(4);
-    $pdf->Cell(196,6,utf8_decode($diagnostico["nombre"].': '),1,0,'L',0);
+    $pdf->Cell(196,6,utf8_decode($ResEnf["Diagnostico"].': '),1,0,'L',0);
     //
     $pdf->SetFont('Arial','',10);
     $pdf->SetY($Y);
