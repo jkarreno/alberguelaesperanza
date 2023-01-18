@@ -116,7 +116,7 @@ if(isset($_POST["hacer"]))
                                     INNER JOIN pacientes as p ON p.Id=r.IdPaciente 
                                     WHERE p.FechaNacimiento < '".$edadpi."-".$mesni."-".$diani."' AND p.FechaNacimiento >= '".$edadpf."-".$mesni."-".$diani."' 
                                     AND p.Estado LIKE '".$_POST["estados"]."' AND r.Instituto LIKE '".$_POST["hospitales"]."' AND r.Diagnostico LIKE '".$_POST["enfermedades"]."' AND r.Fecha >= '".$_POST["periodode"]."' 
-                                    AND r.Fecha <= '".$_POST["periodohasta"]."' AND r.Estatus LIKE '".$_POST["reservaciones"]."' 
+                                    AND r.Fecha <= '".$_POST["periodohasta"]."' AND r.Estatus LIKE '".$_POST["reservaciones"]."' AND p.Sexo LIKE '".$_POST["genero"]."' 
                                     ORDER BY r.Fecha DESC");
     $TReservaciones=mysqli_num_rows($ResRes);
     //total de ocupaciones
@@ -124,7 +124,7 @@ if(isset($_POST["hacer"]))
                                     INNER JOIN pacientes as p ON p.Id=r.IdPaciente 
                                     WHERE p.FechaNacimiento < '".$edadpi."-".$mesni."-".$diani."' AND p.FechaNacimiento >= '".$edadpf."-".$mesni."-".$diani."'
                                     AND p.Estado LIKE '".$_POST["estados"]."' AND r.Instituto LIKE '".$_POST["hospitales"]."' AND r.Diagnostico LIKE '".$_POST["enfermedades"]."' AND r.Fecha >= '".$_POST["periodode"]."' 
-                                    AND r.Fecha <= '".$_POST["periodohasta"]."' AND r.Estatus=1 
+                                    AND r.Fecha <= '".$_POST["periodohasta"]."' AND r.Estatus=1 AND p.Sexo LIKE '".$_POST["genero"]."' 
                                     ORDER BY r.Fecha DESC");
     $TOcupaciones=mysqli_num_rows($ResOcu);
     //total por confirmar
@@ -132,7 +132,7 @@ if(isset($_POST["hacer"]))
                                     INNER JOIN pacientes as p ON p.Id=r.IdPaciente
                                     WHERE p.FechaNacimiento < '".$edadpi."-".$mesni."-".$diani."' AND p.FechaNacimiento >= '".$edadpf."-".$mesni."-".$diani."' 
                                     AND p.Estado LIKE '".$_POST["estados"]."' AND r.Instituto LIKE '".$_POST["hospitales"]."' AND r.Diagnostico LIKE '".$_POST["enfermedades"]."' AND r.Fecha >= '".$_POST["periodode"]."' 
-                                    AND r.Fecha <= '".$_POST["periodohasta"]."' AND r.Estatus=0 
+                                    AND r.Fecha <= '".$_POST["periodohasta"]."' AND r.Estatus=0 AND p.Sexo LIKE '".$_POST["genero"]."' 
                                     ORDER BY r.Fecha DESC");
     $TpConfirmar=mysqli_num_rows($ResCon);
     //total cancelaciones
@@ -140,7 +140,7 @@ if(isset($_POST["hacer"]))
                                     INNER JOIN pacientes as p ON p.Id=r.IdPaciente 
                                     WHERE p.FechaNacimiento < '".$edadpi."-".$mesni."-".$diani."' AND p.FechaNacimiento >= '".$edadpf."-".$mesni."-".$diani."' 
                                     AND p.Estado LIKE '".$_POST["estados"]."' AND r.Instituto LIKE '".$_POST["hospitales"]."' AND r.Diagnostico LIKE '".$_POST["enfermedades"]."' AND r.Fecha >= '".$_POST["periodode"]."' 
-                                    AND r.Fecha <= '".$_POST["periodohasta"]."' AND r.Estatus=2 
+                                    AND r.Fecha <= '".$_POST["periodohasta"]."' AND r.Estatus=2 AND p.Sexo LIKE '".$_POST["genero"]."' 
                                     ORDER BY r.Fecha DESC");
     $TCancelaciones=mysqli_num_rows($ResCan);
 
@@ -153,7 +153,7 @@ if(isset($_POST["hacer"]))
                                                             INNER JOIN reservacion as re ON re.Id=r.IdReservacion
                                                             WHERE re.Instituto LIKE '".$_POST["hospitales"]."' AND re.Diagnostico LIKE '".$_POST["enfermedades"]."' AND p.FechaNacimiento < '".$edadpi."-".$mesnf."-".$dianf."' 
                                                             AND p.Estado LIKE '".$_POST["estados"]."' AND p.FechaNacimiento >= '".$edadpf."-".$mesnf."-".$dianf."' AND r.Fecha >= '".$_POST["periodode"]."' AND r.Fecha <= '".$_POST["periodohasta"]."' AND r.Cama>0 
-                                                            AND r.Estatus='1' AND r.Tipo LIKE 'P'"));
+                                                            AND r.Estatus='1' AND r.Tipo LIKE 'P' AND p.Sexo LIKE '".$_POST["genero"]."'"));
     }
     if($_POST["personas"]=='A' OR $_POST["personas"]=='%')
     {
@@ -162,7 +162,7 @@ if(isset($_POST["hacer"]))
                                                             INNER JOIN reservacion as re ON re.Id=r.IdReservacion
                                                             WHERE re.Instituto LIKE '".$_POST["hospitales"]."' AND re.Diagnostico LIKE '".$_POST["enfermedades"]."' AND a.FechaNacimiento < '".$edadpi."-".$mesnf."-".$dianf."' 
                                                             AND a.Estado LIKE '".$_POST["estados"]."' AND a.FechaNacimiento >= '".$edadpf."-".$mesnf."-".$dianf."' 
-                                                            AND r.Fecha >= '".$_POST["periodode"]."' AND r.Fecha <= '".$_POST["periodohasta"]."' AND r.Cama>0 AND r.Estatus='1' AND r.Tipo LIKE 'A'"));
+                                                            AND r.Fecha >= '".$_POST["periodode"]."' AND r.Fecha <= '".$_POST["periodohasta"]."' AND r.Cama>0 AND r.Estatus='1' AND r.Tipo LIKE 'A' AND a.Sexo LIKE '".$_POST["genero"]."'"));
     }
     
     $ResHospedajes=$ResHospedajesP["hospedajes"]+$ResHospedajesA["hospedajes"];
@@ -181,7 +181,7 @@ if(isset($_POST["hacer"]))
                                                             INNER JOIN pacientes as p ON p.Id=r.IdPA
                                                             INNER JOIN reservacion as re ON re.Id=r.IdReservacion
                                                             WHERE re.Instituto LIKE '".$_POST["hospitales"]."' AND re.Diagnostico LIKE '".$_POST["enfermedades"]."' AND p.FechaNacimiento < '".$edadpi."-".$mesnf."-".$dianf."' AND p.FechaNacimiento >= '".$edadpf."-".$mesnf."-".$dianf."' 
-                                                            AND p.Estado LIKE '".$_POST["estados"]."' AND r.Fecha >= '".$_POST["periodode"]."' AND r.Fecha <= '".$_POST["periodohasta"]."' AND r.Estatus='1' AND r.Tipo LIKE 'P' 
+                                                            AND p.Estado LIKE '".$_POST["estados"]."' AND p.Sexo LIKE '".$_POST["genero"]."' AND r.Fecha >= '".$_POST["periodode"]."' AND r.Fecha <= '".$_POST["periodohasta"]."' AND r.Estatus='1' AND r.Tipo LIKE 'P' 
                                                             GROUP BY concat_ws('-', r.IdPA, r.Tipo)"));
     }
     if($_POST["personas"]=='A' OR $_POST["personas"]=='%')
@@ -190,7 +190,7 @@ if(isset($_POST["hacer"]))
                                                             INNER JOIN acompannantes as a ON a.Id=r.IdPA
                                                             INNER JOIN reservacion as re ON re.Id=r.IdReservacion
                                                             WHERE re.Instituto LIKE '".$_POST["hospitales"]."' AND re.Diagnostico LIKE '".$_POST["enfermedades"]."' AND a.FechaNacimiento < '".$edadpi."-".$mesnf."-".$dianf."' AND a.FechaNacimiento >= '".$edadpf."-".$mesnf."-".$dianf."' 
-                                                            AND a.Estado LIKE '".$_POST["estados"]."' AND r.Fecha >= '".$_POST["periodode"]."' AND r.Fecha <= '".$_POST["periodohasta"]."' AND r.Estatus='1' AND r.Tipo LIKE 'A' GROUP BY concat_ws('-', r.IdPA, r.Tipo)"));
+                                                            AND a.Estado LIKE '".$_POST["estados"]."' AND a.Sexo LIKE '".$_POST["genero"]."' AND r.Fecha >= '".$_POST["periodode"]."' AND r.Fecha <= '".$_POST["periodohasta"]."' AND r.Estatus='1' AND r.Tipo LIKE 'A' GROUP BY concat_ws('-', r.IdPA, r.Tipo)"));
     }
 
     $TPersonas=$TPersonasP+$TPersonasA;
@@ -333,7 +333,7 @@ if(isset($_POST["hacer"]))
                                         INNER JOIN pacientes AS p ON p.Id=r.IdPA 
                                         INNER JOIN reservacion as re ON re.Id=r.IdReservacion
                                         WHERE re.Instituto LIKE '".$_POST["hospitales"]."' AND re.Diagnostico LIKE '".$_POST["enfermedades"]."' AND r.Fecha >= '".$_POST["periodode"]."' AND r.Fecha <= '".$_POST["periodohasta"]."' AND r.Cama > 0 AND r.Tipo = 'P' AND r.Estatus=1 
-                                        AND p.Estado LIKE '".$_POST["estados"]."' AND p.FechaNacimiento < '".($Yi-$edadi)."-".$Mi."-".$Di."' AND p.FechaNacimiento >= '".($Yi-12)."-".$Mi."-".$Di."' 
+                                        AND p.Estado LIKE '".$_POST["estados"]."' AND p.FechaNacimiento < '".($Yi-$edadi)."-".$Mi."-".$Di."' AND p.FechaNacimiento >= '".($Yi-12)."-".$Mi."-".$Di."' AND p.Sexo LIKE '".$_POST["genero"]."' 
                                         GROUP BY r.IdPA) AS s");
         $RResDoce=mysqli_fetch_array($ResDoce);
         $ResDoce_f=mysqli_query($conn, "SELECT COUNT(s.Id) AS Numero 
@@ -358,7 +358,7 @@ if(isset($_POST["hacer"]))
                                         INNER JOIN pacientes AS p ON p.Id=r.IdPA 
                                         INNER JOIN reservacion as re ON re.Id=r.IdReservacion
                                         WHERE re.Instituto LIKE '".$_POST["hospitales"]."' AND re.Diagnostico LIKE '".$_POST["enfermedades"]."' AND r.Fecha >= '".$_POST["periodode"]."' AND r.Fecha <= '".$_POST["periodohasta"]."' AND r.Cama > 0 AND r.Tipo = 'P' AND r.Estatus=1 
-                                        AND p.Estado LIKE '".$_POST["estados"]."' AND p.FechaNacimiento < '".($Yi-12)."-".$Mi."-".$Di."' AND p.FechaNacimiento >= '".($Yi-20)."-".$Mi."-".$Di."' 
+                                        AND p.Estado LIKE '".$_POST["estados"]."' AND p.FechaNacimiento < '".($Yi-12)."-".$Mi."-".$Di."' AND p.FechaNacimiento >= '".($Yi-20)."-".$Mi."-".$Di."' AND p.Sexo LIKE '".$_POST["genero"]."'  
                                         GROUP BY r.IdPA) AS s");
         $RResVeinte=mysqli_fetch_array($ResVeinte);
         $ResVeinte_m=mysqli_query($conn, "SELECT COUNT(s.Id) AS Numero 
@@ -383,7 +383,7 @@ if(isset($_POST["hacer"]))
                                         INNER JOIN pacientes AS p ON p.Id=r.IdPA 
                                         INNER JOIN reservacion as re ON re.Id=r.IdReservacion
                                         WHERE re.Instituto LIKE '".$_POST["hospitales"]."' AND re.Diagnostico LIKE '".$_POST["enfermedades"]."' AND r.Fecha >= '".$_POST["periodode"]."' AND r.Fecha <= '".$_POST["periodohasta"]."' AND r.Cama > 0 AND r.Tipo = 'P' AND r.Estatus=1 
-                                        AND p.Estado LIKE '".$_POST["estados"]."' AND p.FechaNacimiento < '".($Yi-20)."-".$Mi."-".$Di."' AND p.FechaNacimiento >= '".($Yi-64)."-".$Mi."-".$Di."' 
+                                        AND p.Estado LIKE '".$_POST["estados"]."' AND p.FechaNacimiento < '".($Yi-20)."-".$Mi."-".$Di."' AND p.FechaNacimiento >= '".($Yi-64)."-".$Mi."-".$Di."' AND p.Sexo LIKE '".$_POST["genero"]."'  
                                         GROUP BY r.IdPA) AS s");
         $RResSesentaycuatro=mysqli_fetch_array($ResSesentaycuatro);
         $ResSesentaycuatro_m=mysqli_query($conn, "SELECT COUNT(s.Id) AS Numero 
@@ -408,7 +408,7 @@ if(isset($_POST["hacer"]))
                                         INNER JOIN pacientes AS p ON p.Id=r.IdPA 
                                         INNER JOIN reservacion as re ON re.Id=r.IdReservacion
                                         WHERE re.Instituto LIKE '".$_POST["hospitales"]."' AND re.Diagnostico LIKE '".$_POST["enfermedades"]."' AND r.Fecha >= '".$_POST["periodode"]."' AND r.Fecha <= '".$_POST["periodohasta"]."' AND r.Cama > 0 AND r.Tipo = 'P' AND r.Estatus=1 
-                                        AND p.Estado LIKE '".$_POST["estados"]."' AND p.FechaNacimiento < '".($Yi-64)."-".$Mi."-".$Di."' 
+                                        AND p.Estado LIKE '".$_POST["estados"]."' AND p.FechaNacimiento < '".($Yi-64)."-".$Mi."-".$Di."' AND p.Sexo LIKE '".$_POST["genero"]."'  
                                         GROUP BY r.IdPA) AS s");
         $RResMas=mysqli_fetch_array($ResMas);
         $ResMas_m=mysqli_query($conn, "SELECT COUNT(s.Id) AS Numero 
@@ -435,7 +435,7 @@ if(isset($_POST["hacer"]))
                                     INNER JOIN pacientes AS p ON p.Id=r.IdPA 
                                     INNER JOIN reservacion as re ON re.Id=r.IdReservacion
                                     WHERE re.Instituto LIKE '".$_POST["hospitales"]."' AND re.Diagnostico LIKE '".$_POST["enfermedades"]."' AND r.Fecha >= '".$_POST["periodode"]."' AND r.Fecha <= '".$_POST["periodohasta"]."' AND r.Cama > 0 AND r.Tipo = 'P' AND r.Estatus=1 
-                                    AND p.Estado LIKE '".$_POST["estados"]."' AND p.FechaNacimiento < '".($Yi-$edadi)."-".$Mi."-".$Di."' AND p.FechaNacimiento >= '".($Yi-$edadf)."-".$Mi."-".$Di."' 
+                                    AND p.Estado LIKE '".$_POST["estados"]."' AND p.FechaNacimiento < '".($Yi-$edadi)."-".$Mi."-".$Di."' AND p.FechaNacimiento >= '".($Yi-$edadf)."-".$Mi."-".$Di."' AND p.Sexo LIKE '".$_POST["genero"]."'  
                                     GROUP BY r.IdPA) AS s");
         $RResEdad=mysqli_fetch_array($ResEdad);
         $ResEdad_m=mysqli_query($conn, "SELECT COUNT(s.Id) AS Numero 
@@ -466,7 +466,7 @@ if(isset($_POST["hacer"]))
                                         INNER JOIN acompannantes AS a ON a.Id=r.IdPA 
                                         INNER JOIN reservacion as re ON re.Id=r.IdReservacion
                                         WHERE re.Instituto LIKE '".$_POST["hospitales"]."' AND re.Diagnostico LIKE '".$_POST["enfermedades"]."' AND r.Fecha >= '".$_POST["periodode"]."' AND r.Fecha <= '".$_POST["periodohasta"]."' AND r.Cama > 0 AND r.Tipo = 'A' AND r.Estatus=1 
-                                        AND a.Estado LIKE '".$_POST["estados"]."' AND a.FechaNacimiento < '".($Yi-$edadi)."-".$Mi."-".$Di."' AND a.FechaNacimiento >= '".($Yi-12)."-".$Mi."-".$Di."' 
+                                        AND a.Estado LIKE '".$_POST["estados"]."' AND a.FechaNacimiento < '".($Yi-$edadi)."-".$Mi."-".$Di."' AND a.FechaNacimiento >= '".($Yi-12)."-".$Mi."-".$Di."' AND a.Sexo LIKE '".$_POST["genero"]."'  
                                         GROUP BY r.IdPA) AS s");
         $RResDoceA=mysqli_fetch_array($ResDoceA);
         $ResDoceA_m=mysqli_query($conn, "SELECT COUNT(s.Id) AS Numero 
@@ -491,7 +491,7 @@ if(isset($_POST["hacer"]))
                                         INNER JOIN acompannantes AS a ON a.Id=r.IdPA 
                                         INNER JOIN reservacion as re ON re.Id=r.IdReservacion
                                         WHERE re.Instituto LIKE '".$_POST["hospitales"]."' AND re.Diagnostico LIKE '".$_POST["enfermedades"]."' AND r.Fecha >= '".$_POST["periodode"]."' AND r.Fecha <= '".$_POST["periodohasta"]."' AND r.Cama > 0 AND r.Tipo = 'A' AND r.Estatus=1 
-                                        AND a.Estado LIKE '".$_POST["estados"]."' AND a.FechaNacimiento < '".($Yi-12)."-".$Mi."-".$Di."' AND a.FechaNacimiento >= '".($Yi-20)."-".$Mi."-".$Di."' 
+                                        AND a.Estado LIKE '".$_POST["estados"]."' AND a.FechaNacimiento < '".($Yi-12)."-".$Mi."-".$Di."' AND a.FechaNacimiento >= '".($Yi-20)."-".$Mi."-".$Di."' AND a.Sexo LIKE '".$_POST["genero"]."'  
                                         GROUP BY r.IdPA) AS s");
         $RResVeinteA=mysqli_fetch_array($ResVeinteA);
         $ResVeinteA_m=mysqli_query($conn, "SELECT COUNT(s.Id) AS Numero 
@@ -516,7 +516,7 @@ if(isset($_POST["hacer"]))
                                         INNER JOIN acompannantes AS a ON a.Id=r.IdPA 
                                         INNER JOIN reservacion as re ON re.Id=r.IdReservacion
                                         WHERE re.Instituto LIKE '".$_POST["hospitales"]."' AND re.Diagnostico LIKE '".$_POST["enfermedades"]."' AND r.Fecha >= '".$_POST["periodode"]."' AND r.Fecha <= '".$_POST["periodohasta"]."' AND r.Cama > 0 AND r.Tipo = 'A' AND r.Estatus=1 
-                                        AND a.Estado LIKE '".$_POST["estados"]."' AND a.FechaNacimiento < '".($Yi-20)."-".$Mi."-".$Di."' AND a.FechaNacimiento >= '".($Yi-64)."-".$Mi."-".$Di."' 
+                                        AND a.Estado LIKE '".$_POST["estados"]."' AND a.FechaNacimiento < '".($Yi-20)."-".$Mi."-".$Di."' AND a.FechaNacimiento >= '".($Yi-64)."-".$Mi."-".$Di."' AND a.Sexo LIKE '".$_POST["genero"]."'  
                                         GROUP BY r.IdPA) AS s");
         $RResSesentaycuatroA=mysqli_fetch_array($ResSesentaycuatroA);
         $ResSesentaycuatroA_m=mysqli_query($conn, "SELECT COUNT(s.Id) AS Numero 
@@ -541,7 +541,7 @@ if(isset($_POST["hacer"]))
                                         INNER JOIN acompannantes AS a ON a.Id=r.IdPA 
                                         INNER JOIN reservacion as re ON re.Id=r.IdReservacion
                                         WHERE re.Instituto LIKE '".$_POST["hospitales"]."' AND re.Diagnostico LIKE '".$_POST["enfermedades"]."' AND r.Fecha >= '".$_POST["periodode"]."' AND r.Fecha <= '".$_POST["periodohasta"]."' AND r.Cama > 0 AND r.Tipo = 'A' AND r.Estatus=1 
-                                        AND a.Estado LIKE '".$_POST["estados"]."' AND a.FechaNacimiento < '".($Yi-64)."-".$Mi."-".$Di."' 
+                                        AND a.Estado LIKE '".$_POST["estados"]."' AND a.FechaNacimiento < '".($Yi-64)."-".$Mi."-".$Di."' AND a.Sexo LIKE '".$_POST["genero"]."'  
                                         GROUP BY r.IdPA) AS s");
         $RResMasA=mysqli_fetch_array($ResMasA);
         $ResMasA_m=mysqli_query($conn, "SELECT COUNT(s.Id) AS Numero 
@@ -568,7 +568,7 @@ if(isset($_POST["hacer"]))
                                     INNER JOIN acompannantes AS a ON a.Id=r.IdPA 
                                     INNER JOIN reservacion as re ON re.Id=r.IdReservacion
                                     WHERE re.Instituto LIKE '".$_POST["hospitales"]."' AND re.Diagnostico LIKE '".$_POST["enfermedades"]."' AND r.Fecha >= '".$_POST["periodode"]."' AND r.Fecha <= '".$_POST["periodohasta"]."' AND r.Cama > 0 AND r.Tipo = 'A' AND r.Estatus=1 
-                                    AND a.Estado LIKE '".$_POST["estados"]."' AND a.FechaNacimiento < '".($Yi-$edadi)."-".$Mi."-".$Di."' AND a.FechaNacimiento >= '".($Yi-$edadf)."-".$Mi."-".$Di."' 
+                                    AND a.Estado LIKE '".$_POST["estados"]."' AND a.FechaNacimiento < '".($Yi-$edadi)."-".$Mi."-".$Di."' AND a.FechaNacimiento >= '".($Yi-$edadf)."-".$Mi."-".$Di."' AND a.Sexo LIKE '".$_POST["genero"]."'  
                                     GROUP BY r.IdPA) AS s");
         $RResEdadA=mysqli_fetch_array($ResEdadA);
     }
@@ -578,7 +578,7 @@ if(isset($_POST["hacer"]))
     $ResEnfermedades=mysqli_query($conn, "SELECT r.Diagnostico AS Diagnostico, COUNT(*) AS Numero FROM `reservacion`AS r 
                                             INNER JOIN pacientes AS p ON p.Id=r.IdPaciente 
                                             WHERE r.Instituto LIKE '".$_POST["hospitales"]."' AND r.Diagnostico LIKE '".$_POST["enfermedades"]."' AND p.FechaNacimiento < '".$edadpi."-".$mesnf."-".$dianf."' AND p.FechaNacimiento >= '".$edadpf."-".$mesnf."-".$dianf."'
-                                            AND p.Estado LIKE '".$_POST["estados"]."' AND r.Fecha >= '".$_POST["periodode"]."' AND r.Fecha <= '".$_POST["periodohasta"]."' AND r.Diagnostico!='' AND r.Diagnostico LIKE '".$_POST["enfermedades"]."' 
+                                            AND p.Estado LIKE '".$_POST["estados"]."' AND p.Sexo LIKE '".$_POST["genero"]."' AND r.Fecha >= '".$_POST["periodode"]."' AND r.Fecha <= '".$_POST["periodohasta"]."' AND r.Diagnostico!='' AND r.Diagnostico LIKE '".$_POST["enfermedades"]."' 
                                             GROUP BY r.Diagnostico 
                                             ORDER BY Numero ASC");
     $Enfermedades=mysqli_num_rows($ResEnfermedades);
@@ -587,7 +587,7 @@ if(isset($_POST["hacer"]))
     $ResHospitales=mysqli_query($conn, "SELECT r.Instituto AS Instituto, COUNT(*) AS Numero FROM reservacion AS r
                                         INNER JOIN pacientes AS p ON p.Id=r.IdPaciente 
                                         WHERE r.Instituto LIKE '".$_POST["hospitales"]."' AND r.Diagnostico LIKE '".$_POST["enfermedades"]."' AND p.FechaNacimiento < '".$edadpi."-".$mesnf."-".$dianf."' AND p.FechaNacimiento >= '".$edadpf."-".$mesnf."-".$dianf."'
-                                        AND p.Estado LIKE '".$_POST["estados"]."' AND r.Fecha >= '".$_POST["periodode"]."' AND r.Fecha <= '".$_POST["periodohasta"]."' AND r.Instituto!='' AND r.Instituto LIKE '".$_POST["hospitales"]."' 
+                                        AND p.Estado LIKE '".$_POST["estados"]."' AND p.Sexo LIKE '".$_POST["genero"]."' AND r.Fecha >= '".$_POST["periodode"]."' AND r.Fecha <= '".$_POST["periodohasta"]."' AND r.Instituto!='' AND r.Instituto LIKE '".$_POST["hospitales"]."' 
                                         GROUP BY r.Instituto 
                                         ORDER BY Numero ASC");
     $NumHosp=mysqli_num_rows($ResHospitales);
@@ -1418,9 +1418,14 @@ if(isset($_POST["hacer"]))
     $cadena.='<div class="c100 card">
                 <div class="c45">
                     <label class="l_form">Procedencia: '.$NumEstados.' estados</label>';
+                    $ResEstados=mysqli_query($conn, "SELECT * FROM Estados ORDER BY Estado");
                     $_SESSION["rep_per"][10][0][0]=$NumEstados;
                     $e=1; $a=1; $destados='{
                         labels: ["Estados"], datasets:[';
+                    while($RResEstados=mysqli_fetch_array($ResEstados))
+                    {
+
+                    }
                     while($RResEst=mysqli_fetch_array($ResProcedencia))
                     {
                         $cadena.='<label class="l_form"><i class="fas fa-map-signs  i_estadistico"></i> '.utf8_encode($RResEst["Estado"]).': '.$RResEst["Numero"].'</label>';
