@@ -495,4 +495,10 @@ function monto_reservacion($reservacion)
 
    return $CT;
 }
+
+function obtenerPorcentaje($cantidad, $total) {
+   $porcentaje = ((float)$cantidad * 100) / $total; // Regla de tres
+   $porcentaje = round($porcentaje, 2);  // Quitar los decimales
+   return $porcentaje;
+}
 ?>

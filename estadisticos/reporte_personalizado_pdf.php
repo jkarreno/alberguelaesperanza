@@ -884,16 +884,20 @@ for($i=1; $i<=$_SESSION["rep_per"][8][0][0];$i++)
     $pdf->SetFont('Arial','B',10);
     $pdf->SetY($Y);
     $pdf->SetX(16);
-    $pdf->Cell(184,6,utf8_decode($_SESSION["rep_per"][8][$i][$a]),1,0,'L',0);
+    $pdf->Cell(164,6,utf8_decode($_SESSION["rep_per"][8][$i][$a]),1,0,'L',0);
     array_push($labels6, $_SESSION["rep_per"][8][$i][$a]);
     $a++;
     //
     $pdf->SetFont('Arial','',10);
     $pdf->SetY($Y);
-    $pdf->SetX(200);
+    $pdf->SetX(180);
     $pdf->Cell(12,6,number_format($_SESSION["rep_per"][8][$i][$a]),1,0,'R',0);
     array_push($datos_e, $_SESSION["rep_per"][8][$i][$a]);
-
+    //
+    $pdf->SetFont('Arial','',10);
+    $pdf->SetY($Y);
+    $pdf->SetX(192);
+    $pdf->Cell(20,6,number_format(obtenerPorcentaje($_SESSION["rep_per"][8][$i][$a], $_SESSION["rep_per"][8][1][0]), 2).' %',1,0,'R',0);
     array_push($color_e, randomColor());
 
     $a=1;

@@ -576,13 +576,16 @@ if(isset($_POST["hacer"]))
     
 
     //enfermedades
-    $ResEnfermedades=mysqli_query($conn, "SELECT r.Diagnostico AS Diagnostico, COUNT(*) AS Numero FROM `reservacion`AS r 
-                                            INNER JOIN pacientes AS p ON p.Id=r.IdPaciente 
-                                            WHERE r.Instituto LIKE '".$_POST["hospitales"]."' AND r.Diagnostico LIKE '".$_POST["enfermedades"]."' AND p.FechaNacimiento < '".$edadpi."-".$mesnf."-".$dianf."' AND p.FechaNacimiento >= '".$edadpf."-".$mesnf."-".$dianf."'
-                                            AND p.Estado LIKE '".$_POST["estados"]."' AND p.Sexo LIKE '".$_POST["genero"]."' AND r.Fecha >= '".$_POST["periodode"]."' AND r.Fecha <= '".$_POST["periodohasta"]."' AND r.Diagnostico!='' AND r.Diagnostico LIKE '".$_POST["enfermedades"]."' 
-                                            GROUP BY r.Diagnostico 
-                                            ORDER BY Numero ASC");
+    $senfermedades="SELECT r.Diagnostico AS Diagnostico, COUNT(*) AS Numero FROM `reservacion`AS r 
+                    INNER JOIN pacientes AS p ON p.Id=r.IdPaciente 
+                    WHERE r.Instituto LIKE '".$_POST["hospitales"]."' AND r.Diagnostico LIKE '".$_POST["enfermedades"]."' AND p.FechaNacimiento < '".$edadpi."-".$mesnf."-".$dianf."' AND p.FechaNacimiento >= '".$edadpf."-".$mesnf."-".$dianf."'
+                    AND p.Estado LIKE '".$_POST["estados"]."' AND p.Sexo LIKE '".$_POST["genero"]."' AND r.Fecha >= '".$_POST["periodode"]."' AND r.Fecha <= '".$_POST["periodohasta"]."' AND r.Diagnostico!='' AND r.Diagnostico LIKE '".$_POST["enfermedades"]."' 
+                    GROUP BY r.Diagnostico 
+                    ORDER BY Numero ASC";
+    $ResEnfermedades=mysqli_query($conn, $senfermedades);
     $Enfermedades=mysqli_num_rows($ResEnfermedades);
+
+    $NEnfermedades=mysqli_fetch_array(mysqli_query($conn, "SELECT SUM(s.Numero) AS TE FROM (".$senfermedades.") AS s"));
 
     //pacientes por hospital
     $ResHospitales=mysqli_query($conn, "SELECT r.Instituto AS Instituto, COUNT(*) AS Numero FROM reservacion AS r
@@ -1300,6 +1303,7 @@ if(isset($_POST["hacer"]))
                 <div class="c45">
                     <label class="l_form">Enfermedades: '.$Enfermedades.'</label>';
                     $_SESSION["rep_per"][8][0][0]=$Enfermedades;
+                    $_SESSION["rep_per"][8][1][0]=$NEnfermedades["TE"];
                     $e=1; $a=1; $denf='{
                         labels: ["Enfermedades"], datasets:[';
                     while($RResEnf=mysqli_fetch_array($ResEnfermedades))
