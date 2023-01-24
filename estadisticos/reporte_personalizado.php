@@ -181,7 +181,7 @@ if(isset($_POST["hacer"]))
                                                             INNER JOIN pacientes as p ON p.Id=r.IdPA
                                                             INNER JOIN reservacion as re ON re.Id=r.IdReservacion
                                                             WHERE re.Instituto LIKE '".$_POST["hospitales"]."' AND re.Diagnostico LIKE '".$_POST["enfermedades"]."' AND p.FechaNacimiento < '".$edadpi."-".$mesnf."-".$dianf."' AND p.FechaNacimiento >= '".$edadpf."-".$mesnf."-".$dianf."' 
-                                                            AND p.Estado LIKE '".$_POST["estados"]."' AND p.Sexo LIKE '".$_POST["genero"]."' AND r.Fecha >= '".$_POST["periodode"]."' AND r.Fecha <= '".$_POST["periodohasta"]."' AND r.Estatus='1' AND r.Tipo LIKE 'P' 
+                                                            AND p.Estado LIKE '".$_POST["estados"]."' AND p.Sexo LIKE '".$_POST["genero"]."' AND r.Fecha >= '".$_POST["periodode"]."' AND r.Fecha <= '".$_POST["periodohasta"]."' AND r.Estatus LIKE '".$_POST["reservaciones"]."' AND r.Tipo LIKE 'P' AND r.Cama>0
                                                             GROUP BY concat_ws('-', r.IdPA, r.Tipo)"));
     }
     if($_POST["personas"]=='A' OR $_POST["personas"]=='%')
@@ -190,7 +190,8 @@ if(isset($_POST["hacer"]))
                                                             INNER JOIN acompannantes as a ON a.Id=r.IdPA
                                                             INNER JOIN reservacion as re ON re.Id=r.IdReservacion
                                                             WHERE re.Instituto LIKE '".$_POST["hospitales"]."' AND re.Diagnostico LIKE '".$_POST["enfermedades"]."' AND a.FechaNacimiento < '".$edadpi."-".$mesnf."-".$dianf."' AND a.FechaNacimiento >= '".$edadpf."-".$mesnf."-".$dianf."' 
-                                                            AND a.Estado LIKE '".$_POST["estados"]."' AND a.Sexo LIKE '".$_POST["genero"]."' AND r.Fecha >= '".$_POST["periodode"]."' AND r.Fecha <= '".$_POST["periodohasta"]."' AND r.Estatus='1' AND r.Tipo LIKE 'A' GROUP BY concat_ws('-', r.IdPA, r.Tipo)"));
+                                                            AND a.Estado LIKE '".$_POST["estados"]."' AND a.Sexo LIKE '".$_POST["genero"]."' AND r.Fecha >= '".$_POST["periodode"]."' AND r.Fecha <= '".$_POST["periodohasta"]."' AND r.Estatus LIKE '".$_POST["reservaciones"]."' AND r.Tipo LIKE 'A' AND r.Cama>0 
+                                                            GROUP BY concat_ws('-', r.IdPA, r.Tipo)"));
     }
 
     $TPersonas=$TPersonasP+$TPersonasA;
@@ -610,7 +611,8 @@ if(isset($_POST["hacer"]))
             <div class="c100" style="display: flex; flex-wrap: wrap; justify-content: center; align-items: center; align-content: center;">
                 <div class="c25"></div><div class="c25"></div><div class="c25"></div>
                 <div class="c25">
-                    <a href="estadisticos/reporte_personalizado_pdf.php" target="_blank"><i class="fas fa-print"></i> Imprimir</a>
+                    <a href="estadisticos/reporte_personalizado_pdf.php" target="_blank"><i class="fas fa-print"></i> Imprimir</a> 
+                    <a href="estadisticos/reporte_personalizado_excel.php?periodode='.$_POST["periodode"].'&periodohasta='.$_POST["periodohasta"].'&personas='.$_POST["personas"].'&genero='.$_POST["genero"].'&edadi='.$_POST["edadi"].'&edadf='.$_POST["edadf"].'&reservaciones='.$_POST["reservaciones"].'&enfermedades='.$_POST["enfermedades"].'&hospitales='.$_POST["hospitales"].'&estados='.$_POST["estados"].'" target="_blank"><i class="far fa-file-excel"></i> Exportar</a>
                 </div>
             </div>
 
@@ -741,7 +743,7 @@ if(isset($_POST["hacer"]))
                     <label class="l_form">Total de Albergados: '.number_format($TPersonas).'</label>';
     if($_POST["personas"]=='P' OR $_POST["personas"]=='%')
     {
-        $cadena.='  <label class="l_form"><i class="fas fa-user-injured i_estadistico"></i> Pacientes: '.$TP.' '.$edadpi."-".$mesnf."-".$dianf." ".$edadpf."-".$mesnf."-".$dianf.'</label>';
+        $cadena.='  <label class="l_form"><i class="fas fa-user-injured i_estadistico"></i> Pacientes: '.$TP.'</label>';
         $_SESSION["rep_per"][3][1]=$TP;
     }
     if($_POST["personas"]=='A' OR $_POST["personas"]=='%')
