@@ -1424,43 +1424,67 @@ if(isset($_POST["hacer"]))
     $cadena.='<div class="c100 card">
                 <div class="c45">
                     <label class="l_form">Procedencia: '.$NumEstados.' estados</label>';
-                    $ResEstados=mysqli_query($conn, "SELECT * FROM Estados ORDER BY Estado");
+                    $ResEstados=mysqli_query($conn, "SELECT * FROM Estados WHERE Id LIKE '".$_POST["estados"]."' ORDER BY Estado");
                     $_SESSION["rep_per"][10][0][0]=$NumEstados;
                     $e=1; $a=1; $destados='{
                         labels: ["Estados"], datasets:[';
                     while($RResEstados=mysqli_fetch_array($ResEstados))
-                    {
+                    {   
+                        $sumap=mysqli_num_rows(mysqli_query($conn, "SELECT r.IdPA, p.Estado FROM reservaciones as r 
+                                INNER JOIN pacientes AS p ON r.IdPA=p.Id
+                                INNER JOIN reservacion AS re ON r.IdReservacion=re.Id
+                                WHERE r.Tipo = 'P' AND r.Fecha >= '".$_POST["periodode"]."' AND r.Fecha <= '".$_POST["periodohasta"]."'  AND r.Estatus = 1 
+                                AND p.Estado = '".$RResEstados["Id"]."' AND r.Cama > 0 AND p.Sexo LIKE '".$_POST["genero"]."' AND p.FechaNacimiento < '".$edadpi."-".$mesnf."-".$dianf."' 
+                                AND p.FechaNacimiento >= '".$edadpf."-".$mesni."-".$diani."' AND re.Instituto LIKE '".$_POST["hospitales"]."' AND re.Diagnostico LIKE '".$_POST["enfermedades"]."' 
+                                GROUP BY r.IdPA"));
+
+                        $sumaa=mysqli_num_rows(mysqli_query($conn, "SELECT r.IdPA, a.Estado FROM reservaciones as r 
+                                INNER JOIN acompannantes AS a ON r.IdPA=a.Id
+                                INNER JOIN reservacion AS re ON r.IdReservacion=re.Id
+                                WHERE r.Tipo = 'A' AND r.Fecha >= '".$_POST["periodode"]."' AND r.Fecha <= '".$_POST["periodohasta"]."'  AND r.Estatus = 1 
+                                AND a.Estado = '".$RResEstados["Id"]."' AND r.Cama > 0 AND a.Sexo LIKE '".$_POST["genero"]."' AND a.FechaNacimiento < '".$edadpi."-".$mesnf."-".$dianf."' 
+                                AND a.FechaNacimiento >= '".$edadpf."-".$mesni."-".$diani."' AND re.Instituto LIKE '".$_POST["hospitales"]."' AND re.Diagnostico LIKE '".$_POST["enfermedades"]."' 
+                                GROUP BY r.IdPA"));
+
+                        $suma=$sumap+$sumaa;
+
+                        if($suma>0)
+                        {
+                            $cadena.='<label class="l_form"><i class="fas fa-map-signs  i_estadistico"></i> '.utf8_encode($RResEstados["Estado"]).': '.$suma.'</label>';
+                    
+                            $_SESSION["rep_per"][10][$e][$a]=$RResEstados["Estado"]; $a++;
+                            $_SESSION["rep_per"][10][$e][$a]=$suma; $a=1;
+
+                            $r=rand(0,255); $g=rand(0,255); $b=rand(0,255);
+                            
+                            $destados.='{
+                                label: \''.utf8_encode($RResEstados["Estado"]).'\',
+                                data:['.$suma.'],
+                                backgroundColor: [\'rgba('.$r.','.$g.','.$b.', 0.2)\'],
+                                borderColor: [\'rgba('.$r.','.$g.','.$b.', 1)\'],
+                                borderWidth: [2]
+
+                            }';
+                        
+                            if($e<$NumEstados)
+                            {
+                                $destados.=',';
+                            }
+                        
+                        
+                            $labels2.='\''.utf8_encode($RResEstados["Estado"]).'\',';
+                            $data2.=$suma.',';
+                            $backgroundcolor2.='\'rgba('.$r.','.$g.','.$b.', 0.2)\',';
+                            $bordercolor2.='\'rgba('.$r.','.$g.','.$b.', 1)\',';
+                            $borderwidth2.='2,';
+
+                            $e++;
+                        }
 
                     }
-                    while($RResEst=mysqli_fetch_array($ResProcedencia))
-                    {
-                        $cadena.='<label class="l_form"><i class="fas fa-map-signs  i_estadistico"></i> '.utf8_encode($RResEst["Estado"]).': '.$RResEst["Numero"].'</label>';
-                    
-                        $_SESSION["rep_per"][10][$e][$a]=$RResEst["Estado"]; $a++;
-                        $_SESSION["rep_per"][10][$e][$a]=$RResEst["Numero"]; $a=1;
-
-                        $r=rand(0,255); $g=rand(0,255); $b=rand(0,255);
-                    
-                        $destados.='{
-                            label: \''.utf8_encode($RResEst["Estado"]).'\',
-                            data:['.$RResEst["Numero"].'],
-                            backgroundColor: [\'rgba('.$r.','.$g.','.$b.', 0.2)\'],
-                            borderColor: [\'rgba('.$r.','.$g.','.$b.', 1)\'],
-                            borderWidth: [2]
-
-                        }';
-                    
-                        if($e<$NumEstados)
-                        {
-                            $destados.=',';
-                        }
-                    
-                    
-                        $labels2.='\''.utf8_encode($RResEst["Estado"]).'\',';
-                        $data2.=$RResEst["Numero"].',';
-                        $backgroundcolor2.='\'rgba('.$r.','.$g.','.$b.', 0.2)\',';
-                        $bordercolor2.='\'rgba('.$r.','.$g.','.$b.', 1)\',';
-                        $borderwidth2.='2,';
+                    //while($RResEst=mysqli_fetch_array($ResProcedencia))
+                    //{
+                        
                     
                         //$ResMunicipio=mysqli_query($conn, "SELECT COUNT(Mu.Municipio) AS Numero, Mu.Municipio AS Municipio
                         //                                    FROM (SELECT COUNT(m.Municipio) AS Pacientes, m.Municipio AS Municipio
@@ -1475,8 +1499,8 @@ if(isset($_POST["hacer"]))
                         //    $cadena.='<label class="l_form"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* '.utf8_encode($RResMun["Municipio"]).': '.$RResMun["Numero"].'</label>';
 //
                         //}
-                        $e++;
-                    }
+                        
+                    //}
                     $_SESSION["rep_per"][10][0][1]=$e;
                     $destados.=']};';
     $cadena.='  </div>
