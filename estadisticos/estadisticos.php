@@ -48,6 +48,8 @@ $TE=mysqli_num_rows(mysqli_query($conn, "SELECT IdReservacion FROM `respuestas_e
 $TMA=mysqli_fetch_array(mysqli_query($conn, "SELECT SUM(Cantidad) AS Cantidad FROM material_apoyo_inventario WHERE PA='I'"));
 //material prestado
 $TMAP=mysqli_fetch_array(mysqli_query($conn, "SELECT SUM(Cantidad) AS Cantidad FROM material_apoyo_inventario WHERE PA!='I' AND ES='S'"));
+//estudios socioeconomicos
+$TES=mysqli_num_rows(mysqli_query($conn, "SELECT Id FROM es_salud"));
 
 
 $cadena='<div class="c100 rep">
@@ -117,6 +119,16 @@ $cadena='<div class="c100 rep">
                     <p style="text-align: right;">'.permisos(108, '<a href="#" onclick="e_encuestas()">Ver mas ></a>').'</p>
                 </div>
             </div>
+
+            <div class="c30" style="padding: 0 20px;">
+                <div class="card_soc c100">
+                    <h1>Socioeconomico</h1>
+                </div>
+                <div class="c100">
+                    <p><strong>Estudios: </strong>'.number_format($TES).'</p>
+                    <p style="text-align: right;">'.permisos(137, '<a href="#" onclick="e_socioeconomicos(\''.date("Y").'\')">Ver mas ></a>').'</p>
+                </div>
+            </div>
         </div>';
 
 echo $cadena;
@@ -155,6 +167,15 @@ function e_encuestas(){
     $.ajax({
 				type: 'POST',
 				url : 'estadisticos/encuestas.php'
+	}).done (function ( info ){
+		$('#contenido').html(info);
+	});
+}
+function e_socioeconomicos(anno){
+    $.ajax({
+				type: 'POST',
+				url : 'estadisticos/esocioe.php',
+                data: 'anno=' + anno
 	}).done (function ( info ){
 		$('#contenido').html(info);
 	});
