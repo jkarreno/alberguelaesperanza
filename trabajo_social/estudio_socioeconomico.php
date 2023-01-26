@@ -420,7 +420,8 @@ $cadena.='<div class="c100 card">
                 {
                     $cadena.='<option value="'.$RResAco["Id"].'">'.$RResAco["Nombre"].' '.$RResAco["Apellidos"].'</option>';
                 }
-$cadena.='          </select>
+$cadena.='              <option value="0">Sin acompañante</option>
+                    </select>
                 </div>
                 <div class="c100">
                     <input type="hidden" name="hacer" id="hacer" value="guardar_es">
