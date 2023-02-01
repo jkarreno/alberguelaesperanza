@@ -9,11 +9,12 @@ include('../funciones.php');
 $cadena='<table style="width:80%">
             <thead>
                 <tr>
-                    <th colspan="8" align="center" class="textotitable">Reservaciones con adeudos</th>
+                    <th colspan="9" align="center" class="textotitable">Reservaciones con adeudos</th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
+                    <th align="center" class="textotitable"></th>
                     <th align="center" class="textotitable">Reservación</th>
                     <th align="center" class="textotitable">Fecha</th>
                     <th align="center" class="textotitable">Registro</th>
@@ -29,11 +30,12 @@ while($RResR=mysqli_fetch_array($ResReservaciones))
 {
     $ResP=mysqli_fetch_array(mysqli_query($conn, "SELECT CONCAT(Nombre, ' ', Apellidos, ' ', Apellidos2) AS Nombre FROM pacientes WHERE Id='".$RResR["IdPaciente"]."' LIMIT 1"));
 
-    $ResPagado=mysqli_fetch_array(mysqli_query($conn, "SELECT SUM(Monto) AS Total FROM pagoreservacion WHERE IdREservacion='".$RResR["Id"]));
+    $ResPagado=mysqli_fetch_array(mysqli_query($conn, "SELECT SUM(Monto) AS Total FROM pagoreservacion WHERE IdReservacion='".$RResR["Id"]."'"));
 
     $monto=monto_reservacion($RResR["Id"]);
 
     $cadena.='  <tr style="background: '.$bgcolor.'" id="row_'.$J.'">
+                    <td width="100" onmouseover="row_'.$J.'.style.background=\'#badad8\'" onmouseout="row_'.$J.'.style.background=\''.$bgcolor.'\'" align="center" class="texto">'.$J.'</td>
                     <td width="100" onmouseover="row_'.$J.'.style.background=\'#badad8\'" onmouseout="row_'.$J.'.style.background=\''.$bgcolor.'\'" align="center" class="texto">'.$RResR["Id"].'</td>
                     <td width="100" onmouseover="row_'.$J.'.style.background=\'#badad8\'" onmouseout="row_'.$J.'.style.background=\''.$bgcolor.'\'" align="center" class="texto">'.$RResR["Fecha"].'</td>
                     <td width="100" onmouseover="row_'.$J.'.style.background=\'#badad8\'" onmouseout="row_'.$J.'.style.background=\''.$bgcolor.'\'" align="center" class="texto">'.$RResR["IdPaciente"].'</td>

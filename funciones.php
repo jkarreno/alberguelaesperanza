@@ -462,7 +462,7 @@ function monto_reservacion($reservacion)
 
    $dpaci=mysqli_num_rows(mysqli_query($conn, "SELECT IdPA FROM reservaciones WHERE IdReservacion='".$reservacion."' AND Tipo='P' AND Cama>='0' GROUP BY IdPA")); //cuantos dias esta en el albergue
 
-   $ResPac=mysqli_fetch_array(mysqli_query($conn, "SELECT FechaNacimiento WHERE Id='".$dpaci["IdPA"]."'"));
+   $ResPac=mysqli_fetch_array(mysqli_query($conn, "SELECT FechaNacimiento FROM pacientes WHERE Id='".$dpaci["IdPA"]."'"));
 
    if($dpaci>0)
    {
