@@ -89,7 +89,10 @@ if(isset($_POST["hacer"]))
 $cadena=$mensaje.'<table style="width:80%">
             <thead>
             <tr>
-                <td colspan="3">
+                <td>
+                    <a href="javascript:void(0)" onclick="rep_caducidad(\''.date("Y").'\', \''.date("m").'\')"><i class="fa-solid fa-calendar-day"></i></a>
+                </td>
+                <td colspan="2">
                     <select name="productos" id="productos" onchange="inv_producto(this.value)">
                         <option value="0">Selecciona</option>';
 $ResProductos=mysqli_query($conn, "SELECT * FROM productos ORDER BY Nombre ASC");
@@ -214,6 +217,16 @@ function masivos(){
     $.ajax({
 				type: 'POST',
 				url : 'almacen/masivos.php'
+	}).done (function ( info ){
+		$('#contenido').html(info);
+	});
+}
+
+function rep_caducidad(anno, mes){
+    $.ajax({
+				type: 'POST',
+				url : 'almacen/repcaducidad.php',
+                data: 'anno=' + anno + "&mes=" + mes
 	}).done (function ( info ){
 		$('#contenido').html(info);
 	});
