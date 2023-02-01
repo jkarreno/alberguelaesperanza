@@ -372,13 +372,13 @@ while($RResHab=mysqli_fetch_array($ResHab))
                             if($RResRes["Tipo"]=='P')
                             {
                                 $ResEsD=mysqli_query($conn, "SELECT Id FROM es_diagnosticosocial WHERE IdPaciente='".$ResNombre["Id"]."'");
-                                $ResEsE=mysqli_query($conn, "SELECT Id FROM es_estructurafamiliar WHERE IdPaciente='".$ResNombre["Id"]."'");
+                                //$ResEsE=mysqli_query($conn, "SELECT Id FROM es_estructurafamiliar WHERE IdPaciente='".$ResNombre["Id"]."'");
                                 $ResEsS=mysqli_query($conn, "SELECT Id FROM es_salud WHERE IdPaciente='".$ResNombre["Id"]."'");
                                 $ResEsSeE=mysqli_query($conn, "SELECT Id FROM es_situacioneconomica_egreso WHERE IdPaciente='".$ResNombre["Id"]."'");
                                 $ResEsSeI=mysqli_query($conn, "SELECT Id FROM es_situacioneconomica_ingreso WHERE IdPaciente='".$ResNombre["Id"]."'");
                                 $ResEsV=mysqli_query($conn, "SELECT Id FROM es_vivienda WHERE IdPaciente='".$ResNombre["Id"]."'");
 
-                                if(mysqli_num_rows($ResEsD)==0 OR mysqli_num_rows($ResEsE)==0 OR mysqli_num_rows($ResEsS)==0 OR mysqli_num_rows($ResEsSeE)==0 OR mysqli_num_rows($ResEsSeI)==0 OR mysqli_num_rows($ResEsV)==0)
+                                if(mysqli_num_rows($ResEsD)==0 OR mysqli_num_rows($ResEsS)==0 OR mysqli_num_rows($ResEsSeE)==0 OR mysqli_num_rows($ResEsSeI)==0 OR mysqli_num_rows($ResEsV)==0)
                                 {
                                     $cadena.=permisos(27, ' <i class="fas fa-exclamation-triangle" style="color: yellow; cursor: pointer;" onclick="estudiosocioeconomico(\''.$ResNombre["Id"].'\')"></i>');
                                 }
