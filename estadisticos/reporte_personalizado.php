@@ -1163,7 +1163,7 @@ if(isset($_POST["hacer"]))
                                 <label class="l_form">0 a 12 años: '.$RResDoceA["Numero"].'</label>
                             </td>
                             <td>
-                                <label class="l_form">'.$RReaDoceA_m["Numero"].'</label>
+                                <label class="l_form">'.$RResDoceA_m["Numero"].'</label>
                             </td>
                             <td>
                                 <label class="l_form">'.$RResDoceA_f["Numero"].'</label>

@@ -123,113 +123,113 @@ $ResProcedencia=mysqli_query($conn, "SELECT COUNT(Es.Estado) AS Numero, Es.Estad
 $NumEstados=mysqli_num_rows($ResProcedencia);
 
 $Y=$anno;
-//edad 0 a 3 años paciente
-//$ResTres=mysqli_query($conn, "SELECT COUNT(s.Id) AS Numero 
-//                                FROM (SELECT Id FROM pacientes WHERE Id IN 
-//                                (SELECT IdPA FROM reservaciones WHERE Fecha LIKE '".$anno."-".$mes."-%' AND Tipo = 'P' AND Estatus=1 GROUP BY IdPA ORDER BY IdPA ASC) 
-//                                AND FechaNacimiento < '".$anno."-".$mes."-31' AND FechaNacimiento >= '".($Y-3)."-".$mes."-01') AS s");
-//$RResTres=mysqli_fetch_array($ResTres);
-//$_SESSION["PRTres"]=$RResTres["Numero"];
-////edad de 3 a 6 años pacientes
-//$ResSeis=mysqli_query($conn, "SELECT COUNT(s.Id) AS Numero 
-//                                FROM (SELECT Id FROM pacientes WHERE Id IN 
-//                                (SELECT IdPA FROM reservaciones WHERE Fecha LIKE '".$anno."-".$mes."-%' AND Tipo = 'P' AND Estatus=1 GROUP BY IdPA ORDER BY IdPA ASC) 
-//                                AND FechaNacimiento < '".($Y-3)."-".$mes."-01' AND FechaNacimiento >= '".($Y-6)."-".$mes."-01') AS s");
-//$RResSeis=mysqli_fetch_array($ResSeis);
-//$_SESSION["PRSeis"]=$RResSeis["Numero"];
-////edad de 6 a 12 años pacientes
-//$ResDoce=mysqli_query($conn, "SELECT COUNT(s.Id) AS Numero 
-//                                FROM (SELECT Id FROM pacientes WHERE Id IN 
-//                                (SELECT IdPA FROM reservaciones WHERE Fecha LIKE '".$anno."-".$mes."-%' AND Tipo = 'P' AND Estatus=1 GROUP BY IdPA ORDER BY IdPA ASC) 
-//                                AND FechaNacimiento < '".($Y-6)."-".$mes."-01' AND FechaNacimiento >= '".($Y-12)."-".$mes."-01') AS s");
+//edad 0 a 12 años paciente
 $ResDoce=mysqli_query($conn, "SELECT COUNT(s.Id) AS Numero 
                                 FROM (SELECT Id FROM pacientes WHERE Id IN 
                                 (SELECT IdPA FROM reservaciones WHERE Fecha LIKE '".$anno."-".$mes."-%' AND Tipo = 'P' AND Estatus=1 AND Cama>0 GROUP BY IdPA ORDER BY IdPA ASC) 
                                 AND FechaNacimiento < '".$anno."-".$mes."-31' AND FechaNacimiento >= '".($Y-12)."-".$mes."-01') AS s");
 $RResDoce=mysqli_fetch_array($ResDoce);
+$ResDoce_f=mysqli_query($conn, "SELECT COUNT(s.Id) AS Numero 
+                                FROM (SELECT Id FROM pacientes WHERE Id IN 
+                                (SELECT IdPA FROM reservaciones WHERE Fecha LIKE '".$anno."-".$mes."-%' AND Tipo = 'P' AND Estatus=1 AND Cama>0 GROUP BY IdPA ORDER BY IdPA ASC) 
+                                AND FechaNacimiento < '".$anno."-".$mes."-31' AND FechaNacimiento >= '".($Y-12)."-".$mes."-01' AND Sexo='F') AS s");
+$RResDoce_f=mysqli_fetch_array($ResDoce_f);
+$ResDoce_m=mysqli_query($conn, "SELECT COUNT(s.Id) AS Numero 
+                                FROM (SELECT Id FROM pacientes WHERE Id IN 
+                                (SELECT IdPA FROM reservaciones WHERE Fecha LIKE '".$anno."-".$mes."-%' AND Tipo = 'P' AND Estatus=1 AND Cama>0 GROUP BY IdPA ORDER BY IdPA ASC) 
+                                AND FechaNacimiento < '".$anno."-".$mes."-31' AND FechaNacimiento >= '".($Y-12)."-".$mes."-01' AND Sexo='M') AS s");
+$RResDoce_m=mysqli_fetch_array($ResDoce_m);
 $_SESSION["PRDoce"]=$RResDoce["Numero"];
-//edad de 12 a 18 años pacientes
-//$ResDieciocho=mysqli_query($conn, "SELECT COUNT(s.Id) AS Numero 
-//                                FROM (SELECT Id FROM pacientes WHERE Id IN 
-//                                (SELECT IdPA FROM reservaciones WHERE Fecha LIKE '".$anno."-".$mes."-%' AND Tipo = 'P' AND Estatus=1 GROUP BY IdPA ORDER BY IdPA ASC) 
-//                                AND FechaNacimiento < '".($Y-12)."-".$mes."-01' AND FechaNacimiento >= '".($Y-18)."-".$mes."-01') AS s");
-//$RResDieciocho=mysqli_fetch_array($ResDieciocho);
+
 //edad de 13 a 20 años pacientes
 $ResVeinte=mysqli_query($conn, "SELECT COUNT(s.Id) AS Numero 
                                 FROM (SELECT Id FROM pacientes WHERE Id IN 
                                 (SELECT IdPA FROM reservaciones WHERE Fecha LIKE '".$anno."-".$mes."-%' AND Tipo = 'P' AND Estatus=1 AND Cama>0 GROUP BY IdPA ORDER BY IdPA ASC) 
                                 AND FechaNacimiento < '".($Y-12)."-".$mes."-01' AND FechaNacimiento >= '".($Y-20)."-".$mes."-01') AS s");
 $RResVeinte=mysqli_fetch_array($ResVeinte);
+$ResVeinte_f=mysqli_query($conn, "SELECT COUNT(s.Id) AS Numero 
+                                FROM (SELECT Id FROM pacientes WHERE Id IN 
+                                (SELECT IdPA FROM reservaciones WHERE Fecha LIKE '".$anno."-".$mes."-%' AND Tipo = 'P' AND Estatus=1 AND Cama>0 GROUP BY IdPA ORDER BY IdPA ASC) 
+                                AND FechaNacimiento < '".($Y-12)."-".$mes."-01' AND FechaNacimiento >= '".($Y-20)."-".$mes."-01' AND Sexo='F') AS s");
+$RResVeinte_f=mysqli_fetch_array($ResVeinte_f);
+$ResVeinte_m=mysqli_query($conn, "SELECT COUNT(s.Id) AS Numero 
+                                FROM (SELECT Id FROM pacientes WHERE Id IN 
+                                (SELECT IdPA FROM reservaciones WHERE Fecha LIKE '".$anno."-".$mes."-%' AND Tipo = 'P' AND Estatus=1 AND Cama>0 GROUP BY IdPA ORDER BY IdPA ASC) 
+                                AND FechaNacimiento < '".($Y-12)."-".$mes."-01' AND FechaNacimiento >= '".($Y-20)."-".$mes."-01' AND Sexo='M') AS s");
+$RResVeinte_m=mysqli_fetch_array($ResVeinte_m);
 $_SESSION["PRVeinte"]=$RResVeinte["Numero"];
-//edad de 18 a 50 años pacientes
-//$ResCincuenta=mysqli_query($conn, "SELECT COUNT(s.Id) AS Numero 
-//                                FROM (SELECT Id FROM pacientes WHERE Id IN 
-//                                (SELECT IdPA FROM reservaciones WHERE Fecha LIKE '".$anno."-".$mes."-%' AND Tipo = 'P' AND Estatus=1 GROUP BY IdPA ORDER BY IdPA ASC) 
-//                                AND FechaNacimiento < '".($Y-18)."-".$mes."-01' AND FechaNacimiento >= '".($Y-50)."-".$mes."-01') AS s");
-//$RResCincuenta=mysqli_fetch_array($ResCincuenta);
+
 //edad de 21 a 64 años pacientes
 $ResSesentaycuatro=mysqli_query($conn, "SELECT COUNT(s.Id) AS Numero 
                                 FROM (SELECT Id FROM pacientes WHERE Id IN 
                                 (SELECT IdPA FROM reservaciones WHERE Fecha LIKE '".$anno."-".$mes."-%' AND Tipo = 'P' AND Estatus=1 AND Cama>0 GROUP BY IdPA ORDER BY IdPA ASC) 
                                 AND FechaNacimiento < '".($Y-20)."-".$mes."-01' AND FechaNacimiento >= '".($Y-64)."-".$mes."-01') AS s");
 $RResSesentaycuatro=mysqli_fetch_array($ResSesentaycuatro);
+$ResSesentaycuatro_f=mysqli_query($conn, "SELECT COUNT(s.Id) AS Numero 
+                                FROM (SELECT Id FROM pacientes WHERE Id IN 
+                                (SELECT IdPA FROM reservaciones WHERE Fecha LIKE '".$anno."-".$mes."-%' AND Tipo = 'P' AND Estatus=1 AND Cama>0 GROUP BY IdPA ORDER BY IdPA ASC) 
+                                AND FechaNacimiento < '".($Y-20)."-".$mes."-01' AND FechaNacimiento >= '".($Y-64)."-".$mes."-01' AND Sexo='F') AS s");
+$RResSesentaycuatro_f=mysqli_fetch_array($ResSesentaycuatro_f);
+$ResSesentaycuatro_m=mysqli_query($conn, "SELECT COUNT(s.Id) AS Numero 
+                                FROM (SELECT Id FROM pacientes WHERE Id IN 
+                                (SELECT IdPA FROM reservaciones WHERE Fecha LIKE '".$anno."-".$mes."-%' AND Tipo = 'P' AND Estatus=1 AND Cama>0 GROUP BY IdPA ORDER BY IdPA ASC) 
+                                AND FechaNacimiento < '".($Y-20)."-".$mes."-01' AND FechaNacimiento >= '".($Y-64)."-".$mes."-01' AND Sexo='M') AS s");
+$RResSesentaycuatro_m=mysqli_fetch_array($ResSesentaycuatro_m);
 $_SESSION["PRSesentaycuatro"]=$RResSesentaycuatro["Numero"];
-//edad de 50 a 65 años pacientes
-//$ResSesentaycinco=mysqli_query($conn, "SELECT COUNT(s.Id) AS Numero 
-//                                FROM (SELECT Id FROM pacientes WHERE Id IN 
-//                                (SELECT IdPA FROM reservaciones WHERE Fecha LIKE '".$anno."-".$mes."-%' AND Tipo = 'P' AND Estatus=1 GROUP BY IdPA ORDER BY IdPA ASC) 
-//                                AND FechaNacimiento < '".($Y-50)."-".$mes."-01' AND FechaNacimiento >= '".($Y-65)."-".$mes."-01') AS s");
-//$RResSesentaycinco=mysqli_fetch_array($ResSesentaycinco);
-//$_SESSION["PRSesentaycinco"]=$RResSesentaycinco["Numero"];
+
 //edad de mas de 65 años pacientes
 $ResMas=mysqli_query($conn, "SELECT COUNT(s.Id) AS Numero 
                                 FROM (SELECT Id FROM pacientes WHERE Id IN 
                                 (SELECT IdPA FROM reservaciones WHERE Fecha LIKE '".$anno."-".$mes."-%' AND Tipo = 'P' AND Estatus=1 AND Cama>0 GROUP BY IdPA ORDER BY IdPA ASC) 
                                 AND FechaNacimiento < '".($Y-64)."-".$mes."-01') AS s");
 $RResMas=mysqli_fetch_array($ResMas);
+$ResMas_f=mysqli_query($conn, "SELECT COUNT(s.Id) AS Numero 
+                                FROM (SELECT Id FROM pacientes WHERE Id IN 
+                                (SELECT IdPA FROM reservaciones WHERE Fecha LIKE '".$anno."-".$mes."-%' AND Tipo = 'P' AND Estatus=1 AND Cama>0 GROUP BY IdPA ORDER BY IdPA ASC) 
+                                AND FechaNacimiento < '".($Y-64)."-".$mes."-01' AND Sexo='F') AS s");
+$RResMas_f=mysqli_fetch_array($ResMas_f);
+$ResMas_m=mysqli_query($conn, "SELECT COUNT(s.Id) AS Numero 
+                                FROM (SELECT Id FROM pacientes WHERE Id IN 
+                                (SELECT IdPA FROM reservaciones WHERE Fecha LIKE '".$anno."-".$mes."-%' AND Tipo = 'P' AND Estatus=1 AND Cama>0 GROUP BY IdPA ORDER BY IdPA ASC) 
+                                AND FechaNacimiento < '".($Y-64)."-".$mes."-01' AND Sexo='M') AS s");
+$RResMas_m=mysqli_fetch_array($ResMas_m);
 $_SESSION["PRMas"]=$RResMas["Numero"];
 
-//edad 0 a 3 años acompañantes
-//$ResTresA=mysqli_query($conn, "SELECT COUNT(s.Id) AS Numero 
-//                                FROM (SELECT Id FROM acompannantes WHERE Id IN 
-//                                (SELECT IdPA FROM reservaciones WHERE Fecha LIKE '".$anno."-".$mes."-%' AND Tipo = 'A' AND Estatus=1 GROUP BY IdPA ORDER BY IdPA ASC) 
-//                                AND FechaNacimiento < '".$anno."-".$mes."-31' AND FechaNacimiento >= '".($Y-3)."-".$mes."-01') AS s");
-//$RResTresA=mysqli_fetch_array($ResTresA);
-//$_SESSION["ARTres"]=$RResTresA["Numero"];
-////edad de 3 a 6 años acompañantes
-//$ResSeisA=mysqli_query($conn, "SELECT COUNT(s.Id) AS Numero 
-//                                FROM (SELECT Id FROM acompannantes WHERE Id IN 
-//                                (SELECT IdPA FROM reservaciones WHERE Fecha LIKE '".$anno."-".$mes."-%' AND Tipo = 'A' AND Estatus=1 GROUP BY IdPA ORDER BY IdPA ASC) 
-//                                AND FechaNacimiento < '".($Y-3)."-".$mes."-01' AND FechaNacimiento >= '".($Y-6)."-".$mes."-01') AS s");
-//$RResSeisA=mysqli_fetch_array($ResSeisA);
-//$_SESSION["ARSeis"]=$RResSeisA["Numero"];
-////edad de 6 a 12 años acompañantes
-//$ResDoceA=mysqli_query($conn, "SELECT COUNT(s.Id) AS Numero 
-//                                FROM (SELECT Id FROM acompannantes WHERE Id IN 
-//                                (SELECT IdPA FROM reservaciones WHERE Fecha LIKE '".$anno."-".$mes."-%' AND Tipo = 'A' AND Estatus=1 GROUP BY IdPA ORDER BY IdPA ASC) 
-//                                AND FechaNacimiento < '".($Y-6)."-".$mes."-01' AND FechaNacimiento >= '".($Y-12)."-".$mes."-01') AS s");
-//$RResDoceA=mysqli_fetch_array($ResDoceA);
-//$_SESSION["ARDoce"]=$RResDoceA["Numero"];
+
 //edad de 0 a 12 años acompañantes
 $ResDoceA=mysqli_query($conn, "SELECT COUNT(s.Id) AS Numero 
                                 FROM (SELECT Id FROM acompannantes WHERE Id IN 
                                 (SELECT IdPA FROM reservaciones WHERE Fecha LIKE '".$anno."-".$mes."-%' AND Tipo = 'A' AND Estatus=1 GROUP BY IdPA ORDER BY IdPA ASC) 
                                 AND FechaNacimiento < '".$anno."-".$mes."-31' AND FechaNacimiento >= '".($Y-12)."-".$mes."-01') AS s");
 $RResDoceA=mysqli_fetch_array($ResDoceA);
+$ResDoceA_f=mysqli_query($conn, "SELECT COUNT(s.Id) AS Numero 
+                                FROM (SELECT Id FROM acompannantes WHERE Id IN 
+                                (SELECT IdPA FROM reservaciones WHERE Fecha LIKE '".$anno."-".$mes."-%' AND Tipo = 'A' AND Estatus=1 GROUP BY IdPA ORDER BY IdPA ASC) 
+                                AND FechaNacimiento < '".$anno."-".$mes."-31' AND FechaNacimiento >= '".($Y-12)."-".$mes."-01' AND Sexo='F') AS s");
+$RResDoceA_f=mysqli_fetch_array($ResDoceA_f);
+$ResDoceA_m=mysqli_query($conn, "SELECT COUNT(s.Id) AS Numero 
+                                FROM (SELECT Id FROM acompannantes WHERE Id IN 
+                                (SELECT IdPA FROM reservaciones WHERE Fecha LIKE '".$anno."-".$mes."-%' AND Tipo = 'A' AND Estatus=1 GROUP BY IdPA ORDER BY IdPA ASC) 
+                                AND FechaNacimiento < '".$anno."-".$mes."-31' AND FechaNacimiento >= '".($Y-12)."-".$mes."-01' AND Sexo='M') AS s");
+$RResDoceA_m=mysqli_fetch_array($ResDoceA_m);
 $_SESSION["ARDoce"]=$RResDoceA["Numero"];
-//edad de 12 a 18 años acompañantes
-//$ResDieciochoA=mysqli_query($conn, "SELECT COUNT(s.Id) AS Numero 
-//                                FROM (SELECT Id FROM acompannantes WHERE Id IN 
-//                                (SELECT IdPA FROM reservaciones WHERE Fecha LIKE '".$anno."-".$mes."-%' AND Tipo = 'A' AND Estatus=1 GROUP BY IdPA ORDER BY IdPA ASC) 
-//                                AND FechaNacimiento < '".($Y-12)."-".$mes."-01' AND FechaNacimiento >= '".($Y-18)."-".$mes."-01') AS s");
-//$RResDieciochoA=mysqli_fetch_array($ResDieciochoA);
-//$_SESSION["ARDieciocho"]=$RResDieciochoA["Numero"];
+
 //edad de 13 a 20 años acompañantes
 $ResVeinteA=mysqli_query($conn, "SELECT COUNT(s.Id) AS Numero 
                                 FROM (SELECT Id FROM acompannantes WHERE Id IN 
                                 (SELECT IdPA FROM reservaciones WHERE Fecha LIKE '".$anno."-".$mes."-%' AND Tipo = 'A' AND Estatus=1 GROUP BY IdPA ORDER BY IdPA ASC) 
                                 AND FechaNacimiento < '".($Y-12)."-".$mes."-01' AND FechaNacimiento >= '".($Y-20)."-".$mes."-01') AS s");
 $RResVeinteA=mysqli_fetch_array($ResVeinteA);
+$ResVeinteA_f=mysqli_query($conn, "SELECT COUNT(s.Id) AS Numero 
+                                FROM (SELECT Id FROM acompannantes WHERE Id IN 
+                                (SELECT IdPA FROM reservaciones WHERE Fecha LIKE '".$anno."-".$mes."-%' AND Tipo = 'A' AND Estatus=1 GROUP BY IdPA ORDER BY IdPA ASC) 
+                                AND FechaNacimiento < '".($Y-12)."-".$mes."-01' AND FechaNacimiento >= '".($Y-20)."-".$mes."-01' AND Sexo='F') AS s");
+$RResVeinteA_f=mysqli_fetch_array($ResVeinteA_f);
+$ResVeinteA_m=mysqli_query($conn, "SELECT COUNT(s.Id) AS Numero 
+                                FROM (SELECT Id FROM acompannantes WHERE Id IN 
+                                (SELECT IdPA FROM reservaciones WHERE Fecha LIKE '".$anno."-".$mes."-%' AND Tipo = 'A' AND Estatus=1 GROUP BY IdPA ORDER BY IdPA ASC) 
+                                AND FechaNacimiento < '".($Y-12)."-".$mes."-01' AND FechaNacimiento >= '".($Y-20)."-".$mes."-01' AND Sexo='M') AS s");
+$RResVeinteA_m=mysqli_fetch_array($ResVeinteA_m);
 $_SESSION["ARVeinte"]=$RResVeinteA["Numero"];
 //edad de 21 a 64 años acompañantes
 $ResSesentaycuatroA=mysqli_query($conn, "SELECT COUNT(s.Id) AS Numero 
@@ -237,20 +237,34 @@ $ResSesentaycuatroA=mysqli_query($conn, "SELECT COUNT(s.Id) AS Numero
                                 (SELECT IdPA FROM reservaciones WHERE Fecha LIKE '".$anno."-".$mes."-%' AND Tipo = 'A' AND Estatus=1 GROUP BY IdPA ORDER BY IdPA ASC) 
                                 AND FechaNacimiento < '".($Y-20)."-".$mes."-01' AND FechaNacimiento >= '".($Y-64)."-".$mes."-01') AS s");
 $RResSesentaycuatroA=mysqli_fetch_array($ResSesentaycuatroA);
+$ResSesentaycuatroA_f=mysqli_query($conn, "SELECT COUNT(s.Id) AS Numero 
+                                FROM (SELECT Id FROM acompannantes WHERE Id IN 
+                                (SELECT IdPA FROM reservaciones WHERE Fecha LIKE '".$anno."-".$mes."-%' AND Tipo = 'A' AND Estatus=1 GROUP BY IdPA ORDER BY IdPA ASC) 
+                                AND FechaNacimiento < '".($Y-20)."-".$mes."-01' AND FechaNacimiento >= '".($Y-64)."-".$mes."-01' AND Sexo='F') AS s");
+$RResSesentaycuatroA_f=mysqli_fetch_array($ResSesentaycuatroA_f);
+$ResSesentaycuatroA_m=mysqli_query($conn, "SELECT COUNT(s.Id) AS Numero 
+                                FROM (SELECT Id FROM acompannantes WHERE Id IN 
+                                (SELECT IdPA FROM reservaciones WHERE Fecha LIKE '".$anno."-".$mes."-%' AND Tipo = 'A' AND Estatus=1 GROUP BY IdPA ORDER BY IdPA ASC) 
+                                AND FechaNacimiento < '".($Y-20)."-".$mes."-01' AND FechaNacimiento >= '".($Y-64)."-".$mes."-01' AND Sexo='M') AS s");
+$RResSesentaycuatroA_m=mysqli_fetch_array($ResSesentaycuatroA_m);
 $_SESSION["ARSesentaycuatro"]=$RResSesentaycuatroA["Numero"];
-//edad de 50 a 65 años acompañantes
-//$ResSesentaycincoA=mysqli_query($conn, "SELECT COUNT(s.Id) AS Numero 
-//                                FROM (SELECT Id FROM acompannantes WHERE Id IN 
-//                                (SELECT IdPA FROM reservaciones WHERE Fecha LIKE '".$anno."-".$mes."-%' AND Tipo = 'A' AND Estatus=1 GROUP BY IdPA ORDER BY IdPA ASC) 
-//                                AND FechaNacimiento < '".($Y-50)."-".$mes."-01' AND FechaNacimiento >= '".($Y-65)."-".$mes."-01') AS s");
-//$RResSesentaycincoA=mysqli_fetch_array($ResSesentaycincoA);
-//$_SESSION["ARSesentaycinco"]=$RResSesentaycincoA["Numero"];
+
 //edad de mas de 65 años acompañantes
 $ResMasA=mysqli_query($conn, "SELECT COUNT(s.Id) AS Numero 
                                 FROM (SELECT Id FROM acompannantes WHERE Id IN 
                                 (SELECT IdPA FROM reservaciones WHERE Fecha LIKE '".$anno."-".$mes."-%' AND Tipo = 'A' AND Estatus=1 GROUP BY IdPA ORDER BY IdPA ASC) 
                                 AND FechaNacimiento < '".($Y-64)."-".$mes."-01') AS s");
 $RResMasA=mysqli_fetch_array($ResMasA);
+$ResMasA_f=mysqli_query($conn, "SELECT COUNT(s.Id) AS Numero 
+                                FROM (SELECT Id FROM acompannantes WHERE Id IN 
+                                (SELECT IdPA FROM reservaciones WHERE Fecha LIKE '".$anno."-".$mes."-%' AND Tipo = 'A' AND Estatus=1 GROUP BY IdPA ORDER BY IdPA ASC) 
+                                AND FechaNacimiento < '".($Y-64)."-".$mes."-01' AND Sexo='F') AS s");
+$RResMasA_f=mysqli_fetch_array($ResMasA_f);
+$ResMasA_m=mysqli_query($conn, "SELECT COUNT(s.Id) AS Numero 
+                                FROM (SELECT Id FROM acompannantes WHERE Id IN 
+                                (SELECT IdPA FROM reservaciones WHERE Fecha LIKE '".$anno."-".$mes."-%' AND Tipo = 'A' AND Estatus=1 GROUP BY IdPA ORDER BY IdPA ASC) 
+                                AND FechaNacimiento < '".($Y-64)."-".$mes."-01' AND Sexo='M') AS s");
+$RResMasA_m=mysqli_fetch_array($ResMasA_m);
 $_SESSION["ARMas"]=$RResMasA["Numero"];
 
 
@@ -576,10 +590,33 @@ $cadena='<h2>Hospedajes '; if($mes!='%'){$cadena.=mes($mes).' - ';}$cadena.=$ann
         $cadena.='<div class="c100 card">
             <div class="c45">
             <label class="l_form">Edades Pacientes</label>
-            <label class="l_form"><i class="fas fa-child i_estadistico"></i> 0 a 12 años: '.$RResDoce["Numero"].'</label>
-            <label class="l_form"><i class="fas fa-male i_estadistico"></i> 13 a 20 años: '.$RResVeinte["Numero"].'</label>
-            <label class="l_form"><i class="fas fa-male i_estadistico"></i> 21 a 64 años: '.$RResSesentaycuatro["Numero"].'</label>
-            <label class="l_form"><i class="fas fa-wheelchair i_estadistico"></i> 65 y más años: '.$RResMas["Numero"].'</label>
+                <table border="0">
+                    <tr>
+                        <td></td>
+                        <td><i class="fas fa-mars"></i></td>
+                        <td><i class="fas fa-venus"></i></td>
+                    </tr>
+                    <tr>
+                        <td><label class="l_form">0 a 12 años: '.$RResDoce["Numero"].'</label></td>
+                        <td>'.$RResDoce_m["Numero"].'</td>
+                        <td>'.$RResDoce_f["Numero"].'</td>
+                    </tr>
+                    <tr>
+                        <td><label class="l_form">13 a 20 años: '.$RResVeinte["Numero"].'</label></td>
+                        <td>'.$RResVeinte_m["Numero"].'</td>
+                        <td>'.$RResVeinte_f["Numero"].'</td>
+                    </tr>
+                    <tr>
+                        <td><label class="l_form">21 a 64 años: '.$RResSesentaycuatro["Numero"].'</label></td>
+                        <td>'.$RResSesentaycuatro_m["Numero"].'</td>
+                        <td>'.$RResSesentaycuatro_f["Numero"].'</td>
+                    </tr>
+                    <tr>
+                        <td><label class="l_form">65 y mas años: '.$RResMas["Numero"].'</label></td>
+                        <td>'.$RResMas_m["Numero"].'</td>
+                        <td>'.$RResMas_f["Numero"].'</td>
+                    </tr>
+                </table>
             </div>
             <div class="c45">
                 <canvas id="myChart_edad_pacientes"></canvas>
@@ -639,11 +676,58 @@ $cadena='<h2>Hospedajes '; if($mes!='%'){$cadena.=mes($mes).' - ';}$cadena.=$ann
 
         $cadena.='<div class="c100 card">
             <div class="c45">
-            <label class="l_form">Edades Acompañantes</label>
-            <label class="l_form"><i class="fas fa-child i_estadistico"></i> 0 a 12 años: '.$_SESSION["ARDoce"].'</label>
-            <label class="l_form"><i class="fas fa-male i_estadistico"></i> 13 a 20 años: '.$_SESSION["ARVeinte"].'</label>
-            <label class="l_form"><i class="fas fa-male i_estadistico"></i> 21 a 64 años: '.$_SESSION["ARSesentaycuatro"].'</label>
-            <label class="l_form"><i class="fas fa-wheelchair i_estadistico"></i> 65 y más años: '.$_SESSION["ARMas"].'</label>
+                <label class="l_form">Edades Acompañantes</label>
+                <table border="0">
+                    <tr>
+                        <td></td>
+                        <td><i class="fas fa-mars"></i></td>
+                        <td><i class="fas fa-venus"></i></td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label class="l_form">0 a 12 años: '.$RResDoceA["Numero"].'</label>
+                        </td>
+                        <td>
+                            <label class="l_form">'.$RResDoceA_m["Numero"].'</label>
+                        </td>
+                        <td>
+                            <label class="l_form">'.$RResDoceA_f["Numero"].'</label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label class="l_form">13 a 20 años: '.$RResVeinteA["Numero"].'</label>
+                        </td>
+                        <td>
+                            <label class="l_form">'.$RResVeinteA_m["Numero"].'</label>
+                        </td>
+                        <td>
+                            <label class="l_form">'.$RResVeinteA_f["Numero"].'</label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label class="l_form">21 a 64 años: '.$RResSesentaycuatroA["Numero"].'</label>
+                        </td>
+                        <td>
+                            <label class="l_form">'.$RResSesentaycuatroA_m["Numero"].'</label>
+                        </td>
+                        <td>
+                            <label class="l_form">'.$RResSesentaycuatroA_f["Numero"].'</label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label class="l_form">65 y mas años: '.$RResMasA["Numero"].'</label>
+                        </td>
+                        <td>
+                            <label class="l_form">'.$RResMasA_m["Numero"].'</label>
+                        </td>
+                        <td>
+                            <label class="l_form">'.$RResMasA_f["Numero"].'</label>
+                        </td>
+                    </tr>
+                </table>
             </div>
             <div class="c45">
                 <canvas id="myChart_edad_acompanantes"></canvas>
