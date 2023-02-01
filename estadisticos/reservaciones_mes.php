@@ -269,8 +269,8 @@ $ResEnfermedades=mysqli_query($conn, "SELECT p.Diagnostico1 AS Diagnostico, COUN
                                         WHERE r.Fecha LIKE '".$anno."-".$mes."-%' AND p.Diagnostico1!='' GROUP BY p.Diagnostico1 ORDER BY `Numero` ASC");
 $Enfermedades=mysqli_num_rows($ResEnfermedades);
 
-$L = new DateTime( $anno.'-'.$mes.'-01' ); 
-$last = $L->format( 'Y-m-t' );
+//$L = new DateTime( $anno.'-'.$mes.'-01' ); 
+//$last = $L->format( 'Y-m-t' );
 
 $cadena='<h2>Reservaciones '; if($mes!='%'){$cadena.=mes($mes).' - ';}$cadena.=$anno.'</h2>
         <div class="c100 card">
