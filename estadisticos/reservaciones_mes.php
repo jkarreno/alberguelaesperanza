@@ -26,7 +26,7 @@ $TpConfirmar=mysqli_num_rows($ResCon);
 $ResCan=mysqli_query($conn, "SELECT * FROM reservacion WHERE Fecha LIKE '".$anno."-".$mes."-%' AND Estatus=2 ORDER BY Fecha DESC");
 $TCancelaciones=mysqli_num_rows($ResCan);
 
-$RepReservaciones='{"Reservaciones":"'.$TReservaciones.'", "Estancias":"'.$TOcupaciones.'", "PorConfirmar":"'.$TpConfirmar.'", "Cancelaciones":"'.$TCancelaciones.'"}';
+$RepReservaciones='{"Hospedajes":"'.$TReservaciones.'", "Estancias":"'.$TOcupaciones.'", "PorConfirmar":"'.$TpConfirmar.'", "Cancelaciones":"'.$TCancelaciones.'"}';
 
 //edad
 $edadn=$anno-12;
@@ -272,7 +272,7 @@ $Enfermedades=mysqli_num_rows($ResEnfermedades);
 //$L = new DateTime( $anno.'-'.$mes.'-01' ); 
 //$last = $L->format( 'Y-m-t' );
 
-$cadena='<h2>Reservaciones '; if($mes!='%'){$cadena.=mes($mes).' - ';}$cadena.=$anno.'</h2>
+$cadena='<h2>Hospedajes '; if($mes!='%'){$cadena.=mes($mes).' - ';}$cadena.=$anno.'</h2>
         <div class="c100 card">
             <div class="c100" style="display: flex; flex-wrap: wrap; justify-content: center; align-items: center; align-content: center;">
                 
@@ -286,7 +286,7 @@ $cadena='<h2>Reservaciones '; if($mes!='%'){$cadena.=mes($mes).' - ';}$cadena.=$
         
         <div class="c100 card">
             <div class="c45">
-                <label class="l_form">Reservaciones: '.number_format($TReservaciones).'</label>
+                <label class="l_form">Hospedajes: '.number_format($TReservaciones).'</label>
                 <label class="l_form"><i class="fas fa-hotel i_estadistico"></i> Estancias: '.number_format($TOcupaciones).'</label>
                 <label class="l_form"><i class="fas fa-hotel i_estadistico"></i> Por Confirmar: '.number_format($TpConfirmar).'</label>
                 <label class="l_form"><i class="fas fa-hotel i_estadistico"></i> Cancelaciones: '.number_format($TCancelaciones).'</label>
@@ -299,7 +299,7 @@ $cadena='<h2>Reservaciones '; if($mes!='%'){$cadena.=mes($mes).' - ';}$cadena.=$
                 var res = canvas.getContext(\'2d\');
                 
                 var data = {
-                    labels: ["Reservaciones"],
+                    labels: ["Hospeajes"],
                     datasets: [{
                         label: "Estancias", 
                         data: ['.$TOcupaciones.'],

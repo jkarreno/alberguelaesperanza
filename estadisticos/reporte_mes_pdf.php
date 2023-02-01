@@ -71,7 +71,7 @@ $pdf->SetFont('Arial','B',10);
 $pdf->SetTextColor(000,000,000);
 $pdf->SetY(26);
 $pdf->SetX(4);
-$pdf->Cell(208,6,utf8_decode('RESERVACIONES: '),1,0,'L',0);
+$pdf->Cell(208,6,utf8_decode('HOSPEDAJES: '),1,0,'L',0);
 //
 $pdf->SetFont('Arial','',10);
 $pdf->SetY(26);
@@ -116,7 +116,7 @@ $pdf->Cell(40,6,$Reservaciones->Cancelaciones,0,0,'R',0);
 
     $grafico = new Graph(800, 600, 'auto');
     $grafico->SetScale("textlin");
-    $grafico->title->Set("Reservaciones");
+    $grafico->title->Set("Hospedajes");
     $grafico->xaxis->SetTickLabels($labels);    
 
     // Create the bar plots

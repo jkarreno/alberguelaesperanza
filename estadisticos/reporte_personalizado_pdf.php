@@ -50,7 +50,7 @@ $pdf->SetFont('Arial','B',10);
 $pdf->SetTextColor(000,000,000);
 $pdf->SetY(26);
 $pdf->SetX(4);
-$pdf->Cell(208,6,utf8_decode('RESERVACIONES'),1,0,'L',0);
+$pdf->Cell(208,6,utf8_decode('HOSPEDAJES'),1,0,'L',0);
 //
 //
 $pdf->SetFont('Arial','B',10);

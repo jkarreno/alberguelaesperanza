@@ -66,11 +66,11 @@ $cadena='<div class="c100 rep">
 
             <div class="c30" style="padding: 0 20px;">
                 <div class="card_po c30">
-                    <h1>Reservaciones</h1>
+                    <h1>Hospedajes</h1>
                 </div>
                 <div class="c100">
-                    <p><strong>Estancias: </strong>'.number_format($TotReservEst).'</p>
-                    <p><strong>Canceladas: </strong>'.number_format($TotReservCanc).'</p>
+                    <p><strong>Hospedajes: </strong>'.number_format($TotReservEst).'</p>
+                    <p><strong>Cancelados: </strong>'.number_format($TotReservCanc).'</p>
                     <p><strong>Confirmar: </strong>'.number_format($TotReservConf).'</p>
                     <p><strong>Total: </strong>'.number_format($TotReservaciones).'</p>
                     '.permisos(100, '<p style="text-align: right;"><a href="#" onclick="e_reservaciones(\''.date("Y").'\')">Ver mas ></a></p>').'

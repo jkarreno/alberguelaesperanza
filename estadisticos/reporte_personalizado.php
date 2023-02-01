@@ -50,7 +50,7 @@ $cadena='<div class="c100 card">
                         </div>
                     </div>
                     <div class="c10">
-                        <label class="l_form">Reservaciones:</label>
+                        <label class="l_form">Hospedajes:</label>
                         <select name="reservaciones" id="reservaciones">
                             <option value="1"';if(isset($_POST["hacer"]) AND $_POST["reservaciones"]=='1'){$cadena.=' selected';}$cadena.='>Confirmadas</option>
                             <option value="0"';if(isset($_POST["hacer"]) AND $_POST["reservaciones"]=='0'){$cadena.=' selected';}$cadena.='>Por Confirmar</option>
@@ -621,7 +621,7 @@ if(isset($_POST["hacer"]))
 
             <div class="c100 card">
                 <div class="c45">
-                    <label class="l_form">Reservaciones: '.number_format($TReservaciones).'</label>';
+                    <label class="l_form">Hospedajes: '.number_format($TReservaciones).'</label>';
                     if($_POST["reservaciones"]=='%' OR $_POST["reservaciones"]=='1')
                     {
                         $cadena.='<label class="l_form"><i class="fas fa-hotel i_estadistico"></i> Estancias: '.number_format($TOcupaciones).'</label>';
@@ -649,7 +649,7 @@ if(isset($_POST["hacer"]))
                     var res = canvas.getContext(\'2d\');
                     
                     var data = {
-                        labels: ["Reservaciones"],
+                        labels: ["Hospedajes"],
                         datasets: [{
                             label: "Estancias", 
                             data: ['.$TOcupaciones.'],

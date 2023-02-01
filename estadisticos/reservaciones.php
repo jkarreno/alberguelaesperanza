@@ -64,7 +64,7 @@ $RCATot=mysqli_num_rows(mysqli_query($conn, "SELECT Id FROM reservacion WHERE Es
 
 $cadena='<div class="c100 card">
             <div class="c30 card">
-                <h2>Reservaciones</h2>
+                <h2>Hospedajes</h2>
                 <label class="l_form">Año: </label>
                 <select name="annor" id="annor" onchange="e_reservaciones(this.value)">';
                 for($j=2021; $j<=date("Y"); $j++)
