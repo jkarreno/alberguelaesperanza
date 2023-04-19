@@ -237,22 +237,22 @@ if(isset($_POST["hacer"]))
 if($_POST["habitacion"]==0 OR !isset($_POST["habitacion"]) OR $_POST["habitacion"]==NULL){$ResHab=mysqli_query($conn, "SELECT * FROM habitaciones ORDER BY Habitacion ASC");}
 else{$ResHab=mysqli_query($conn, "SELECT * FROM habitaciones WHERE Id='".$_POST["habitacion"]."'");}
 
-if($_POST["fecha_reservacion"]==date("Y-m-d") AND date("H")<=16)
-{
-    $RC=mysqli_num_rows(mysqli_query($conn, "SELECT Cama FROM reservaciones WHERE Fecha<='".$_POST["fecha_reservacion"]."' AND Fecha>='".date("Y-m-d",strtotime($_POST["fecha_reservacion"]."- 1 days"))."' AND Estatus='0' GROUP BY Cama")); //camas reservadas
-    $RCC=mysqli_num_rows(mysqli_query($conn, "SELECT Cama FROM reservaciones WHERE Fecha<='".$_POST["fecha_reservacion"]."' AND Fecha>='".date("Y-m-d",strtotime($_POST["fecha_reservacion"]."- 1 days"))."' AND Cama>'0' AND Estatus='1' AND Liberada='0' GROUP BY Cama")); //camas ocupadas
-    $RCP=mysqli_num_rows(mysqli_query($conn, "SELECT Cama FROM reservaciones WHERE Fecha<='".$_POST["fecha_reservacion"]."' AND Fecha>='".date("Y-m-d",strtotime($_POST["fecha_reservacion"]."- 1 days"))."' AND Cama>'0' AND Tipo='P' AND Estatus='1' AND Liberada='0' GROUP BY Cama")); //pacientes
-    $RCPH=mysqli_num_rows(mysqli_query($conn, "SELECT Cama FROM reservaciones WHERE Fecha<='".$_POST["fecha_reservacion"]."' AND Fecha>='".date("Y-m-d",strtotime($_POST["fecha_reservacion"]."- 1 days"))."' AND Cama='-1' AND Tipo='P' AND Estatus='1' AND Liberada='0' GROUP BY Cama")); //pacientes hospitalizados
-    $RCA=mysqli_num_rows(mysqli_query($conn, "SELECT Cama FROM reservaciones WHERE Fecha<='".$_POST["fecha_reservacion"]."' AND Fecha>='".date("Y-m-d",strtotime($_POST["fecha_reservacion"]."- 1 days"))."' AND (Cama>'0' OR Cama='-2') AND Tipo='A' AND Estatus='1' AND Liberada='0' GROUP BY Cama")); //acompañantes
-}
-else
-{
+//if($_POST["fecha_reservacion"]==date("Y-m-d") AND date("H")<=16)
+//{
+//    $RC=mysqli_num_rows(mysqli_query($conn, "SELECT Cama FROM reservaciones WHERE Fecha<='".$_POST["fecha_reservacion"]."' AND Fecha>='".date("Y-m-d",strtotime($_POST["fecha_reservacion"]."- 1 days"))."' AND Estatus='0' GROUP BY Cama")); //camas reservadas
+//    $RCC=mysqli_num_rows(mysqli_query($conn, "SELECT Cama FROM reservaciones WHERE Fecha<='".$_POST["fecha_reservacion"]."' AND Fecha>='".date("Y-m-d",strtotime($_POST["fecha_reservacion"]."- 1 days"))."' AND Cama>'0' AND Estatus='1' AND Liberada='0' GROUP BY Cama")); //camas ocupadas
+//    $RCP=mysqli_num_rows(mysqli_query($conn, "SELECT Cama FROM reservaciones WHERE Fecha<='".$_POST["fecha_reservacion"]."' AND Fecha>='".date("Y-m-d",strtotime($_POST["fecha_reservacion"]."- 1 days"))."' AND Cama>'0' AND Tipo='P' AND Estatus='1' AND Liberada='0' GROUP BY Cama")); //pacientes
+//    $RCPH=mysqli_num_rows(mysqli_query($conn, "SELECT Cama FROM reservaciones WHERE Fecha<='".$_POST["fecha_reservacion"]."' AND Fecha>='".date("Y-m-d",strtotime($_POST["fecha_reservacion"]."- 1 days"))."' AND Cama='-1' AND Tipo='P' AND Estatus='1' AND Liberada='0' GROUP BY Cama")); //pacientes hospitalizados
+//    $RCA=mysqli_num_rows(mysqli_query($conn, "SELECT Cama FROM reservaciones WHERE Fecha<='".$_POST["fecha_reservacion"]."' AND Fecha>='".date("Y-m-d",strtotime($_POST["fecha_reservacion"]."- 1 days"))."' AND (Cama>'0' OR Cama='-2') AND Tipo='A' AND Estatus='1' AND Liberada='0' GROUP BY Cama")); //acompañantes
+//}
+//else
+//{
     $RC=mysqli_num_rows(mysqli_query($conn, "SELECT Id FROM reservaciones WHERE Fecha='".$_POST["fecha_reservacion"]."' AND Estatus='0' AND Liberada='0'")); //camas reservadas
     $RCC=mysqli_num_rows(mysqli_query($conn, "SELECT Id FROM reservaciones WHERE Fecha='".$_POST["fecha_reservacion"]."' AND Cama>'0' AND Estatus='1' AND Liberada='0'")); //camas ocupadas
     $RCP=mysqli_num_rows(mysqli_query($conn, "SELECT Id FROM reservaciones WHERE Fecha='".$_POST["fecha_reservacion"]."' AND Cama>'0' AND Tipo='P' AND Estatus='1' AND Liberada='0'")); //pacientes
     $RCPH=mysqli_num_rows(mysqli_query($conn, "SELECT Id FROM reservaciones WHERE Fecha='".$_POST["fecha_reservacion"]."' AND Cama='-1' AND Tipo='P' AND Estatus='1' AND Liberada='0'")); //pacientes hospitalizado
     $RCA=mysqli_num_rows(mysqli_query($conn, "SELECT Id FROM reservaciones WHERE Fecha='".$_POST["fecha_reservacion"]."' AND (Cama>'0' OR Cama='-2') AND Tipo='A' AND Estatus='1' AND Liberada='0'")); //acompañantes
-}
+//}
 
 
 $cadena=$mensaje.'<table style="width:80%">'; $J=1;
