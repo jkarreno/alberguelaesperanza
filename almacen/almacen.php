@@ -125,22 +125,25 @@ while($RResP=mysqli_fetch_array($ResProductos))
     $ResAlmacenes=mysqli_query($conn, "SELECT * FROM almacenes ORDER BY Nombre ASC");
     while($RResA=mysqli_fetch_array($ResAlmacenes))
     {
-        $ResInventario=mysqli_query($conn, "SELECT Stock FROM productos_inventario WHERE IdProducto='".$RResP["Id"]."' AND IdAlmacen='".$RResA["Id"]."' AND Stock > 0 ORDER BY Fecha DESC, Id DESC LIMIT 1");
+        $ResInventario=mysqli_query($conn, "SELECT Stock FROM productos_inventario WHERE IdProducto='".$RResP["Id"]."' AND IdAlmacen='".$RResA["Id"]."' ORDER BY Fecha DESC, Id DESC LIMIT 1");
         if(mysqli_num_rows($ResInventario)>0)
         {
             while($RResI=mysqli_fetch_array($ResInventario))
             {
-                $cadena.=permisos(122, '<tr style="background: '.$bgcolor.'" id="row_'.$J.'">
-                    <td onmouseover="row_'.$J.'.style.background=\'#badad8\'" onmouseout="row_'.$J.'.style.background=\''.$bgcolor.'\'" align="center" class="texto" valign="middle">'.$J.'</td>
-                    <td onmouseover="row_'.$J.'.style.background=\'#badad8\'" onmouseout="row_'.$J.'.style.background=\''.$bgcolor.'\'" align="left" class="texto" valign="middle"><a href="#" onclick="inv_producto(\''.$RResP["Id"].'\')">'.strtoupper(utf8_encode($RResP["Nombre"])).' - '.$RResP["Volumen"].'</a></td>
-                    <td onmouseover="row_'.$J.'.style.background=\'#badad8\'" onmouseout="row_'.$J.'.style.background=\''.$bgcolor.'\'" align="left" class="texto" valign="middle">'.$ResPr["Nombre"].'</td>
-                    <td onmouseover="row_'.$J.'.style.background=\'#badad8\'" onmouseout="row_'.$J.'.style.background=\''.$bgcolor.'\'" align="center" class="texto" valign="middle">'.$RResA["Nombre"].'</td>
-                    <td onmouseover="row_'.$J.'.style.background=\'#badad8\'" onmouseout="row_'.$J.'.style.background=\''.$bgcolor.'\'" align="center" class="texto" valign="middle">'.$RResI["Stock"].'</td>
-                </tr>');
+                if($RResI["Stock"]>0)
+                {
+                    $cadena.=permisos(122, '<tr style="background: '.$bgcolor.'" id="row_'.$J.'">
+                        <td onmouseover="row_'.$J.'.style.background=\'#badad8\'" onmouseout="row_'.$J.'.style.background=\''.$bgcolor.'\'" align="center" class="texto" valign="middle">'.$J.'</td>
+                        <td onmouseover="row_'.$J.'.style.background=\'#badad8\'" onmouseout="row_'.$J.'.style.background=\''.$bgcolor.'\'" align="left" class="texto" valign="middle"><a href="#" onclick="inv_producto(\''.$RResP["Id"].'\')">'.strtoupper(utf8_encode($RResP["Nombre"])).' - '.$RResP["Volumen"].'</a></td>
+                        <td onmouseover="row_'.$J.'.style.background=\'#badad8\'" onmouseout="row_'.$J.'.style.background=\''.$bgcolor.'\'" align="left" class="texto" valign="middle">'.$ResPr["Nombre"].'</td>
+                        <td onmouseover="row_'.$J.'.style.background=\'#badad8\'" onmouseout="row_'.$J.'.style.background=\''.$bgcolor.'\'" align="center" class="texto" valign="middle">'.$RResA["Nombre"].'</td>
+                        <td onmouseover="row_'.$J.'.style.background=\'#badad8\'" onmouseout="row_'.$J.'.style.background=\''.$bgcolor.'\'" align="center" class="texto" valign="middle">'.$RResI["Stock"].'</td>
+                    </tr>');
 
-                $J++;
-                if($bgcolor=="#ffffff"){$bgcolor="#cccccc";}
-                elseif($bgcolor=="#cccccc"){$bgcolor="#ffffff";}
+                    $J++;
+                    if($bgcolor=="#ffffff"){$bgcolor="#cccccc";}
+                    elseif($bgcolor=="#cccccc"){$bgcolor="#ffffff";}
+                }
             }
         }
     }
