@@ -45,11 +45,12 @@ while($RResRec=mysqli_fetch_array($ResRecibos))
         $pdf->SetTextColor(255,255,255);
         $pdf->SetY($y_axis_initial);
         $pdf->SetX(8);
-        $pdf->Cell(15,6,'#',1,0,'C',1);
-        $pdf->Cell(20,6,utf8_decode('No Recibo'),1,0,'C',1);
+        $pdf->Cell(10,6,'#',1,0,'C',1);
+        $pdf->Cell(15,6,utf8_decode('Recibo'),1,0,'C',1);
         $pdf->Cell(20,6,'Fecha',1,0,'C',1);
-        $pdf->Cell(20,6,'No Paciente',1,0,'C',1);
-        $pdf->Cell(105,6,'Paciente',1,0,'C',1);
+        $pdf->Cell(15,6,'No Pac.',1,0,'C',1);
+        $pdf->Cell(60,6,'Paciente',1,0,'C',1);
+        $pdf->Cell(60,6,'Concepto',1,0,'C',1);
         $pdf->Cell(20,6,'Importe',1,0,'C',1);
     }
     
@@ -58,11 +59,12 @@ while($RResRec=mysqli_fetch_array($ResRecibos))
     $pdf->SetTextColor(000,000,000);
     $pdf->SetY($y_axis);
     $pdf->SetX(8);
-    $pdf->Cell(15,6,$J,1,0,'C',1);
-    $pdf->Cell(20,6,$RResRec["Id"],1,0,'C',1);
+    $pdf->Cell(10,6,$J,1,0,'C',1);
+    $pdf->Cell(15,6,$RResRec["Id"],1,0,'C',1);
     $pdf->Cell(20,6,fechados($RResRec["Fecha"]),1,0,'C',1);
-    $pdf->Cell(20,6,$ResPac["Id"],1,0,'C',1);
-    $pdf->Cell(105,6,utf8_decode($ResPac["Nombre"].' '.$ResPac["Apellidos"]),1,0,'C',1);
+    $pdf->Cell(15,6,$ResPac["Id"],1,0,'C',1);
+    $pdf->Cell(60,6,utf8_decode($ResPac["Nombre"].' '.$ResPac["Apellidos"]),1,0,'L',1);
+    $pdf->Cell(60,6,utf8_decode(substr($RResRec["Concepto"], 0, 40)),1,0,'L',1);
     $pdf->Cell(20,6,'$ '.number_format($RResRec["CantidadEntregada"],2),1,0,'R',1);
 
     $y_axis=$y_axis+6;

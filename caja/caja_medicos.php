@@ -44,13 +44,13 @@ $cadena=$mensaje.'<form name="fbusrecmed" id="fbusrecmed" style="width:100%">
                     <td>Paciente: <input type="text" name="numpaciente" id="numpaciente" placeholder="num- paciente">
                     <td>De: <input type="date" name="fechaini" id="fechaini" value="'.$_POST["fechaini"].'"> </td>
                     <td>Hasta: <input type="date" name="fechafin" id="fechafin" value="'.$_POST["fechafin"].'"> </td>
-                    <td align="left"><input type="submit" name="botbuscaja" id="botbuscaja" value="Consultar>"></td>
+                    <td colspan="2" align="left"><input type="submit" name="botbuscaja" id="botbuscaja" value="Consultar>"></td>
                     <td align="right" class="texto" valign="middle"><strong>$ '.number_format($ResTotal["TotMonto"], 2).'</strong></td>
                     <td align="right">'.permisos(126, '<a href="caja/reporte_pagos_cuotas_medicos.php?fechaini='.$_POST["fechaini"].'&fechafin='.$_POST["fechafin"].'" target="_blank"><i class="fas fa-print"></i></a>').'</td>
                     <td align="right">'.permisos(127, '<a href="caja/reporte_pagos_cuotas_medicos_excel.php?fechaini='.$_POST["fechaini"].'&fechafin='.$_POST["fechafin"].'" target="_blank"><i class="far fa-file-excel"></i></a>').'</td>
                 </tr>
                 <tr>
-                    <th colspan="8" align="center" class="textotitable">Recibos Apoyos Medicos</td>
+                    <th colspan="9" align="center" class="textotitable">Recibos Apoyos Medicos</td>
                 </tr>
                 <tr>
                     <th width="10" align="center" class="textotitable">#</th>
@@ -58,6 +58,7 @@ $cadena=$mensaje.'<form name="fbusrecmed" id="fbusrecmed" style="width:100%">
                     <th width="50" align="center" class="textotitable">Fecha</th>
                     <th width="50" align="center" class="textotitable">N. Paciente</th>
                     <th align="center" class="textotitable">Paciente</th>
+                    <th align="center" class="textotitable">Concepto</th>
                     <th width="150" align="center" class="textotitable">Monto</th>
                     <th width="50" align="center" class="textotitable"></th>
                     <th width="50" align="center" class="textotitable"></th>
@@ -81,6 +82,7 @@ while($RResRec=mysqli_fetch_array($ResRecibos))
 					<td width="50" onmouseover="row_'.$J.'.style.background=\'#badad8\'" onmouseout="row_'.$J.'.style.background=\''.$bgcolor.'\'" align="center" class="texto" valign="middle">'.fecha($RResRec["Fecha"]).'</td>
 					<td width="50" onmouseover="row_'.$J.'.style.background=\'#badad8\'" onmouseout="row_'.$J.'.style.background=\''.$bgcolor.'\'" align="center" class="texto" valign="middle">'.$RResRec["IdPaciente"].'</td>
 					<td onmouseover="row_'.$J.'.style.background=\'#badad8\'" onmouseout="row_'.$J.'.style.background=\''.$bgcolor.'\'" align="left" class="texto" valign="middle">'.utf8_encode($ResPaciente["NombrePaciente"]).'</td>
+					<td onmouseover="row_'.$J.'.style.background=\'#badad8\'" onmouseout="row_'.$J.'.style.background=\''.$bgcolor.'\'" align="left" class="texto" valign="middle">'.$RResRec["Concepto"].'</td>
 					<td width="150" onmouseover="row_'.$J.'.style.background=\'#badad8\'" onmouseout="row_'.$J.'.style.background=\''.$bgcolor.'\'" align="right" class="texto" valign="middle"><strong>$ '.number_format($RResRec["CantidadEntregada"],2).'</strong></td>
 					<td width="50" onmouseover="row_'.$J.'.style.background=\'#badad8\'" onmouseout="row_'.$J.'.style.background=\''.$bgcolor.'\'" align="center" class="texto" valign="middle">
                         <a href="caja/recibo_ayuda_medica.php?idrecibo='.$RResRec["Id"].'" target="_blank"><i class="fas fa-print"></i></a>

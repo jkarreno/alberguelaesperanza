@@ -18,7 +18,8 @@ $hojaActiva->setCellValue('A1', 'N. Recibo');
 $hojaActiva->setCellValue('B1', 'Fecha');
 $hojaActiva->setCellValue('C1', 'N. Paciente');
 $hojaActiva->setCellValue('D1', 'Paciente');
-$hojaActiva->setCellValue('E1', 'Monto');
+$hojaActiva->setCellValue('E1', 'Concepto');
+$hojaActiva->setCellValue('F1', 'Monto');
 
 $fila=2;
 
@@ -31,7 +32,8 @@ while($RResRec=mysqli_fetch_array($ResRecibos))
     $hojaActiva->setCellValue('B'.$fila, $RResRec["Fecha"]);
     $hojaActiva->setCellValue('C'.$fila, $ResPaciente["Id"]);
     $hojaActiva->setCellValue('D'.$fila, $ResPaciente["Nombre"].' '.$ResPaciente["Apellidos"].' '.$ResPaciente["Apellidos2"]);
-    $hojaActiva->setCellValue('E'.$fila, $RResRec["CantidadEntregada"]);
+    $hojaActiva->setCellValue('E'.$fila, $RResRec["Concepto"]);
+    $hojaActiva->setCellValue('F'.$fila, $RResRec["CantidadEntregada"]);
 
     $fila++;
 }
