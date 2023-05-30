@@ -34,7 +34,10 @@ include ("funciones.php");
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
 	<!--<script src="https://kit.fontawesome.com/2df1cf6d50.js" crossorigin="anonymous"></script>-->
-	<script src="https://kit.fontawesome.com/a5e678cc82.js" crossorigin="anonymous"></script>
+	<!--<script src="https://kit.fontawesome.com/a5e678cc82.js" crossorigin="anonymous"></script>-->
+	<link href="fontawesome64/css/fontawesome.css" rel="stylesheet">
+  	<link href="fontawesome64/css/brands.css" rel="stylesheet">
+  	<link href="fontawesome64/css/solid.css" rel="stylesheet">
 	
 
 	<script language="JavaScript" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script>
