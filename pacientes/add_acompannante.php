@@ -32,11 +32,15 @@ $cadena='<div class="c100 card">
                     <label class="l_form">Parentesco:</label>
                     <input type="text" name="parentesco" id="parentesco">
                 </div>
-                <div class="c25">
+                <div class="c30">
                     <label class="l_form">CURP:</label>
                     <input type="text" name="curp" id="curp">
                 </div>
-                <div class="c10">
+                <div class="c30">
+                    <label class="l_form">Clave INE:</label>
+                    <input type="text" name="claveine" id="claveine">
+                </div>
+                <div class="c30">
                     <label class="l_form">Sexo:</label>
                     <select name="sexo" id="sexo" required>
                         <option value="">Selecciona</option>
@@ -44,7 +48,7 @@ $cadena='<div class="c100 card">
                         <option value="M">Masculino</option>
                     </select>
                 </div>
-                <div class="c10">
+                <div class="c25">
                     <label class="l_form">Fecha de nacimiento:</label>
                     <input type="date" name="fnacimiento" id="fnacimiento" onchange="edadacompanante(this.value)" required>
                 </div>

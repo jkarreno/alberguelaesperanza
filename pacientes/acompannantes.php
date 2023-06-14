@@ -17,9 +17,9 @@ if(isset($_POST["hacer"]))
 	{
         if($_POST["numacompannante"]=='')
         {
-            mysqli_query($conn, "INSERT INTO acompannantes (IdPaciente, Nombre, Apellidos, Apellidos2, Parentesco, Curp, Sexo, FechaNacimiento, LugarNacimiento, Talla, Peso, Domicilio, CP, Colonia, Estado, Municipio, TelefonoFijo, TelefonoCelular, TelefonoContacto, 
+            mysqli_query($conn, "INSERT INTO acompannantes (IdPaciente, Nombre, Apellidos, Apellidos2, Parentesco, Curp, ClaveINE, Sexo, FechaNacimiento, LugarNacimiento, Talla, Peso, Domicilio, CP, Colonia, Estado, Municipio, TelefonoFijo, TelefonoCelular, TelefonoContacto, 
                                                         Religion, EdoCivil, Ocupacion, Escolaridad, NivelEscolaridad, Lengua, HablaEspanol, Observaciones)
-							                    VALUES ('".$ResPac["Id"]."', '".strtoupper($_POST["nombre"])."', '".strtoupper($_POST["apellidos"])."', '".strtoupper($_POST["apellidos2"])."', '".strtoupper($_POST["parentesco"])."', '".strtoupper($_POST["curp"])."', '".$_POST["sexo"]."', '".$_POST["fnacimiento"]."', 
+							                    VALUES ('".$ResPac["Id"]."', '".strtoupper($_POST["nombre"])."', '".strtoupper($_POST["apellidos"])."', '".strtoupper($_POST["apellidos2"])."', '".strtoupper($_POST["parentesco"])."', '".strtoupper($_POST["curp"])."', '".strtoupper($_POST["claveine"])."', '".$_POST["sexo"]."', '".$_POST["fnacimiento"]."', 
                                                         '".$_POST["l_nacimiento"]."', '".$_POST["talla"]."', '".$_POST["peso"]."', 
                                                         '".strtoupper($_POST["domicilio"])."', '".$_POST["cp"]."', '".strtoupper($_POST["colonia"])."', '".$_POST["estado"]."', '".$_POST["municipio"]."', '".$_POST["telefono_fijo"]."', '".$_POST["telefono_celular"]."', 
                                                         '".$_POST["telefono_contacto"]."', '".$_POST["religion"]."', '".$_POST["edocivil"]."', '".$_POST["ocupacion"]."', '".$_POST["escolaridad"]."', '".$_POST["nivel_escolaridad"]."', 
@@ -27,9 +27,9 @@ if(isset($_POST["hacer"]))
         }
         else
         {
-            mysqli_query($conn, "INSERT INTO acompannantes (Id, IdPaciente, Nombre, Apellidos, Apellidos2, Parentesco, Curp, Sexo, FechaNacimiento, LugarNacimiento, Talla, Peso, Domicilio, CP, Colonia, Estado, Municipio, TelefonoFijo, TelefonoCelular, TelefonoContacto, 
+            mysqli_query($conn, "INSERT INTO acompannantes (Id, IdPaciente, Nombre, Apellidos, Apellidos2, Parentesco, Curp, CalveINE, Sexo, FechaNacimiento, LugarNacimiento, Talla, Peso, Domicilio, CP, Colonia, Estado, Municipio, TelefonoFijo, TelefonoCelular, TelefonoContacto, 
                                                         Religion, EdoCivil, Ocupacion, Escolaridad, NivelEscolaridad, Lengua, HablaEspanol, Observaciones)
-									            VALUES ('".$_POST["numacompannante"]."', '".$ResPac["Id"]."', '".strtoupper($_POST["nombre"])."', '".strtoupper($_POST["apellidos"])."', '".strtoupper($_POST["apellidos2"])."', '".strtoupper($_POST["parentesco"])."', '".strtoupper($_POST["curp"])."', '".$_POST["sexo"]."', '".$_POST["fnacimiento"]."', 
+									            VALUES ('".$_POST["numacompannante"]."', '".$ResPac["Id"]."', '".strtoupper($_POST["nombre"])."', '".strtoupper($_POST["apellidos"])."', '".strtoupper($_POST["apellidos2"])."', '".strtoupper($_POST["parentesco"])."', '".strtoupper($_POST["curp"])."', '".strtoupper($_POST["claveine"])."', '".$_POST["sexo"]."', '".$_POST["fnacimiento"]."', 
                                                         '".$_POST["l_nacimiento"]."', '".$_POST["talla"]."', '".$_POST["peso"]."', 
                                                         '".strtoupper($_POST["domicilio"])."', '".$_POST["cp"]."', '".strtoupper($_POST["colonia"])."', '".$_POST["estado"]."', '".$_POST["municipio"]."', '".$_POST["telefono_fijo"]."', '".$_POST["telefono_celular"]."', 
                                                         '".$_POST["telefono_contacto"]."', '".$_POST["religion"]."', '".$_POST["edocivil"]."', '".$_POST["ocupacion"]."', '".$_POST["escolaridad"]."', '".$_POST["nivel_escolaridad"]."', 
@@ -50,6 +50,7 @@ if(isset($_POST["hacer"]))
                                                     Apellidos2='".strtoupper($_POST["apellidos2"])."',
                                                     Parentesco='".strtoupper($_POST["parentesco"])."', 
                                                     Curp='".strtoupper($_POST["curp"])."',
+                                                    ClaveIne='".strtoupper($_POST["claveine"])."',
                                                     Sexo='".$_POST["sexo"]."', 
                                                     FechaNacimiento='".$_POST["fnacimiento"]."', 
                                                     LugarNacimiento='".$_POST["l_nacimiento"]."', 
