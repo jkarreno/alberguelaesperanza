@@ -53,7 +53,8 @@ $y_initial=56;
 $ResCam2=mysqli_query($conn, "SELECT * FROM camas WHERE Habitacion='2' ORDER BY Cama ASC");
 while($RResCam2=mysqli_fetch_array($ResCam2))
 {
-    $ResRes=mysqli_query($conn, "SELECT * FROM reservaciones WHERE (Fecha='".$_GET["fecha"]."' OR Fecha='".date("Y-m-d",strtotime($_GET["fecha"]."- 1 days"))."') AND Cama='".$RResCam2["Id"]."' AND Estatus<2 AND Liberada='0'");
+    //$ResRes=mysqli_query($conn, "SELECT * FROM reservaciones WHERE (Fecha='".$_GET["fecha"]."' OR Fecha='".date("Y-m-d",strtotime($_GET["fecha"]."- 1 days"))."') AND Cama='".$RResCam2["Id"]."' AND Estatus<2 AND Liberada='0'");
+    $ResRes=mysqli_query($conn, "SELECT * FROM reservaciones WHERE Fecha='".$_GET["fecha"]."'AND Cama='".$RResCam2["Id"]."' AND Estatus<2 AND Liberada='0'");
 
     $res=mysqli_num_rows($ResRes);
 
