@@ -32,6 +32,8 @@ while($RResRec=mysqli_fetch_array($ResRecibos))
                                             INNER JOIN pacientes AS p ON r.IdPaciente=p.Id 
                                             WHERE r.Id='".$RResRec["IdReservacion"]."'")); 
 
+    if($RResRec["Estatus"]==0){$RResRec["Monto"]=0;}
+
 	$ResUsu=mysqli_fetch_array(mysqli_query($conn, "SELECT Nombre FROM usuarios WHERE Id='".$RResRec["Usuario"]."' LIMIT 1"));
 
     $hojaActiva->setCellValue('A'.$fila, $ResUsu["Nombre"]);

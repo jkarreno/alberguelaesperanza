@@ -22,6 +22,8 @@ while($RResRec=mysqli_fetch_array($ResRecibos))
                                                     INNER JOIN pacientes AS p ON p.Id=r.IdPaciente 
                                                     WHERE r.Id='".$RResRec["IdReservacion"]."'"));
 
+    if($RResRec["Estatus"]==0){$RResRec["Monto"]=0;}
+
     $ResUsu=mysqli_fetch_array(mysqli_query($conn, "SELECT Nombre FROM usuarios WHERE Id='".$RResRec["Usuario"]."' LIMIT 1"));
 
     if($T==1)
@@ -80,7 +82,7 @@ while($RResRec=mysqli_fetch_array($ResRecibos))
     if($T==39){$T=1;}
 }
 
-$ResTotal=mysqli_fetch_array(mysqli_query($conn, "SELECT SUM(Monto) AS TotMonto FROM pagoreservacion WHERE Fecha>='".$_GET["fechaini"]."' AND Fecha<='".$_GET["fechafin"]."'"));
+$ResTotal=mysqli_fetch_array(mysqli_query($conn, "SELECT SUM(Monto) AS TotMonto FROM pagoreservacion WHERE Fecha>='".$_GET["fechaini"]."' AND Fecha<='".$_GET["fechafin"]."' AND Estatus!='0'"));
 $pdf->SetY($y_axis);
 $pdf->SetX(8);
 $pdf->Cell(180,6,'Total: ',1,0,'R',1);
