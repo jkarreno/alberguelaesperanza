@@ -22,13 +22,14 @@ $hojaActiva->setCellValue('C1', 'Fecha');
 $hojaActiva->setCellValue('D1', 'N. Paciente');
 $hojaActiva->setCellValue('E1', 'Paciente');
 $hojaActiva->setCellValue('F1', 'Reservación');
-$hojaActiva->setCellValue('G1', 'Monto');
+$hojaActiva->setCellValue('G1', 'Días');
+$hojaActiva->setCellValue('H1', 'Monto');
 
 $fila=2;
 
 while($RResRec=mysqli_fetch_array($ResRecibos))
 {
-    $ResPaciente=mysqli_fetch_array(mysqli_query($conn, "SELECT p.Id AS IdP, concat_ws(' ', p.Nombre, p.Apellidos) AS NombrePaciente FROM reservacion AS r 
+    $ResPaciente=mysqli_fetch_array(mysqli_query($conn, "SELECT p.Id AS IdP, concat_ws(' ', p.Nombre, p.Apellidos) AS NombrePaciente, r.Dias AS Dias FROM reservacion AS r 
                                             INNER JOIN pacientes AS p ON r.IdPaciente=p.Id 
                                             WHERE r.Id='".$RResRec["IdReservacion"]."'")); 
 
@@ -42,7 +43,8 @@ while($RResRec=mysqli_fetch_array($ResRecibos))
     $hojaActiva->setCellValue('D'.$fila, $ResPaciente["IdP"]);
     $hojaActiva->setCellValue('E'.$fila, $ResPaciente["NombrePaciente"]);
     $hojaActiva->setCellValue('F'.$fila, $RResRec["IdReservacion"]);
-    $hojaActiva->setCellValue('G'.$fila, $RResRec["Monto"]);
+    $hojaActiva->setCellValue('G'.$fila, $ResPaciente["Dias"]);
+    $hojaActiva->setCellValue('H'.$fila, $RResRec["Monto"]);
 
     $fila++;
 }

@@ -18,7 +18,7 @@ $ResRecibos=mysqli_query($conn, "SELECT * FROM pagoreservacion WHERE Fecha>='".$
 $J=1; $T=1;
 while($RResRec=mysqli_fetch_array($ResRecibos))
 {
-    $ResPac=mysqli_fetch_array(mysqli_query($conn, "SELECT p.Id AS pId, p.Nombre AS Nombre, p.Apellidos AS Apellidos FROM reservacion AS r 
+    $ResPac=mysqli_fetch_array(mysqli_query($conn, "SELECT p.Id AS pId, p.Nombre AS Nombre, p.Apellidos AS Apellidos, r.Dias AS Dias FROM reservacion AS r 
                                                     INNER JOIN pacientes AS p ON p.Id=r.IdPaciente 
                                                     WHERE r.Id='".$RResRec["IdReservacion"]."'"));
 
@@ -55,9 +55,10 @@ while($RResRec=mysqli_fetch_array($ResRecibos))
         $pdf->Cell(15,6,utf8_decode('Recibo'),1,0,'C',1);
         $pdf->Cell(35,6,utf8_decode('Recibió'),1,0,'C',1);
         $pdf->Cell(20,6,'Fecha',1,0,'C',1);
-        $pdf->Cell(20,6,'No Paciente',1,0,'C',1);
-        $pdf->Cell(60,6,'Paciente',1,0,'C',1);
+        $pdf->Cell(15,6,'No',1,0,'C',1);
+        $pdf->Cell(55,6,'Paciente',1,0,'C',1);
         $pdf->Cell(20,6,utf8_decode('Reservación'),1,0,'C',1);
+        $pdf->Cell(10,6,utf8_decode('Días'),1,0,'C',1);
         $pdf->Cell(20,6,'Importe',1,0,'C',1);
     }
     
@@ -70,9 +71,10 @@ while($RResRec=mysqli_fetch_array($ResRecibos))
     $pdf->Cell(15,6,$RResRec["Id"],1,0,'C',1);
     $pdf->Cell(35,6,$ResUsu["Nombre"],1,0,'L',1);
     $pdf->Cell(20,6,fechados($RResRec["Fecha"]),1,0,'C',1);
-    $pdf->Cell(20,6,$ResPac["pId"],1,0,'C',1);
-    $pdf->Cell(60,6,utf8_decode($ResPac["Nombre"].' '.$ResPac["Apellidos"]),1,0,'L',1);
+    $pdf->Cell(15,6,$ResPac["pId"],1,0,'C',1);
+    $pdf->Cell(55,6,utf8_decode($ResPac["Nombre"].' '.$ResPac["Apellidos"]),1,0,'L',1);
     $pdf->Cell(20,6,$RResRec["IdReservacion"],1,0,'C',1);
+    $pdf->Cell(10,6,$ResPac["Dias"],1,0,'C',1);
     $pdf->Cell(20,6,'$ '.number_format($RResRec["Monto"],2),1,0,'R',1);
 
     $y_axis=$y_axis+6;

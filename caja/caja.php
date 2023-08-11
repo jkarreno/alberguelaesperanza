@@ -58,12 +58,13 @@ $cadena=$mensaje.'<form name="fbusrecibos" id="fbusrecibos" style="width:100%">
                     <td>Hasta: <input type="date" name="fechafin" id="fechafin" value="'.$_POST["fechafin"].'"> </td>
                     <td align="left"><input type="submit" name="botbuscaja" id="botbuscaja" value="Consultar>"></td>
                     <td align="left"></td>
+                    <td align="left"></td>
                     <td align="right" class="texto" valign="middle"><strong>$ '.number_format($ResTotal["TotMonto"], 2).'</strong></td>
                     <td align="right">'.permisos(111, '<a href="caja/reporte_pagos_cuotas.php?fechaini='.$_POST["fechaini"].'&fechafin='.$_POST["fechafin"].'" target="_blank"><i class="fas fa-print"></i></a>').'</td>
                     <td align="right">'.permisos(110, '<a href="caja/reporte_pagos_cuotas_excel.php?fechaini='.$_POST["fechaini"].'&fechafin='.$_POST["fechafin"].'" target="_blank"><i class="far fa-file-excel"></i></a>').'</td>
                 </tr>
                 <tr>
-                    <th colspan="10" align="center" class="textotitable">Recibos Reservaciones</td>
+                    <th colspan="11" align="center" class="textotitable">Recibos Reservaciones</td>
                 </tr>
                 <tr>
                     <th width="10" align="center" class="textotitable">#</th>
@@ -73,6 +74,7 @@ $cadena=$mensaje.'<form name="fbusrecibos" id="fbusrecibos" style="width:100%">
                     <th width="50" align="center" class="textotitable">N. Paciente</th>
                     <th align="center" class="textotitable">Paciente</th>
                     <th width="60" align="center" class="textotitable">Reservación</th>
+                    <th width="60" align="center" class="textotitable">Días</th>
                     <th width="150" align="center" class="textotitable">Monto</th>
                     <th width="50" align="center" class="textotitable"></th>
                     <th width="50" align="center" class="textotitable"></th>
@@ -88,7 +90,7 @@ $ResRecibos=mysqli_query($conn, "SELECT * FROM pagoreservacion WHERE Fecha>='".$
 $bgcolor="#ffffff"; $J=1;
 while($RResRec=mysqli_fetch_array($ResRecibos))
 {
-    $ResPaciente=mysqli_fetch_array(mysqli_query($conn, "SELECT p.Id AS IdP, concat_ws(' ', p.Nombre, p.Apellidos) AS NombrePaciente FROM reservacion AS r 
+    $ResPaciente=mysqli_fetch_array(mysqli_query($conn, "SELECT p.Id AS IdP, concat_ws(' ', p.Nombre, p.Apellidos) AS NombrePaciente, r.Dias AS Dias FROM reservacion AS r 
                                             INNER JOIN pacientes AS p ON r.IdPaciente=p.Id 
                                             WHERE r.Id='".$RResRec["IdReservacion"]."'"));
    if($RResRec["Estatus"]==0){$bgcolor='#ff0000'; $RResRec["Monto"]=0;}
@@ -109,6 +111,7 @@ while($RResRec=mysqli_fetch_array($ResRecibos))
 					<td width="50" onmouseover="row_'.$J.'.style.background=\'#badad8\'" onmouseout="row_'.$J.'.style.background=\''.$bgcolor.'\'" align="center" class="texto" valign="middle">'.$ResPaciente["IdP"].'</td>
 					<td onmouseover="row_'.$J.'.style.background=\'#badad8\'" onmouseout="row_'.$J.'.style.background=\''.$bgcolor.'\'" align="left" class="texto" valign="middle">'.utf8_encode($ResPaciente["NombrePaciente"]).'</td>
 					<td width="60" onmouseover="row_'.$J.'.style.background=\'#badad8\'" onmouseout="row_'.$J.'.style.background=\''.$bgcolor.'\'" align="center" class="texto" valign="middle">'.$RResRec["IdReservacion"].'</td>
+					<td width="60" onmouseover="row_'.$J.'.style.background=\'#badad8\'" onmouseout="row_'.$J.'.style.background=\''.$bgcolor.'\'" align="center" class="texto" valign="middle">'.$ResPaciente["Dias"].'</td>
 					<td width="150" onmouseover="row_'.$J.'.style.background=\'#badad8\'" onmouseout="row_'.$J.'.style.background=\''.$bgcolor.'\'" align="right" class="texto" valign="middle"><strong>$ '.number_format($RResRec["Monto"],2).'</strong></td>
 					<td width="50" onmouseover="row_'.$J.'.style.background=\'#badad8\'" onmouseout="row_'.$J.'.style.background=\''.$bgcolor.'\'" align="center" class="texto" valign="middle">';
     if($RResRec["Estatus"]==1)
