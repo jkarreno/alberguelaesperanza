@@ -12,7 +12,43 @@ require('../libs/fpdf/fpdf.php');
 
 $ResPRes=mysqli_fetch_array(mysqli_query($conn, "SELECT * FROM pagoreservacion WHERE Id='".$_GET["idrecibo"]."'"));
 $ResRes=mysqli_fetch_array(mysqli_query($conn, "SELECT * FROM reservacion WHERE Id='".$ResPRes["IdReservacion"]."'"));
-$ResPac=mysqli_fetch_array(mysqli_query($conn, "SELECT Id, Nombre, Apellidos FROM pacientes WHERE Id='".$ResRes["IdPaciente"]."'"));
+$ResPac=mysqli_fetch_array(mysqli_query($conn, "SELECT Id, Nombre, Apellidos, FechaNacimiento FROM pacientes WHERE Id='".$ResRes["IdPaciente"]."'"));
+
+//dias paciente
+$ResDP=mysqli_fetch_array(mysqli_query($conn, "SELECT COUNT(Id) AS Dias FROM reservaciones WHERE IdReservacion='".$ResRes["Id"]."' AND Tipo='P' AND Cama>0"));
+
+//dias acompañante
+$ResDA=mysqli_fetch_array(mysqli_query($conn, "SELECT COUNT(Id) AS Dias FROM reservaciones WHERE IdReservacion='".$ResRes["Id"]."' AND Tipo='A' AND Cama>0"));
+
+//calculo costo
+$dpaci=mysqli_num_rows(mysqli_query($conn, "SELECT IdPA FROM reservaciones WHERE IdReservacion='".$ResRes["Id"]."' AND Tipo='P' AND Cama>'0' GROUP BY IdPA")); //cuantos dias esta en el albergue
+
+//$ResPac=mysqli_fetch_array(mysqli_query($conn, "SELECT FechaNacimiento FROM pacientes WHERE Id='".$dpaci["IdPA"]."'"));
+
+if($dpaci>0)
+{
+    if($ResPac["FechaNacimiento"]==NULL OR $ResPac["FechaNacimiento"]=='')
+    {
+        $cp=25;
+    }
+    else
+    {
+        $edadp=obtener_edad_segun_fecha($ResPac["FechaNacimiento"]);
+        if($edadp<=12){$cp=15;}else{$cp=25;}
+    }
+}
+else
+{
+    $cp=0;
+}
+
+//calculamos acompañantes
+if($ResDA["Dias"]==0){$cp=35;}else{$cp=25;}
+$ca=25;
+//$acomp=mysqli_num_rows(mysqli_query($conn, "SELECT COUNT(Id) AS acompanantes FROM reservaciones WHERE IdReservacion='".$ResRes["Id"]."' AND Tipo='A' AND Cama>'0' GROUP BY IdPA"));
+//if($acomp["acompanantes"]==0 OR $acomp["acompanantes"]==NULL){if($edadp<=12){$cp=15;}else{$cp=35;} $ca=0;}elseif($acomp["acompanantes"]>0){$ca=25;}
+//if($dpaci==0 AND $acomp["acompanantes"]==1){$ca=25;} //solo se hospeda acompañante
+
 
 if($ResRes["Dias"]>1)
 {
@@ -40,17 +76,17 @@ $pdf->SetY(4);
 $pdf->SetX(4);
 $pdf->Cell(208,90,'',1,0,'L', FALSE, 1);
 //logo 
-$pdf->Image('../images/logo.png',140,8,70);
+$pdf->Image('../images/logo.png',170,6,40);
 //Titulo
 $pdf->SetFillColor(255,255,255);
-$pdf->SetFont('Arial','B',14);
+$pdf->SetFont('Arial','B',12);
 $pdf->SetTextColor(000,000,000);
-$pdf->SetY(8);
-$pdf->SetX(8);
+$pdf->SetY(6);
+$pdf->SetX(6);
 $pdf->Cell(60,4,'Recibo pago de hospedaje',0,0,'L',0);
 //
-$pdf->SetY(16);
-$pdf->SetX(8);
+$pdf->SetY(12);
+$pdf->SetX(6);
 $pdf->Cell(60,4,'Folio: ',0,0,'L',0);
 //
 $pdf->SetTextColor(255,000,000);
@@ -62,88 +98,128 @@ $pdf->SetX(60);
 $pdf->Cell(60,4,'Fecha: ',0,0,'L',0);
 //
 $pdf->SetX(77);
-$pdf->SetFont('Arial','',14);
+$pdf->SetFont('Arial','',12);
 $pdf->Cell(60,4,fecha($ResPRes["Fecha"]),0,0,'L',0);
 //
 $pdf->SetTextColor(000,000,000);
-$pdf->SetY(24);
-$pdf->SetX(8);
-$pdf->SetFont('Arial','B',14);
+$pdf->SetY(18);
+$pdf->SetX(6);
+$pdf->SetFont('Arial','B',12);
 $pdf->Cell(60,4,'Paciente: ',0,0,'L',0);
 //
-$pdf->SetY(32);
-$pdf->SetX(8);
-$pdf->SetFont('Arial','',14);
+$pdf->SetX(30);
+$pdf->SetFont('Arial','',12);
 $pdf->Cell(60,4,$ResPac["Id"].' - '.$ResPac["Nombre"].' '.$ResPac["Apellidos"],0,0,'L',0);
 //
-$pdf->SetY(40);
-$pdf->SetX(8);
-$pdf->SetFont('Arial','B',14);
-$pdf->Cell(60,4,'Dias de hospedaje: ',0,0,'L',0);
+$pdf->SetY(24);
+$pdf->SetX(6);
+$pdf->SetFont('Arial','B',12);
+$pdf->Cell(60,4,'Dias de hospedaje Paciente: ',0,0,'L',0);
 //
-$pdf->SetY(40);
-$pdf->SetX(55);
-$pdf->SetFont('Arial','',14);
-$pdf->Cell(60,4,$ResRes["Dias"],0,0,'L',0);
+$pdf->SetX(65);
+$pdf->SetFont('Arial','',12);
+$pdf->Cell(60,4,$ResDP["Dias"],0,0,'L',0);
 //
-$pdf->SetY(48);
-$pdf->SetX(8);
-$pdf->SetFont('Arial','B',14);
+$pdf->SetX(80);
+$pdf->SetFont('Arial','B',12);
+$pdf->Cell(60,4,utf8_decode('Dias de hospedaje Acompañante: '),0,0,'L',0);
+//
+$pdf->SetX(150);
+$pdf->SetFont('Arial','',12);
+$pdf->Cell(60,4,$ResDA["Dias"],0,0,'L',0);
+//
+$pdf->SetY(32);
+$pdf->SetX(6);
+$pdf->SetFont('Arial','B',12);
 $pdf->Cell(60,4,'Del: ',0,0,'L',0);
 //
-$pdf->SetY(48);
-$pdf->SetX(20);
-$pdf->SetFont('Arial','',14);
+$pdf->SetY(32);
+$pdf->SetX(18);
+$pdf->SetFont('Arial','',12);
 $pdf->Cell(60,4,fecha($ResRes["Fecha"]),0,0,'L',0);
 //
-$pdf->SetY(48);
-$pdf->SetX(80);
-$pdf->SetFont('Arial','B',14);
+$pdf->SetY(32);
+$pdf->SetX(78);
+$pdf->SetFont('Arial','B',12);
 $pdf->Cell(60,4,'Al: ',0,0,'L',0);
 //
-$pdf->SetY(48);
-$pdf->SetX(90);
-$pdf->SetFont('Arial','',14);
+$pdf->SetY(32);
+$pdf->SetX(88);
+$pdf->SetFont('Arial','',12);
 $pdf->Cell(60,4,fecha($dias),0,0,'L',0);
+//costo unitario paciente
+$pdf->SetY(40);
+$pdf->SetX(6);
+$pdf->SetFont('Arial','B',12);
+$pdf->Cell(60,4,'Costo Unitario Paciente: ',0,0,'L',0);
+//
+$pdf->SetX(60);
+$pdf->SetFont('Arial','',12);
+$pdf->Cell(60,4,'$ '.number_format($cp,2),0,0,'L',0);
+//
+$pdf->SetX(80);
+$pdf->SetFont('Arial','B',12);
+$pdf->Cell(60,4,'Costo Total Paciente: ',0,0,'L',0);
+//
+$pdf->SetX(125);
+$pdf->SetFont('Arial','',12);
+$pdf->Cell(60,4,'$ '.number_format(($cp*$ResDP["Dias"]),2),0,0,'L',0);
+//costo unitario acompañante
+$pdf->SetY(48);
+$pdf->SetX(6);
+$pdf->SetFont('Arial','B',12);
+$pdf->Cell(60,4,utf8_decode('Costo Unitario Acompañante: '),0,0,'L',0);
+//
+$pdf->SetX(70);
+$pdf->SetFont('Arial','',12);
+$pdf->Cell(60,4,'$ '.number_format($ca,2),0,0,'L',0);
+//
+$pdf->SetX(90);
+$pdf->SetFont('Arial','B',12);
+$pdf->Cell(60,4,utf8_decode('Costo Total Acompañante: '),0,0,'L',0);
+//
+$pdf->SetX(150);
+$pdf->SetFont('Arial','',12);
+$pdf->Cell(60,4,'$ '.number_format(($ca*$ResDA["Dias"]),2),0,0,'L',0);
 //
 $pdf->SetY(56);
-$pdf->SetX(8);
-$pdf->SetFont('Arial','B',14);
+$pdf->SetX(6);
+$pdf->SetFont('Arial','B',12);
 $pdf->Cell(30,4,'Monto: ',0,0,'L',0);
 //
-$pdf->SetFont('Arial','',14);
+$pdf->SetFont('Arial','',12);
 $pdf->Cell(30,4,'$ '.number_format($ResPRes["Pago"], 2),0,0,'R',0);
 //descuento
 $pdf->SetY(62);
-$pdf->SetX(8);
-$pdf->SetFont('Arial','B',14);
+$pdf->SetX(6);
+$pdf->SetFont('Arial','B',12);
 $pdf->Cell(30,4,'Descuento: ',0,0,'L',0);
 //
-$pdf->SetFont('Arial','',14);
+$pdf->SetFont('Arial','',12);
 $pdf->Cell(30,4,'$ '.number_format($ResPRes["Descuento"], 2),0,0,'R',0);
 $pdf->Cell(60,4,$ResPRes["DetDescuento"],0,0,'L',0);
 //extra
 $pdf->SetY(68);
-$pdf->SetX(8);
-$pdf->SetFont('Arial','B',14);
+$pdf->SetX(6);
+$pdf->SetFont('Arial','B',12);
 $pdf->Cell(30,4,'Extra: ',0,0,'L',0);
 //
-$pdf->SetFont('Arial','',14);
+$pdf->SetFont('Arial','',12);
 $pdf->Cell(30,4,'$ '.number_format($ResPRes["Extra"], 2),0,0,'R',0);
 $pdf->Cell(60,4,$ResPRes["DetExtra"],0,0,'L',0);
 //total
 $pdf->SetY(74);
-$pdf->SetX(8);
-$pdf->SetFont('Arial','B',14);
+$pdf->SetX(6);
+$pdf->SetFont('Arial','B',12);
 $pdf->Cell(30,4,'Total: ',0,0,'L',0);
 //
-$pdf->SetFont('Arial','',14);
+$pdf->SetFont('Arial','',12);
 $pdf->Cell(30,4,'$ '.number_format($ResPRes["Monto"], 2),0,0,'R',0);
 $pdf->Cell(60,4,num2letras($ResPRes["Monto"]).' pesos 00/100',0,0,'L',0);
 //
 $pdf->SetY(80);
-$pdf->SetX(8);
-$pdf->SetFont('Arial','B',14);
+$pdf->SetX(6);
+$pdf->SetFont('Arial','B',12);
 $pdf->Cell(33,4,'Cobrado por: ',0,0,'L',0);
 //
 if($ResPRes["Usuario"]==0){$cobradoby='---';}
@@ -152,18 +228,18 @@ else
     $ResUsuario=mysqli_fetch_array(mysqli_query($conn, "SELECT Nombre FROM usuarios WHERE Id='".$ResPRes["Usuario"]."' LIMIT 1"));
     $cobradoby=$ResUsuario["Nombre"];
 }
-$pdf->SetFont('Arial','',14);
+$pdf->SetFont('Arial','',12);
 $pdf->Cell(30,4,$cobradoby,0,0,'L',0);
 
 //footer
-$pdf->SetY(85);
-$pdf->SetX(8);
-$pdf->SetFont('Arial','B',10);
+$pdf->SetY(89);
+$pdf->SetX(6);
+$pdf->SetFont('Arial','B',8);
 $pdf->Cell(200,4,'VOLUNTARIAS VICENTINAS ALBERGUE "LA ESPERANZA" I. A. P.',0,0,'C',0);
 //
 $pdf->SetY(89);
-$pdf->SetX(8);
-$pdf->SetFont('Arial','',10);
+$pdf->SetX(6);
+$pdf->SetFont('Arial','',8);
 $pdf->Cell(100,4,'Xontepec No. 105',0,0,'L',0);
 $pdf->Cell(100,4,'Tel: 55 - 56 - 06 - 89 - 16',0,0,'R',0);
 //
