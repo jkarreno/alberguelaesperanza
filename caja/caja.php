@@ -59,12 +59,13 @@ $cadena=$mensaje.'<form name="fbusrecibos" id="fbusrecibos" style="width:100%">
                     <td align="left"><input type="submit" name="botbuscaja" id="botbuscaja" value="Consultar>"></td>
                     <td align="left"></td>
                     <td align="left"></td>
+                    <td align="left"></td>
                     <td align="right" class="texto" valign="middle"><strong>$ '.number_format($ResTotal["TotMonto"], 2).'</strong></td>
                     <td align="right">'.permisos(111, '<a href="caja/reporte_pagos_cuotas.php?fechaini='.$_POST["fechaini"].'&fechafin='.$_POST["fechafin"].'" target="_blank"><i class="fas fa-print"></i></a>').'</td>
                     <td align="right">'.permisos(110, '<a href="caja/reporte_pagos_cuotas_excel.php?fechaini='.$_POST["fechaini"].'&fechafin='.$_POST["fechafin"].'" target="_blank"><i class="far fa-file-excel"></i></a>').'</td>
                 </tr>
                 <tr>
-                    <th colspan="11" align="center" class="textotitable">Recibos Reservaciones</td>
+                    <th colspan="12" align="center" class="textotitable">Recibos Reservaciones</td>
                 </tr>
                 <tr>
                     <th width="10" align="center" class="textotitable">#</th>
@@ -74,7 +75,8 @@ $cadena=$mensaje.'<form name="fbusrecibos" id="fbusrecibos" style="width:100%">
                     <th width="50" align="center" class="textotitable">N. Paciente</th>
                     <th align="center" class="textotitable">Paciente</th>
                     <th width="60" align="center" class="textotitable">Reservación</th>
-                    <th width="60" align="center" class="textotitable">Días</th>
+                    <th width="60" align="center" class="textotitable">Días Paciente</th>
+                    <th width="60" align="center" class="textotitable">Días Acompañante</th>
                     <th width="150" align="center" class="textotitable">Monto</th>
                     <th width="50" align="center" class="textotitable"></th>
                     <th width="50" align="center" class="textotitable"></th>
@@ -96,11 +98,17 @@ while($RResRec=mysqli_fetch_array($ResRecibos))
    if($RResRec["Estatus"]==0){$bgcolor='#ff0000'; $RResRec["Monto"]=0;}
 
    if($RResRec["Usuario"]==0){$cobradoby='---';}
-        else
-        {
-            $ResUsuario=mysqli_fetch_array(mysqli_query($conn, "SELECT Nombre FROM usuarios WHERE Id='".$RResRec["Usuario"]."' LIMIT 1"));
-            $cobradoby=$ResUsuario["Nombre"];
-        }
+    else
+    {
+        $ResUsuario=mysqli_fetch_array(mysqli_query($conn, "SELECT Nombre FROM usuarios WHERE Id='".$RResRec["Usuario"]."' LIMIT 1"));
+        $cobradoby=$ResUsuario["Nombre"];
+    }
+
+    //dias paciente
+    $ResDP=mysqli_fetch_array(mysqli_query($conn, "SELECT COUNT(Id) AS Dias FROM reservaciones WHERE IdReservacion='".$RResRec["IdReservacion"]."' AND Tipo='P' AND Cama>0"));
+
+    //dias acompañante
+    $ResDA=mysqli_fetch_array(mysqli_query($conn, "SELECT COUNT(Id) AS Dias FROM reservaciones WHERE IdReservacion='".$RResRec["IdReservacion"]."' AND Tipo='A' AND Cama>0"));
 
 
     $cadena.='	<tr style="background: '.$bgcolor.'" id="row_'.$J.'">
@@ -111,7 +119,8 @@ while($RResRec=mysqli_fetch_array($ResRecibos))
 					<td width="50" onmouseover="row_'.$J.'.style.background=\'#badad8\'" onmouseout="row_'.$J.'.style.background=\''.$bgcolor.'\'" align="center" class="texto" valign="middle">'.$ResPaciente["IdP"].'</td>
 					<td onmouseover="row_'.$J.'.style.background=\'#badad8\'" onmouseout="row_'.$J.'.style.background=\''.$bgcolor.'\'" align="left" class="texto" valign="middle">'.utf8_encode($ResPaciente["NombrePaciente"]).'</td>
 					<td width="60" onmouseover="row_'.$J.'.style.background=\'#badad8\'" onmouseout="row_'.$J.'.style.background=\''.$bgcolor.'\'" align="center" class="texto" valign="middle">'.$RResRec["IdReservacion"].'</td>
-					<td width="60" onmouseover="row_'.$J.'.style.background=\'#badad8\'" onmouseout="row_'.$J.'.style.background=\''.$bgcolor.'\'" align="center" class="texto" valign="middle">'.$ResPaciente["Dias"].'</td>
+					<td width="60" onmouseover="row_'.$J.'.style.background=\'#badad8\'" onmouseout="row_'.$J.'.style.background=\''.$bgcolor.'\'" align="center" class="texto" valign="middle">'.$ResDP["Dias"].'</td>
+					<td width="60" onmouseover="row_'.$J.'.style.background=\'#badad8\'" onmouseout="row_'.$J.'.style.background=\''.$bgcolor.'\'" align="center" class="texto" valign="middle">'.$ResDA["Dias"].'</td>
 					<td width="150" onmouseover="row_'.$J.'.style.background=\'#badad8\'" onmouseout="row_'.$J.'.style.background=\''.$bgcolor.'\'" align="right" class="texto" valign="middle"><strong>$ '.number_format($RResRec["Monto"],2).'</strong></td>
 					<td width="50" onmouseover="row_'.$J.'.style.background=\'#badad8\'" onmouseout="row_'.$J.'.style.background=\''.$bgcolor.'\'" align="center" class="texto" valign="middle">';
     if($RResRec["Estatus"]==1)
