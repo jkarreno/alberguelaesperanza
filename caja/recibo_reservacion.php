@@ -43,7 +43,7 @@ else
 }
 
 //calculamos acompañantes
-if($ResDA["Dias"]==0){$cp=35;}else{$cp=25;}
+if($ResDA["Dias"]==0 AND $edadp>12){$cp=35;}
 $ca=25;
 //$acomp=mysqli_num_rows(mysqli_query($conn, "SELECT COUNT(Id) AS acompanantes FROM reservaciones WHERE IdReservacion='".$ResRes["Id"]."' AND Tipo='A' AND Cama>'0' GROUP BY IdPA"));
 //if($acomp["acompanantes"]==0 OR $acomp["acompanantes"]==NULL){if($edadp<=12){$cp=15;}else{$cp=35;} $ca=0;}elseif($acomp["acompanantes"]>0){$ca=25;}
