@@ -17,7 +17,8 @@ $cadena.='<div class="c100 card" style="border:0; box-shadow: none;">
             <form name="fadreservacion" id="fadreservacion">
                 <div class="c20">
                     <label class="l_form">Num. Paciente:</label>
-                    <input type="text" name="num_paciente" id="num_paciente" value="'.$ResPac["Id"].'" onchange="ad_reservacion(this.value, \'0\', document.getElementById(\'fechares\').value, document.getElementById(\'diasres\').value, \''.$_POST["habitacion"].'\')">
+                    <input type="text" name="num_paciente" id="num_paciente" value="'.$ResPac["Id"].'" style="width: calc(100% - 30px);">
+                    <a href="javascript:void(0)" onclick="ad_reservacion(document.getElementById(\'num_paciente\').value, \'0\', document.getElementById(\'fechares\').value, document.getElementById(\'diasres\').value, \''.$_POST["habitacion"].'\')"><i class="fa-solid fa-magnifying-glass-arrow-right"></i></a>
                 </div>
                 <div class="c70">
                     <label class="l_form">Paciente:</label>
