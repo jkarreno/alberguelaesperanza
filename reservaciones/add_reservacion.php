@@ -409,7 +409,7 @@ if($ResPac["Id"]!=NULL)
             if($RResObs["PA"]=='P')
             {
                 $ResP=mysqli_fetch_array(mysqli_query($conn, "SELECT Nombre, Apellidos, Apellidos2 FROM pacientes WHERE Id='".$RResObs["IdPA"]."' LIMIT 1"));
-                $Nombre=$ResP["Nombre"].' '.$ResP["Apellidos"].' '.$ResP{"Apellidos2"};
+                $Nombre=$ResP["Nombre"].' '.$ResP["Apellidos"].' '.$ResP["Apellidos2"];
             }
             elseif($RResObs["PA"]=='A')
             {
