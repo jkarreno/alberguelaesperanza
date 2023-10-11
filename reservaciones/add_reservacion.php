@@ -22,15 +22,14 @@ $cadena.='<div class="c100 card" style="border:0; box-shadow: none;">
                 </div>
                 <div class="c70">
                     <label class="l_form">Paciente:</label>
-                    <input list="paciente" name="paciente" type="text" onchange="ad_reservacion(\'0\', this.value, document.getElementById(\'fechares\').value, document.getElementById(\'diasres\').value, \''.$_POST["habitacion"].'\')" value="'; if(mysqli_num_rows($Pc)==0){$cadena.=$_POST["nombre"];}else{$cadena.=$ResPac["Nombre"].' '.$ResPac["Apellidos"].' '.$ResPac["Apellidos2"];}$cadena.='">
-                    <datalist id="paciente">';
-$ResPaci=mysqli_query($conn, "SELECT Nombre, Apellidos, Apellidos2 FROM pacientes ORDER BY Nombre");
-while($RResPaci=mysqli_fetch_array($ResPaci))
-{
-    $cadena.='      <option value="'.$RResPaci["Nombre"].' '.$RResPaci["Apellidos"].' '.$RResPaci["Apellidos2"].'"></option>';
-}
-$cadena.='          </datalist>
-                </div>
+                    <input list="paciente" name="paciente" type="text" value="'; $cadena.=$ResPac["Nombre"].' '.$ResPac["Apellidos"].' '.$ResPac["Apellidos2"]; $cadena.='">
+                    ';
+//$ResPaci=mysqli_query($conn, "SELECT Nombre, Apellidos, Apellidos2 FROM pacientes ORDER BY Nombre");
+//while($RResPaci=mysqli_fetch_array($ResPaci))
+//{
+//    $cadena.='      <option value="'.$RResPaci["Nombre"].' '.$RResPaci["Apellidos"].' '.$RResPaci["Apellidos2"].'"></option>';
+//}
+$cadena.='      </div>
                 <div class="c20">
                     <label class="l_form">Fecha:</label>
                     <input type="date" name="fechares" id="fechares" value="'.$_POST["fechares"].'" onchange="ad_reservacion(document.getElementById(\'num_paciente\').value, document.getElementById(\'paciente\').value, this.value, document.getElementById(\'diasres\').value)">
